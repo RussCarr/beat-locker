@@ -3,7 +3,7 @@ var mongoStore = require('connect-mongodb-session')(expressSession)
 
 var user = 'students'
 var pswd = 'studentpass'
-var connectionStr = `mongodb://${user}:${pswd}@ds012578.mlab.com:12578/board-planner`
+var connectionStr = `mongodb://${user}:${pswd}@ds012538.mlab.com:12538/beat-locker`
 
 var store = new mongoStore({
   uri: connectionStr,
