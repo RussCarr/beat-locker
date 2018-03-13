@@ -3,7 +3,7 @@
     <navbar></navbar>
     <project></project>
     <sidebar></sidebar>
-    <instrumentDrop></instrumentDrop>
+    <instrumentDrop v-on:inputChange="instSelect"></instrumentDrop>
   </div>
 </template>
 
@@ -24,8 +24,12 @@
       return {
 
       }
+    },
+    methods: {
+      instSelect(){
+        //
+      }
     }
-
   }
 </script>
 
