@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>Silder</h1>
-    <vue-slider v-model="value"></vue-slider>
+        <vue-slider class="mt-4" v-model="value"></vue-slider>
   </div>
 </template>
 <script>
