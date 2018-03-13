@@ -1,7 +1,7 @@
 // Details for database hosted on mLab (Should be stored in environment variable before production):
 var user = 'students' // username for the db's user
 var pswd = 'studentpass' // password of that db user
-var connectionStr = `mongodb://${user}:${pswd}@ds012578.mlab.com:12578/board-planner` // url for the hosted mongo database
+var connectionStr = `mongodb://${user}:${pswd}@ds012538.mlab.com:12538/beat-locker` // url for the hosted mongo database
 
 // Mongoose connection setup. (Mongoose = driver/ORM for mongo db)
 var mongoose = require('mongoose')

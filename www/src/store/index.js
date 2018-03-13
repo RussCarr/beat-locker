@@ -66,9 +66,7 @@ export default new vuex.Store({
               "Your first Project! Click here to customize and start creating your project!",
             userId: newUser._id
           };
-          // commit('setActiveBoard', defaultProject)
-          // commit("setUserProject", [defaultProjet]);
-
+          
           router.push({
             name: "Home"
           });

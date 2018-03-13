@@ -4,7 +4,7 @@
     <div class="navbar container-fluid row text-light">
       <div class="container-fluid py-3 px-5">
 
-        <div class="homelink navlink col-4 text-center py-3 rounded" @click="showBoardsList">
+        <div class="homelink navlink col-4 text-center py-3 rounded" @click="">
           Home
         </div>
     
