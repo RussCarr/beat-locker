@@ -1,7 +1,7 @@
 <template>
   <div class="welcome text-dark">
     <div class="pb-5">
-      <topBar></topBar>
+      <navBar></navBar>
 
       <div class="welcome-message container">
         <h1 class="text-center m-3">Welcome!</h1>
@@ -21,14 +21,14 @@
 </template>
 
 <script>
-  import TopBar from './TopBar'
-  import ErrorMsg from './ErrorMsg'
-  import SignIn from './SignIn'
-  import Register from './Register'
+  import NavBar from './NavBar'
+  import ErrorMsg from './site-access/ErrorMsg'
+  import SignIn from './site-access/SignIn'
+  import Register from './site-access/Register'
   export default {
     name: 'Welcome',
     components: {
-      topBar: TopBar,
+      navBar: NavBar,
       errorMsg: ErrorMsg,
       signIn: SignIn,
       register: Register
