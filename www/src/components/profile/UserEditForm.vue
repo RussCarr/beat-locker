@@ -1,6 +1,6 @@
 <template>
     <div class="userProfile">
-      <h1>Profile</h1>
+      <h1>Profile Edit Form</h1>
       <ul>
         <li>Profile Pic</li>
         <li>Name</li>

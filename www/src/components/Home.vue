@@ -1,16 +1,18 @@
 <template>
   <div class="home">
     <navbar></navbar>
-    Home Page
+    <project></project>
   </div>
 </template>
 
 <script>
   import Navbar from './Navbar'
+  import Project from './project-view/Project'
   export default {
     name: 'Home',
     components: {
-      navbar: Navbar
+      navbar: Navbar,
+      project: Project,
     },
     data() {
       return {
