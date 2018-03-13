@@ -1,33 +1,34 @@
 <template>
     <div class="navbar bgcolor">
         <div class="container-fluid d-flex align-items-center justify-content-between pt-3 pb-2 px-4">
-            <div class="col">
-                <h1 class="h3 text-light font-weight-bold">beat-locker</h1>
+            <div class="col-8">
+                <h1 class="h3 text-light font-weight-bold">Beat-Locker</h1>
+
             </div>
-            <div class="col">
-                <div class="h5 text-light">{{user.name}}</div>
-                <button @click='userProfile'>
-                    <img src="http://placehold.it/30x30">
-                </button>
-            </div>
+           
+            <div class="col-1">
+               <button @click='userProfile'>
+                   <img src="http://placehold.it/30x30">
+               </button>
+           </div>
+           <div class="col-1">
+               <div class="h5 text-light">{{user.name}}</div>
+
+           </div>
         </div>
         <div class="subNavbar container-fluid row text-light">
-            <div class="container-fluid py-3 px-5">
-
-                <div class="homelink SubNavlink col-4 text-center py-3 rounded" @click="home">
+                <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="home">
                     New Project
                 </div>
-                <div class="homelink SubNavlink col-4 text-center py-3 rounded" @click="">
+                <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="">
                     Explorer
                 </div>
-                <div class="homelink SubNavlink col-4 text-center py-3 rounded" @click="help">
+                <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
                     Help
                 </div>
-                <div class="logout SubNavlink col-4 text-center py-3 rounded" @click="logout">
+                <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
                     Logout
                 </div>
-
-            </div>
         </div>
     </div>
 </template>
