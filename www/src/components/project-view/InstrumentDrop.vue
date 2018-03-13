@@ -2,7 +2,7 @@
     <div class="instrumentDrop">
       <select v-model="inputSelect">
         <option disabled value="">Instrument Input</option>
-        <!-- <option :value="" {{key.value}}</option> -->
+        <option :value="sample" v-for="(sample, name) in sampleSounds">{{name}}</option>
       </select> 
       
     </div>
@@ -12,8 +12,10 @@
     import samples from "./../../assets/audio/samples.json"
     export default {
       name: 'InstrumentDrop',
-      data: {
-        inputSelect
+      data() {
+        return {
+        inputSelect: ''
+        }
       },
       computed: {
         sampleSounds() {
