@@ -1,8 +1,21 @@
 <template>
-  <div class="home">
+  <div class="container-fluid home">
     <navbar></navbar>
-    <project></project>
-    <!-- <sidebar></sidebar> -->
+    <div class="row">
+      <div class="col">
+
+        <div class="col-sm-11">
+          <project></project>
+        </div>
+      </div>
+      <div class="col-sm-1">
+          <sidebar></sidebar>
+      </div>
+    </div>
+    <div class="row">
+      <p>Footer</p>
+    </div>
+  </div>
 
   </div>
 </template>
@@ -34,6 +47,7 @@
 </script>
 
 <style scoped>
-
-
+  .home {
+    overflow-y: hidden;
+  }
 </style>
