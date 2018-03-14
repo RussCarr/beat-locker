@@ -1,32 +1,26 @@
 // Vuex 'store': Sets and maintains front-end application 'state'
 
-import vue from "vue";
-import vuex from "vuex";
-import axios from "axios";
-import router from "../router";
+import vue from "vue"
+import vuex from "vuex"
+import axios from "axios"
+import router from "../router"
 
-var production = !window.location.host.includes("localhost");
-var baseUrl = "//localhost:3000/";
+var production = !window.location.host.includes("localhost")
+var baseUrl = "//localhost:3000/"
 
 var api = axios.create({
   baseURL: baseUrl + "api/",
   timeout: 3000,
   withCredentials: true
-});
+})
 
 var auth = axios.create({
   baseURL: baseUrl + "auth/",
   timeout: 3000,
   withCredentials: true
-});
+})
 
-var unconventionalRoutes = axios.create({
-  baseURL: baseUrl,
-  timeout: 3000,
-  withCredentials: true
-});
-
-vue.use(vuex);
+vue.use(vuex)
 
 export default new vuex.Store({
   state: {
@@ -43,7 +37,7 @@ export default new vuex.Store({
       trackIds: ['001', '002', '003', '004'],
       bpmSetting: 120
     },
-    activeBeatTracks: [
+    activeTracks: [
       {
         _id: '001',
         instrument: {name: 'kick-classic', samplePath: './../assets/drumSamples/kick-classic.wav'},
@@ -86,8 +80,17 @@ export default new vuex.Store({
       };
     },
 
+    setActiveProject(state, project) {
+      this.state.activeProject = project
+    },
+    setActiveTracks(state, tracks) {
+      this.state.activeTracks = tracks
+    },
+    addActiveTrack(state, track) {
+      this.state.activeTracks.push(track)
+    },
     updateActiveTracks(state, data) {
-      this.state.activeBeatTracks.find(track => track._id === data.trackId).stepSequence = data.stepSequence
+      this.state.activeTracks.find(track => track._id === data.trackId).stepSequence = data.stepSequence
     }
   },
 
@@ -97,30 +100,69 @@ export default new vuex.Store({
       auth
         .post("register", user)
         .then(res => {
-          var newUser = res.data;
-          console.log("newUser:", newUser);
-          commit("setUser", newUser);
-          commit("setAuthError", { error: false, message: "" });
+          var newUser = res.data
+          commit("setUser", newUser)
+          commit("setAuthError", { error: false, message: "" })
+          
+          api.post('projects', {
+            createdAt: Date.now(),
+            userId: newUser._id,
+            trackIds: [] // Initially create the Project with empty trackIds array
+          }).then(res => {
+            var defaultProject = res.data
+            commit('setActiveProject', defaultProject)
+            
+            var defaultTrack = {
+              instrumentName: 'clap-808',
+              instrumentSamplePath: './../../assets/audio/clap-808.wav',
+              projectId: defaultProject._id,
+              userId: defaultProject.userId
+            }
 
-          var defaultProject = {
-            title: "Untitled Project",
-            desctiption:
-              "Your first Project! Click here to customize and start creating your project!",
-            userId: newUser._id
-          };
+            api.post('tracks', defaultTrack).then(res => {
+                var track0 = res.data 
+                defaultProject.trackIds.push(track0._id)
+                commit('setActiveTracks', [])
+                commit('addActiveTrack', track0)
+
+                defaultTrack.instrumentName = 'hihat-808'
+                defaultTrack.instrumentSamplePath = './../../assets/audio/hihat-808.wav'
+                api.post('tracks', defaultTrack).then(res => {
+                  var track1 = res.data
+                  defaultProject.trackIds.push(track1._id)
+                  commit('addActiveTrack', track1) 
+
+                  defaultTrack.instrumentName = 'snare-big'
+                  defaultTrack.instrumentSamplePath = './../../assets/audio/snare-big.wav'
+                  api.post('tracks', defaultTrack).then(res => {
+                    var track2 = res.data
+                    defaultProject.trackIds.push(track2._id)
+                    commit('addActiveTrack', track2)
+
+                    defaultTrack.instrumentName = 'kick-heavy'
+                    defaultTrack.instrumentSamplePath = './../../assets/audio/kick-heavy.wav'
+                    api.post('tracks', defaultTrack).then(res => {
+                      var track3 = res.data
+                      defaultProject.trackIds.push(track3._id)
+                      commit('addActiveTrack', track3)
+                    }).catch(err => { console.log(err) })
+                  }).catch(err => { console.log(err) })
+                }).catch(err => { console.log(err) })
+              }).catch(err => { console.log(err) })
+            }).catch(err => { console.log(err) })
           
           router.push({
             name: "Home"
-          });
+          })
         })
         .catch(err => {
-          console.log(err);
+          console.log(err)
           commit("setAuthError", {
             error: true,
             message:
               "Register failed: Invalid username, email, or password given"
-          });
-        });
+          })
+        })
     },
 
     loginUser({ commit, dispatch }, user) {

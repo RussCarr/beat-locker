@@ -9,6 +9,7 @@ var session = require("./auth/session")
 var authRoutes = require("./auth/authRoutes")
 var userRoutes = require("./routes/userRoutes")
 var projectRoutes = require("./routes/projectRoutes")
+var trackRoutes = require("./routes/trackRoutes")
 
 
 var whitelist = ['http://localhost:8080'];
@@ -29,15 +30,16 @@ server.use(express.static(__dirname + "/../www/dist"))
 
 server.use(authRoutes);
 
-server.use("/api/*", (req, res, next) => {
-    if (req.method.toLowerCase() !== "get" && !req.session.uid) {
-        return res.status(401).send({ error: "PLEASE LOG IN TO CONTINUE" });
-    }
-    next()
-})
+// server.use("/api/*", (req, res, next) => {
+//     if (req.method.toLowerCase() !== "get" && !req.session.uid) {
+//         return res.status(401).send({ error: "PLEASE LOG IN TO CONTINUE" });
+//     }
+//     next()
+// })
 
 server.use(userRoutes.router)
 server.use(projectRoutes.router)
+server.use(trackRoutes.router)
 
 
 server.use('*', (err, req, res, next) => {
