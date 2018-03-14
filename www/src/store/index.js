@@ -35,8 +35,44 @@ export default new vuex.Store({
       error: false,
       message: ""
     },
-    activeProject: {},
-    activeBeatTracks: []
+    activeProject: {
+      _id: '001',
+      title: 'Beat Project No. 1',
+      barCount: 4,
+      stepsPerBar: 4,
+      trackIds: ['001', '002', '003', '004'],
+      bpmSetting: 120
+    },
+    activeBeatTracks: [
+      {
+        _id: '001',
+        instrument: {name: 'kick-classic', samplePath: './../assets/drumSamples/kick-classic.wav'},
+        barCount: 4,
+        stepsPerBar: 4,
+        stepSequence: new Array(16).fill(false)
+      },
+      {
+        _id: '002',
+        instrument: {name: 'openhat-acoustic01', samplePath: './../assets/drumSamples/openhat-acoustic01.wav'},
+        barCount: 4,
+        stepsPerBar: 4,
+        stepSequence: new Array(16).fill(false)
+      }
+      ,{
+        _id: '003',
+        instrument: {name: 'snare-big', samplePath: './../assets/drumSamples/snare-big.wav'},
+        barCount: 4,
+        stepsPerBar: 4,
+        stepSequence: new Array(16).fill(false)
+      },
+      {
+        _id: '004',
+        instrument: {name: 'tom-acoustic01', samplePath: './../assets/drumSamples/tom-acoustic01.wav'},
+        barCount: 4,
+        stepsPerBar: 4,
+        stepSequence: new Array(16).fill(false)
+      }
+    ]
   },
 
   mutations: {
