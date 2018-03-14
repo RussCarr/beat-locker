@@ -15,6 +15,14 @@
         <label class="ml-4" for="password">Password: </label>
         <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
       </div>
+      <div class="form-group">
+        <label class="ml-4" for="imgUrl">Image URL: </label>
+        <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
+      </div>
+      <div class="form-group">
+        <label class="ml-4" for="bio">Brief bio: </label>
+        <input type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Who I am...">
+      </div>
 
       <button type="submit" class="btn btn-success px-4">Register</button>
 
@@ -34,7 +42,9 @@ export default {
       user: {
         name: "",
         email: "",
-        password: ""
+        password: "",
+        imgUrl: "",
+        bio: ""
       }
     }
   },

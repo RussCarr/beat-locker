@@ -53,17 +53,24 @@
 
         var players = new Tone.Players(samples).toMaster()
 
+        // Define sequence options:
+        // 1. Create an array of integers with length equal to the length of the current track stepSequences
+        var events = new Array(this.beatTracks[0].stepSequence.length).fill(0).map( (_,i) => i)
+        // 2. Define the subdivision timing between which events are placed: 16th-note
+        var subdivision = '16n'
+
+        // Create the beat sequence
         this.loop = new Tone.Sequence((time, index) => {
           for (var i = 0; i < this.beatTracks.length; i++) {
             var track = this.beatTracks[i].stepSequence
 
             if (track[index] === true) {
-              //slightly randomized velocities
-              var vel = Math.random() * 0.5 + 0.5
-              players.get(sampleNames[i]).start(time, 0, "32n", 0, vel)
+              // Use slightly randomized velocities
+              var velocity = Math.random() * 0.5 + 0.5
+              players.get(sampleNames[i]).start(time, 0, "32n", 0, velocity)
             }
           }
-        }, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "16n")
+        }, events, subdivision)
 
         Tone.Transport.start()
         this.loop.start()
