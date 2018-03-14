@@ -18,7 +18,11 @@ var schema = new Schema({
     required: true,
     // minlength: 6
   },
-
+  imgUrl: String,
+  bio: String,
+  age: Number,
+  musicStyle: String,
+  interests: [String]
 })
 
 schema.statics.generateHash = function(password) {
