@@ -113,7 +113,7 @@
 
   .buttons-welcome:hover {
     background-color: rgba(180, 26, 44, 1.0);
-    border-color: rgba(159, 19, 36, 1.0); 
+    border-color: rgba(150, 16, 33, 1.0); 
   }
 
   @media (min-width: 576px) {
