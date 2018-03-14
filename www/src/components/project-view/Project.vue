@@ -78,6 +78,10 @@
 </script>
 
 <style>
+  body{
+    background-color: white;
+  }
+  
   .btn-size-60 {
     width: 60px;
   }

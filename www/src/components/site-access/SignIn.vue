@@ -2,24 +2,24 @@
   <div class="signIn container">
     <div class="signInForm text-dark">
 
-        <form class="border border-secondary rounded p-4" @submit.prevent="submit">
-          
-          <div class="form-group">
-            <label class="ml-4" for="email">Email:</label>
-            <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
-          </div>
-          <div class="form-group">
-            <label class="ml-4" for="password">Password:</label>
-            <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
-          </div>
+      <form class="border border-secondary rounded p-4" @submit.prevent="submit">
 
-          <button class="btn btn-success px-4" type="submit">Sign in</button>
+        <div class="form-group">
+          <label class="ml-4" for="email">Email:</label>
+          <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
+        </div>
+        <div class="form-group">
+          <label class="ml-4" for="password">Password:</label>
+          <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
+        </div>
 
-        </form>
-
+        <button class="btn btn-success px-4" type="submit">Sign in</button>
         <div class="text-center pt-4">
           <a href="#" class="text-muted" @click.prevent="showRegisterForm">Click here to register.</a>
         </div>
+      </form>
+
+
 
     </div>
   </div>
@@ -52,17 +52,20 @@
   div.signIn {
     width: 95%;
   }
+
   @media (min-width: 576px) {
     div.signIn {
       width: 50%;
     }
   }
+
   .signInForm {
     padding: 1rem;
   }
 
   form {
-    background-color: rgb(219, 219, 219)
+    background-color: #9F202D;
+
   }
 
   .button {

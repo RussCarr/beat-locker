@@ -7,9 +7,9 @@
             </div>
            
             <div class="col-1">
-               <button @click='userProfile'>
-                   <img src="http://placehold.it/30x30">
-               </button>
+               
+                   <img @click='userProfile' src="http://placehold.it/30x30">
+               
            </div>
            <div class="col-1">
                <div class="h5 text-light">{{user.name}}</div>

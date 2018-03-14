@@ -1,15 +1,15 @@
 <template>
   <div class="welcome text-dark">
     <div class="pb-5">
-      <navBar></navBar>
+      <!-- <navBar></navBar> -->
 
-      <div class="welcome-message container">
+      <!-- <div class="welcome-message container">
         <h1 class="text-center m-3">Welcome!</h1>
         <p>Use this beat creating app to for music projects.</p>
         <ul>
           <li>Register/sign-in to access your private account</li>
         </ul>
-      </div>
+      </div> -->
 
       <errorMsg v-if="authError.error">{{authError.message}}</errorMsg>
 
@@ -47,6 +47,10 @@
 </script>
 
 <style scoped>
+  .welcome {
+    /* background-image: url('https://files.slack.com/files-pri/T1GGQN1RU-F9NS2NNLQ/image.png'); */
+
+  }
   .welcome-message {
     max-width: 600px;
   }
@@ -54,6 +58,7 @@
   @media (min-width: 576px) {
     .welcome-message {
       width: 75%;
+      
     }
   }
 </style>

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Welcome from '@/components/Welcome'
 import Home from '@/components/Home'
 import Help from '@/components/Help'
+import UserProfile from '@/components/profile/UserProfile'
 Vue.use(Router)
 
 export default new Router({
@@ -22,6 +23,11 @@ export default new Router({
       path: '/help',
       name: 'Help',
       component: Help
+    },
+    {
+      path: '/userprofile',
+      name: 'UserProfile',
+      component: UserProfile
     },
      ]
 })
