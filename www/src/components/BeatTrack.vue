@@ -7,12 +7,12 @@
 
       <div class="bar-wrapper d-flex flex-row" v-for="bar, i in beatTrack.barCount">
 
-          <div class="step-wrapper p-1" v-for="step, j in beatTrack.stepsPerBar">
-            {{ (i * 4) + j }}
+        <div class="step-wrapper p-1" v-for="step, j in beatTrack.stepsPerBar">
+          {{ (i * 4) + j }}
 
-            <div class="step border" @click="selectStep($event, (i * 4) + j, i, j)"></div>
+          <div class="step border" @click="selectStep($event, (i * 4) + j, i, j)"></div>
 
-          </div>
+        </div>
 
       </div>
 
@@ -25,7 +25,7 @@
   import Tone from 'tone'
   export default {
     name: 'BeatTrack',
-    props: [ 'beatTrack' ],
+    props: ['beatTrack'],
     data() {
       return {
         stepSequence: this.beatTrack.stepSequence
@@ -35,7 +35,10 @@
       selectStep(event, Idx, barIdx, stepIdx) {
         // Note: 'Idx' locates the stepSequence index that needs to be toggled
         this.stepSequence[Idx] = this.stepSequence[Idx] ? false : true
-        this.$store.dispatch('updateActiveTracks', {trackId: this.beatTrack._id, stepSequence: this.stepSequence})
+        this.$store.dispatch('updateActiveTracks', {
+          trackId: this.beatTrack._id,
+          stepSequence: this.stepSequence
+        })
         this.$emit('stepSequenceChange')
 
         // Toggle the clicked div from colored to white or vice versa:
@@ -47,6 +50,7 @@
       }
     }
   }
+
 </script>
 
 <style>
@@ -65,4 +69,5 @@
     /* overflow-y: hidden; */
     white-space: nowrap;
   }
+
 </style>
