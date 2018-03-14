@@ -104,9 +104,16 @@
 
   .buttons-welcome {
     background-color: rgba(206, 33, 53, 1.0);
-    border-color: rgba(107, 32, 45, 1.0);
+    border-color: rgba(180, 26, 44, 1.0);
+    transition: all;
+    transition-duration: 400ms;
     color: rgba(251, 251, 251, 1.0);
     margin: .5rem;
+  }
+
+  .buttons-welcome:hover {
+    background-color: rgba(180, 26, 44, 1.0);
+    border-color: rgba(159, 19, 36, 1.0); 
   }
 
   @media (min-width: 576px) {
