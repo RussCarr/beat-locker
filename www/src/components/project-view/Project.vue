@@ -19,7 +19,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-1"></div>
+        <beatProject></beatProject>
+
+        <!-- <div class="col-1"></div>
         <div class="col-1">
           <instrumentdrop></instrumentdrop>
         </div>
@@ -36,7 +38,7 @@
         <div class="col-2">
           <button class="btn btn-sm btn-primary btn-size-160">Add Bar</button>
           <button class="btn btn-sm btn-danger btn-size-160">Remove Bar</button>
-        </div>
+        </div> -->
       </div>
       <div class="container">
         <div class="row">
@@ -56,14 +58,14 @@
   import SideBar from '../SideBar'
   import Slider from './Slider'
   import InstrumentDrop from './InstrumentDrop'
-  import BeatTrack from './BeatTrack'
+  import BeatProject from './BeatProject'
   export default {
     name: 'Project',
     components: {
       sidebar: SideBar,
       slider: Slider,
       instrumentdrop: InstrumentDrop,
-      beattrack: BeatTrack,
+      beatProject: BeatProject
     },
     data() {
       return {
