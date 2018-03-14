@@ -48,6 +48,10 @@ export default new vuex.Store({
         error: error.error,
         message: error.message
       };
+    },
+
+    updateActiveTracks(state, data) {
+      this.state.activeBeatTracks.find(track => track._id === data.trackId).stepSequence = data.stepSequence
     }
   },
 
@@ -134,6 +138,11 @@ export default new vuex.Store({
         .catch(err => {
           console.log(err);
         });
+    },
+
+    // ToneJS
+    updateActiveTracks({commit, dispatch}, data) {
+      commit('updateActiveTracks', data)
     }
 
     // API
