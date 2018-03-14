@@ -34,7 +34,9 @@ export default new vuex.Store({
     authError: {
       error: false,
       message: ""
-    }
+    },
+    activeProject: {},
+    activeBeatTracks: []
   },
 
   mutations: {
