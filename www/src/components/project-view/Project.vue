@@ -49,7 +49,7 @@
           <!-- <div class="col-2"></div> -->
         </div>
       </div>
-      <sidebar></sidebar>
+      <!-- <sidebar></sidebar> -->
     </div>
   </div>
 </template>
