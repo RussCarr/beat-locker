@@ -2,9 +2,7 @@
   <div class="background">
     <div class="signIn container">
       <div class="signInForm text-dark">
-
         <form class="border border-secondary rounded p-4" @submit.prevent="submit">
-
           <div class="form-group">
             <label class="ml-4" for="email">Email:</label>
             <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
@@ -13,7 +11,6 @@
             <label class="ml-4" for="password">Password:</label>
             <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
           </div>
-
           <button class="btn btn-success px-4" type="submit">Sign in</button>
           <button class="btn btn-success px-4" @click="closeModal">Close</button>
           <div class="text-center pt-4">
@@ -24,7 +21,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     name: 'SignIn',
@@ -42,6 +38,7 @@
       },
       showRegisterForm() {
         this.$emit('showRegisterForm')
+        this.$emit('closeSignInModal')
       },
       closeModal() {
         this.$emit('closeSignInModal')

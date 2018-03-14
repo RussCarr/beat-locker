@@ -10,24 +10,14 @@
             <img src="../assets/images/beat-locker-tagline-twoline-large-white.png" alt="beatlocker tagline" class="logo-img">
           </div>
           <div class="welcome-boxes">
-              <button class="btn btn-primary buttons-welcome px-4" @click="launchSignIn">Sign in</button>
-              <button class="btn btn-primary buttons-welcome px-4">Register</button>
+            <button class="btn btn-primary buttons-welcome px-4" @click="launchSignIn">Sign in</button>
+            <button class="btn btn-primary buttons-welcome px-4" @click="launchRegister">Register</button>
           </div>
         </div>
       </div>
     </div>
-    <signIn v-on:showRegisterForm="showSignIn = false" v-on:closeSignInModal="showSignIn = false" v-if="showSignIn"></signIn>
-
-    <!-- <div class="pb-5">
-
-
-
-      <errorMsg v-if="authError.error">{{authError.message}}</errorMsg>
-
-      <signIn v-on:showRegisterForm="showSignIn = false" v-if="showSignIn"></signIn>
-
-      <register v-on:showSignInForm="showSignIn = true" v-if="!showSignIn"></register>
-    </div> -->
+    <signIn v-on:showRegisterForm="showRegister = true" v-on:closeSignInModal="showSignIn = false" v-if="showSignIn"></signIn>
+    <register v-on:showSignInForm="showSignIn = true" v-on:closeRegisterModal="showRegister = false" v-if="showRegister"></register>
   </div>
 </template>
 
@@ -46,12 +36,16 @@
     },
     data() {
       return {
-        showSignIn: false
+        showSignIn: false,
+        showRegister: false
       }
     },
     methods: {
       launchSignIn() {
-        this.showSignIn= true
+        this.showSignIn = true
+      },
+      launchRegister() {
+        this.showRegister = true
       }
     },
     computed: {
@@ -110,9 +104,9 @@
 
   .buttons-welcome {
     background-color: rgba(206, 33, 53, 1.0);
-    border-color: rgba(107, 32, 45, 1.0); 
+    border-color: rgba(107, 32, 45, 1.0);
     color: rgba(251, 251, 251, 1.0);
-    margin:.5rem;
+    margin: .5rem;
   }
 
   @media (min-width: 576px) {
