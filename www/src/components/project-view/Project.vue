@@ -81,7 +81,7 @@
 
 <style>
   body{
-    background-color: white;
+    background-color: #372529;
   }
   
   .btn-size-60 {
