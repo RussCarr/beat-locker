@@ -13,7 +13,7 @@
         <p>GitHub:</p>
       </div>
       <div class="col-4">
-        <h6>Joe David</h6>
+        <h6>Joe Davis</h6>
         <p>Email: </p>
         <p>GitHub:</p>
       </div>

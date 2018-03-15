@@ -18,7 +18,7 @@
     </div>
     <div class="subNavbar container-fluid row text-light">
       <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="home">
-        New Project
+        Home
       </div>
       <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
         Community
@@ -51,9 +51,7 @@
         this.$store.dispatch('logoutUser')
       },
       userProfile() {
-        this.$router.push({
-          path: '/UserProfile'
-        }, 'UserProfile')
+        this.$router.push({path: '/UserProfile'})
       },
       help() {
         this.$router.push('Help')
@@ -62,9 +60,7 @@
         this.$router.push('Home')
       },
       community() {
-        this.$router.push({
-          path: '/Explorer'
-        }, 'Explorer')
+        this.$router.push({path: '/Explorer'})
       }
     }
   }
