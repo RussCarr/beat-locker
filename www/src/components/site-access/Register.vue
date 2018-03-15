@@ -22,7 +22,7 @@
           <label class="ml-4" for="bio">Brief bio: </label>
           <input type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Tell us about yourself">
         </div>
-        <button type="submit" class="btn btn-success registerButton px-4">Register</button>
+        <button type="submit" class="btn btn-primary registerButton px-4">Register</button>
         <button class="btn btn-secondary px-4" @click="closeModal">Close</button>
       </form>
       <div class="text-center pt-4">
@@ -106,6 +106,13 @@
   }
 
   .registerButton:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .registerButton:active,
+  .registerButton:visited,
+  .registerButton:focus {
     background-color: rgba(33, 92, 136, 1.0);
     border-color: rgba(33, 92, 136, 1.0);
   }

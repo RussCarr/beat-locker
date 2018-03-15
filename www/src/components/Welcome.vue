@@ -10,8 +10,8 @@
             <img src="../assets/images/beat-locker-tagline-twoline-large-white.png" alt="beatlocker tagline" class="logo-img">
           </div>
           <div class="welcome-boxes">
-            <button class="btn btn-primary buttons-welcome px-4" @click="launchSignIn">Sign in</button>
-            <button class="btn btn-primary buttons-welcome px-4" @click="launchRegister">Register</button>
+            <button class="btn buttons-welcome px-4" @click="launchSignIn">Sign in</button>
+            <button class="btn buttons-welcome px-4" @click="launchRegister">Register</button>
           </div>
         </div>
       </div>
@@ -93,9 +93,6 @@
   .welcome-boxes {
     padding: 1rem;
     margin: 1rem;
-    /* outline-color: blueviolet;
-    outline-style: dotted;
-    outline-width: 1px; */
     align-items: center;
     display: flex;
     justify-content: center;
@@ -111,9 +108,14 @@
     margin: .5rem;
   }
 
-  .buttons-welcome:hover {
+  .buttons-welcome:hover, 
+  .buttons-welcome:visited,
+  .buttons-welcome.focus,
+  .buttons-welcome:active,
+  .buttons-welcome.active:hover {
     background-color: rgba(180, 26, 44, 1.0);
-    border-color: rgba(150, 16, 33, 1.0); 
+    border-color: rgba(150, 16, 33, 1.0);
+    ;
   }
 
   @media (min-width: 576px) {

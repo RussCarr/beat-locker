@@ -10,7 +10,7 @@
               <label class="ml-4" for="password">Password:</label>
               <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
             </div>
-            <button class="btn btn-success signInButton px-4" type="submit">Sign in</button>
+            <button class="btn btn-primary signInButton px-4" type="submit">Sign in</button>
             <button class="btn btn-secondary px-4" @click="closeModal">Close</button>
             <div class="text-center pt-4">
               <a href="#" class="text-muted" @click.prevent="showRegisterForm">Click here to register.</a>
@@ -79,14 +79,21 @@
     color: rgba(251, 251, 251, 1.0);
   }
 
-  .signInButton {
+    .signInButton {
     background-color: rgba(57, 123, 172, 1.0);
     border-color: rgba(33, 92, 136, 1.0);
     transition: all;
-    transition-duration: 400ms; 
+    transition-duration: 400ms;
   }
 
   .signInButton:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .signInButton:active,
+  .signInButton:visited,
+  .signInButton:focus {
     background-color: rgba(33, 92, 136, 1.0);
     border-color: rgba(33, 92, 136, 1.0);
   }
