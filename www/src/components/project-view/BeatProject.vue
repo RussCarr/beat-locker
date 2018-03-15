@@ -15,11 +15,15 @@
       </div>
 
       <div class="controls mt-4">
-        <a href="#" class="play text-light" @click="play">
-          <i class="far fa-play-circle fa-3x"></i>
+        <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
+          <button class="playStopButtons">
+            <i class="far fa-play-circle fa-3x"></i>
+          </button>
         </a>
-        <a href="#" class="stop text-light" @click="stop">
-          <i class="far fa-stop-circle fa-3x"></i>
+        <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
+          <button class="playStopButtons">
+            <i class="far fa-stop-circle fa-3x"></i>
+          </button>
         </a>
       </div>
 
@@ -59,7 +63,8 @@
       return {
         updatedProjectTitle: "",
         showTitleEdit: false,
-        loop: {}
+        loop: {},
+        isPlaying: false,
       }
     },
     computed: {
@@ -80,6 +85,8 @@
     },
     methods: {
       play() {
+        this.isPlaying = true
+
         // Note: For audio files, you MUST use 'require' a literal string-value to get Webpack to recognize the resource as a file path and locate it!!!!
         var requiredSamples = samplePaths
 
@@ -115,9 +122,12 @@
 
         Tone.Transport.start()
         this.loop.start()
+
+
       },
       stop() {
         this.loop.stop()
+        this.isPlaying = false
       },
       updateTitle() {
         var data = {
@@ -143,6 +153,16 @@
   .bottom-controls {
     min-width: 100%;
     padding-left: 37%;
+  }
+
+  .playStopButtons {
+    background: none;
+    border: none;
+    color: white;
+  }
+
+  .playStopButtons:focus {
+    outline: 0;
   }
 
 </style>
