@@ -8,7 +8,7 @@
         export default {
           data() {
             return {
-              value: 8,
+              value: 50,
               width: "auto",
               height: 6,
               direction: "horizontal",
@@ -21,9 +21,9 @@
               disabled: false,
               show: true,
               realTime: false,
-              tooltip: "always",
+              tooltip: false,
               clickable: true,
-              tooltipDir: "top",
+              tooltipDir: "bottom",
               piecewise: false,
               lazy: false,
               useKeyboard: false,
