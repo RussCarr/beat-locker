@@ -191,6 +191,9 @@ export default new vuex.Store({
           var sessionUser = res.data;
           console.log("returning user:", sessionUser);
           commit("setUser", sessionUser);
+
+          dispatch("getUserLastProject", sessionUser._id);
+
           router.push({
             name: "Home"
           });
