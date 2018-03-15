@@ -3,7 +3,7 @@
     <div class="row bg-img d-flex align-items-center pt-3 pb-2 px-4">
       <div class="col-sm-8">
         <div class="text-center">
-          <img class="logo align-self-center" src="../assets/images/beat-locker-logo-large-white.png">
+          <img class="logo align-self-center" @click="home" src="../assets/images/beat-locker-logo-large-white.png">
         </div>
       </div>
       <div class="col-sm-1 user">
@@ -15,9 +15,12 @@
     </div>
     <div class="row">
       <nav class="navbar subNavbar">
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="home">
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="isHomeRoute" @click="newProject">
           New Project
         </div>
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="!isHomeRoute" @click="home">
+            Home
+          </div>
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
           Community
         </div>
@@ -41,6 +44,9 @@
       }
     },
     computed: {
+      isHomeRoute() {
+        return this.$route.path === "/Home" || this.$route.path === "/home"
+      },
       user() {
         return this.$store.state.user
       }
@@ -61,6 +67,9 @@
       },
       community() {
         this.$router.push({path: '/Explorer'})
+      },
+      home() {
+        this.$router.push({path: '/home'})
       }
     }
   }
@@ -83,6 +92,10 @@
   .logo {
     width: 90%;  
     max-width: 500px; 
+  }
+
+  .logo:hover {
+    cursor: pointer;
   }
 
   .menu {
