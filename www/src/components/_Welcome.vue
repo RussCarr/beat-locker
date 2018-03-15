@@ -21,14 +21,14 @@
 </template>
 
 <script>
-  import NavBar from './NavBar'
+  import Navbar from './Navbar'
   import ErrorMsg from './site-access/ErrorMsg'
   import SignIn from './site-access/SignIn'
   import Register from './site-access/Register'
   export default {
     name: 'Welcome',
     components: {
-      navBar: NavBar,
+      navBar: Navbar,
       errorMsg: ErrorMsg,
       signIn: SignIn,
       register: Register

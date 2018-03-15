@@ -22,14 +22,14 @@
 </template>
 
 <script>
-  import NavBar from './NavBar'
+  import Navbar from './Navbar'
   import ErrorMsg from './site-access/ErrorMsg'
   import SignIn from './site-access/SignIn'
   import Register from './site-access/Register'
   export default {
     name: 'Welcome',
     components: {
-      navBar: NavBar,
+      navBar: Navbar,
       errorMsg: ErrorMsg,
       signIn: SignIn,
       register: Register
@@ -54,6 +54,7 @@
       }
     }
   }
+
 </script>
 
 <style scoped>
@@ -113,7 +114,7 @@
 
   .buttons-welcome:hover {
     background-color: rgba(180, 26, 44, 1.0);
-    border-color: rgba(150, 16, 33, 1.0); 
+    border-color: rgba(150, 16, 33, 1.0);
   }
 
   @media (min-width: 576px) {
@@ -122,4 +123,5 @@
 
     }
   }
+
 </style>
