@@ -20,8 +20,8 @@
                 <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="home">
                     New Project
                 </div>
-                <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="">
-                    Explorer
+                <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
+                    Community
                 </div>
                 <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
                     Help
@@ -58,6 +58,9 @@
             },
             home() {
                 this.$router.push('Home')
+            },
+            community() {
+                this.$router.push({ path: '/Explorer' }, 'Explorer')
             }
         }
     }

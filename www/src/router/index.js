@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Welcome from '@/components/Welcome'
 import Home from '@/components/Home'
 import Help from '@/components/Help'
+import Explorer from '@/components/community/Explorer'
 import UserProfile from '@/components/profile/UserProfile'
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/userprofile',
       name: 'UserProfile',
       component: UserProfile
+    },
+    {
+      path: '/explorer',
+      name: 'Explorer',
+      component: Explorer
     },
      ]
 })
