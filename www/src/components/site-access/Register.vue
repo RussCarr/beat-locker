@@ -90,7 +90,7 @@
   .register {
     width: 95%;
     background-position: center;
-    background-image: url('../../assets/images/beat-locker-splash-bg.jpg');
+    background-color: rgba(206, 33, 53, 1.0);
     padding-top: 2rem;
     padding-bottom: 2rem;
     border-radius: 4px;
@@ -107,7 +107,7 @@
   }
 
   form {
-    background-color: rgba(55, 37, 41, .8);
+    background-color: rgba(55, 37, 41, 1.0);
     color: rgba(251, 251, 251, 1.0);
   }
 
