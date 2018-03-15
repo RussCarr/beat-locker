@@ -15,7 +15,6 @@
       </div>
 
       <div class="controls mt-4">
-<<<<<<< HEAD
         <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
           <button class="playStopButtons">
             <i class="far fa-play-circle fa-3x"></i>
@@ -25,13 +24,6 @@
           <button class="playStopButtons">
             <i class="far fa-stop-circle fa-3x"></i>
           </button>
-=======
-        <a href="#" class="play text-light" @click.prevent="play">
-          <i class="far fa-play-circle fa-3x"></i>
-        </a>
-        <a href="#" class="stop text-light" @click.prevent="stop">
-          <i class="far fa-stop-circle fa-3x"></i>
->>>>>>> 231665a7f9e8964cd84aabe2f147b57a30ca4043
         </a>
       </div>
 
