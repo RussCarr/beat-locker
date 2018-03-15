@@ -1,2 +1,2 @@
 node_modules
-not node_modules/vue-slider-component/dist/index.js
+!node_modules/vue-slider-component/dist/index.js
