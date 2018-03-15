@@ -74,10 +74,6 @@
     margin: 0.05rem;
   }
 
-  .track-controls {
-    /* min-width: 50%; */
-  }
-
   .track-volume {
     min-width: 10%;
     max-width: 50px;

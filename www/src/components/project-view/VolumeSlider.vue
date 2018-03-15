@@ -47,8 +47,6 @@
       </script>
       
       <style>
-        .tooltip-off {
-          tooltip: false;
-        }
+
 
       </style>
