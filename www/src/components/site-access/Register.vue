@@ -1,6 +1,9 @@
 <template>
   <div class="background">
     <div class="register">
+
+      <errorMsg v-if="authError.error">{{authError.message}}</errorMsg>
+
       <form class="p-4" action="#" @submit.prevent="submit">
         <div class="form-group">
           <label class="ml-4" for="username">Name: </label>
@@ -33,8 +36,12 @@
 </template>
 
 <script>
+  import ErrorMsg from './ErrorMsg'
   export default {
     name: 'Register',
+    components: {
+      errorMsg: ErrorMsg
+    },
     data() {
       return {
         user: {
@@ -44,6 +51,11 @@
           imgUrl: "",
           bio: ""
         }
+      }
+    },
+    computed: {
+      authError() {
+        return this.$store.state.authError
       }
     },
     methods: {
@@ -59,6 +71,7 @@
       }
     }
   }
+
 </script>
 
 <style scoped>
@@ -122,4 +135,5 @@
     justify-content: flex-end;
     align-self: center;
   }
+
 </style>

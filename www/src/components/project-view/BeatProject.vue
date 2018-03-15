@@ -1,16 +1,32 @@
 <template>
-  <div class="text-center">
+  <div class="text-center mt-4 mb-5">
 
     <div class="project">
 
-      <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack"></beatTrack>
-
-      <div class="controls mt-4">
-        <button class="play btn" @click="play">Play</button>
-        <button class="stop btn" @click="stop">Stop</button>
-      </div>
+      <div class="board p-1">
+        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack"></beatTrack>
+      </div>      
 
     </div>
+
+    <div class="bottom-controls">
+      <div>
+          <slider></slider>
+      </div>
+
+      <div class="controls mt-4">
+        <a href="#" class="play text-light" @click="play"><i class="far fa-play-circle fa-3x"></i></a>
+        <a href="#" class="stop text-light" @click="stop"><i class="far fa-stop-circle fa-3x"></i></a>
+      </div>
+  
+      <div class="text-left my-4">
+        <span class="project-title h5 text-light">Name: {{project.title}}</span>
+        <a href="#" class="title-edit-toggle text-light ml-3"><i class="fas fa-pencil-alt"></i></a>
+  
+        <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block">Save</button>
+      </div>
+    </div>
+
 
   </div>
 </template>
@@ -19,10 +35,12 @@
   import Tone from 'tone'
   import BeatTrack from './BeatTrack'
   import samplePaths from './samplePaths.js'
+  import Slider from './Slider'
   export default {
     name: 'BeatProject',
     components: {
-      beatTrack: BeatTrack
+      beatTrack: BeatTrack,
+      slider: Slider
     },
     data() {
       return {
@@ -83,6 +101,8 @@
 </script>
 
 <style>
-
-
+  .bottom-controls {
+    min-width: 100%;
+    padding-left: 37%;
+  }
 </style>

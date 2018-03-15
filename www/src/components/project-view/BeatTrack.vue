@@ -1,15 +1,18 @@
 <template>
-  <div class="beat-track container-fluid">
+  <div class="beat-track container-fluid px-0">
 
     <div class="d-flex flex-row align-items-center justify-content-center">
 
-      <span class="instrument pr-2">{{ beatTrack.instrumentName }}</span>
+      <div class="track-controls">
+        <!-- <span class="instrument pr-2">{{ beatTrack.instrumentName }}</span> -->
+        <instrumentDrop :defaultValue="beatTrack.instrumentName"></instrumentDrop>
+      </div>
 
-      <div class="bar-wrapper d-flex flex-row" v-for="bar, i in beatTrack.barCount">
+      <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, i in beatTrack.barCount">
 
-        <div class="step-wrapper p-1" v-for="step, j in beatTrack.stepsPerBar">
+        <div class="step-wrapper border border-dark" v-for="step, j in beatTrack.stepsPerBar">
 
-          <div class="step border" @click="selectStep($event, (i * 4) + j, i, j)"></div>
+          <div class="step" @click="selectStep($event, (i * 4) + j, i, j)"></div>
 
         </div>
 
@@ -22,8 +25,12 @@
 
 <script>
   import Tone from 'tone'
+  import InstrumentDrop from './InstrumentDrop'
   export default {
     name: 'BeatTrack',
+    components: {
+      instrumentDrop: InstrumentDrop
+    },
     props: ['beatTrack'],
     data() {
       return {
@@ -53,9 +60,18 @@
 </script>
 
 <style>
+  .bar-wrapper {
+    background-color: rgba(251, 251, 251, 1.0);
+    margin: 0.05rem;
+  }
+
+  .track-controls {
+    min-width: 50%;
+  }
+
   .step {
     width: 30px;
-    height: 40px;
+    height: 80px;
     background-color: white;
   }
 
@@ -66,7 +82,7 @@
   .scrolling-wrapper {
     overflow-x: scroll;
     /* overflow-y: hidden; */
-    white-space: nowrap;
+    /* white-space: nowrap; */
   }
 
 </style>

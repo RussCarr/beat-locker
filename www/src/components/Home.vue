@@ -9,12 +9,12 @@
         </div>
       </div>
       <div class="col-sm-1">
-          <sidebar></sidebar>
+        <sidebar></sidebar>
       </div>
     </div>
     <div class="row">
-      <p>Footer</p>
     </div>
+    <bottom class="footerBottom"></bottom>
   </div>
 </template>
 
@@ -22,13 +22,14 @@
   import Navbar from './Navbar'
   import SideBar from './SideBar'
   import Project from './project-view/Project'
+  import Bottom from './Bottom'
   export default {
     name: 'Home',
     components: {
       navbar: Navbar,
       project: Project,
       sidebar: SideBar,
-
+      bottom: Bottom,
     },
     data() {
       return {
@@ -47,5 +48,12 @@
 <style scoped>
   .home {
     overflow-y: hidden;
+  }
+  .footerBottom {
+  position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+  
   }
 </style>
