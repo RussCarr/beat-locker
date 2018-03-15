@@ -13,7 +13,6 @@
         <div class="h5 text-light">{{user.name}}</div>
       </div>
     </div>
-<<<<<<< HEAD
     <div class="row">
       <nav class="navbar subNavbar">
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="home">
@@ -29,21 +28,6 @@
           Logout
         </div>
       </nav>
-=======
-    <div class="subNavbar container-fluid row text-light">
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="newProject">
-        New Project
-      </div>
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
-        Community
-      </div>
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
-        Help
-      </div>
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
-        Logout
-      </div>
->>>>>>> 105c599f7d36931654bd05055723788097e67bea
     </div>
   </div>
 </template>
