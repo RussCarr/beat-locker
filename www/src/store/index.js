@@ -162,7 +162,6 @@ export default new vuex.Store({
         })
         .then(res => {
           var defaultProject = res.data;
-          // commit("setActiveProject", defaultProject);
 
           var defaultTrack = {
             instrumentName: "clap-808",
@@ -176,7 +175,6 @@ export default new vuex.Store({
             .then(res => {
               var track0 = res.data;
               defaultProject.trackIds.push(track0._id);
-              console.log(defaultProject.trackIds);
               commit("setActiveTracks", []);
               commit("addActiveTrack", track0);
 
@@ -188,7 +186,6 @@ export default new vuex.Store({
                 .then(res => {
                   var track1 = res.data;
                   defaultProject.trackIds.push(track1._id);
-                  console.log(defaultProject.trackIds);
                   commit("addActiveTrack", track1);
 
                   defaultTrack.instrumentName = "snare-big";
@@ -199,7 +196,6 @@ export default new vuex.Store({
                     .then(res => {
                       var track2 = res.data;
                       defaultProject.trackIds.push(track2._id);
-                      console.log(defaultProject.trackIds);
                       commit("addActiveTrack", track2);
 
                       defaultTrack.instrumentName = "kick-heavy";
@@ -210,7 +206,6 @@ export default new vuex.Store({
                         .then(res => {
                           var track3 = res.data;
                           defaultProject.trackIds.push(track3._id);
-                          console.log(defaultProject.trackIds);
                           commit("addActiveTrack", track3);
 
                           api
@@ -220,7 +215,6 @@ export default new vuex.Store({
                             )
                             .then(res => {
                               var updatedProject = res.data.data;
-                              console.log('updatedProject', updatedProject);
                               commit("setActiveProject", updatedProject);
                             });
                         })
@@ -249,7 +243,6 @@ export default new vuex.Store({
         .get(`users/${userId}/projects`)
         .then(res => {
           var allUserProjects = res.data;
-          console.log("allUserProjects", allUserProjects);
 
           allUserProjects.sort((projA, projB) => {
             return projB.createdAt - projA.createdAt;
@@ -260,7 +253,6 @@ export default new vuex.Store({
           api(`projects/${lastCreatedProject._id}/tracks`)
             .then(res => {
               var projectTracks = res.data;
-              console.log("projectTracks", projectTracks);
               commit("setActiveTracks", projectTracks);
             })
             .catch(err => {
@@ -276,14 +268,12 @@ export default new vuex.Store({
         .put(`projects/${data.project._id}`, data.project)
         .then(res => {
           var savedProject = res.data.data;
-          console.log("saved project", savedProject);
           commit("setActiveProject", savedProject);
 
           api
             .put(`tracks/${data.tracks[0]._id}`, data.tracks[0])
             .then(res => {
               var updatedTrack = res.data.data;
-              console.log("updatedTrack", updatedTrack);
               commit("setActiveTracks", []);
               commit("addActiveTrack", updatedTrack);
 
@@ -291,21 +281,18 @@ export default new vuex.Store({
                 .put(`tracks/${data.tracks[1]._id}`, data.tracks[1])
                 .then(res => {
                   var updatedTrack = res.data.data;
-                  console.log("updatedTrack", updatedTrack);
                   commit("addActiveTrack", updatedTrack);
 
                   api
                     .put(`tracks/${data.tracks[2]._id}`, data.tracks[2])
                     .then(res => {
                       var updatedTrack = res.data.data;
-                      console.log("updatedTrack", updatedTrack);
                       commit("addActiveTrack", updatedTrack);
 
                       api
                         .put(`tracks/${data.tracks[3]._id}`, data.tracks[3])
                         .then(res => {
                           var updatedTrack = res.data.data;
-                          console.log("updatedTrack", updatedTrack);
                           commit("addActiveTrack", updatedTrack);
                         })
                         .catch(err => {
@@ -323,6 +310,18 @@ export default new vuex.Store({
             .catch(err => {
               console.log(err);
             });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    updateProjectTitle({ commit, dispatch }, data) {
+      api
+        .put(`projects/${data.projectId}`, { title: data.newTitle })
+        .then(res => {
+          var updatedProject = res.data.data;
+          console.log(updatedProject);
+          commit("setActiveProject", updatedProject);
         })
         .catch(err => {
           console.log(err);
