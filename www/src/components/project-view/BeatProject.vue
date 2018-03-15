@@ -5,24 +5,37 @@
 
       <div class="board p-1">
         <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack"></beatTrack>
-      </div>      
+      </div>
 
     </div>
 
     <div class="bottom-controls">
       <div>
-          <slider></slider>
+        <slider></slider>
       </div>
 
       <div class="controls mt-4">
-        <a href="#" class="play text-light" @click="play"><i class="far fa-play-circle fa-3x"></i></a>
-        <a href="#" class="stop text-light" @click="stop"><i class="far fa-stop-circle fa-3x"></i></a>
+        <a href="#" class="play text-light" @click="play">
+          <i class="far fa-play-circle fa-3x"></i>
+        </a>
+        <a href="#" class="stop text-light" @click="stop">
+          <i class="far fa-stop-circle fa-3x"></i>
+        </a>
       </div>
-  
+
       <div class="text-left my-4">
-        <span class="project-title h5 text-light">Name: {{project.title}}</span>
-        <a href="#" class="title-edit-toggle text-light ml-3"><i class="fas fa-pencil-alt"></i></a>
-  
+        <div v-if="!showTitleEdit">
+          <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
+          <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
+            <i class="fas fa-pencil-alt"></i>
+          </a>
+        </div>
+        <div v-if="showTitleEdit">
+          <input type="text" class="form-control" v-model="projectTitle">
+          <button class="btn btn-sm px-4" @click="updateTitle">save</button>
+          <button class="btn btn-sm px-4" @click="showTitleEdit = false">cancel</button>
+        </div>
+
         <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
       </div>
     </div>
@@ -44,10 +57,20 @@
     },
     data() {
       return {
+        updatedProjectTitle: "",
+        showTitleEdit: false,
         loop: {}
       }
     },
     computed: {
+      projectTitle: {
+        get() {
+          return this.updatedProjectTitle !== "" ? this.updatedProjectTitle : this.$store.state.activeProject.title
+        },
+        set(value) {
+          this.updatedProjectTitle = value
+        }
+      },
       beatTracks() {
         return this.$store.state.activeTracks
       },
@@ -69,10 +92,11 @@
         var sampleNames = Object.keys(samples)
 
         var players = new Tone.Players(samples).toMaster()
+        // console.log('players', players)
 
         // Define sequence options:
         // 1. Create an array of integers with length equal to the length of the current track stepSequences
-        var events = new Array(this.beatTracks[0].stepSequence.length).fill(0).map( (_,i) => i)
+        var events = new Array(this.beatTracks[0].stepSequence.length).fill(0).map((_, i) => i)
         // 2. Define the subdivision timing between which events are placed: 16th-note
         var subdivision = '16n'
 
@@ -95,6 +119,14 @@
       stop() {
         this.loop.stop()
       },
+      updateTitle() {
+        var data = {
+          projectId: this.project._id,
+          newTitle: this.projectTitle
+        }
+        this.$store.dispatch('updateProjectTitle', data)
+        this.showTitleEdit = false
+      },
       saveProject() {
         var data = {
           project: this.project,
@@ -112,4 +144,5 @@
     min-width: 100%;
     padding-left: 37%;
   }
+
 </style>

@@ -1,34 +1,36 @@
 <template>
-  <div class="navbar bgcolor">
-    <div class="container-fluid d-flex align-items-center justify-content-between pt-3 pb-2 px-4">
-      <div class="col-8">
-        <h1 class="h3 text-light font-weight-bold">Beat-Locker</h1>
-
+  <div class="navtop bgcolor container-fluid">
+    <div class="row bg-img d-flex align-items-center pt-3 pb-2 px-4">
+      <div class="col-sm-8">
+        <div class="text-center">
+          <img class="logo align-self-center" @click="home" src="../assets/images/beat-locker-logo-large-white.png">
+        </div>
       </div>
-
-      <div class="col-1">
-
-        <img @click='userProfile' src="http://placehold.it/30x30">
-
+      <div class="col-sm-1 user">
+        <img class="user-image" @click='userProfile' src="../assets/images/user-user.png">
       </div>
-      <div class="col-1">
+      <div class="col-sm-2 user">
         <div class="h5 text-light">{{user.name}}</div>
-
       </div>
     </div>
-    <div class="subNavbar container-fluid row text-light">
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="newProject">
-        New Project
-      </div>
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
-        Community
-      </div>
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
-        Help
-      </div>
-      <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
-        Logout
-      </div>
+    <div class="row">
+      <nav class="navbar subNavbar">
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="isHomeRoute" @click="newProject">
+          New Project
+        </div>
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="!isHomeRoute" @click="home">
+            Home
+          </div>
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
+          Community
+        </div>
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
+          Help
+        </div>
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
+          Logout
+        </div>
+      </nav>
     </div>
   </div>
 </template>
@@ -42,6 +44,9 @@
       }
     },
     computed: {
+      isHomeRoute() {
+        return this.$route.path === "/Home" || this.$route.path === "/home"
+      },
       user() {
         return this.$store.state.user
       }
@@ -62,6 +67,9 @@
       },
       community() {
         this.$router.push({path: '/Explorer'})
+      },
+      home() {
+        this.$router.push({path: '/home'})
       }
     }
   }
@@ -69,27 +77,40 @@
 </script>
 
 <style scoped>
-  img {
-    width: 25px;
-    margin-bottom: 0.4rem;
-    margin-right: 0.5rem;
-    /* align-self: flex-end; */
-    /* display: flex; */
-  }
-
   .logout {
     flex-direction: row-reverse;
     align-self: center;
     display: flex
   }
 
+  .user {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    text-align: center;
+  }
+
+  .logo {
+    width: 90%;  
+    max-width: 500px; 
+  }
+
+  .logo:hover {
+    cursor: pointer;
+  }
+
   .menu {
     flex-direction: row;
     align-self: center;
-    display: flex
+    display: flex;
   }
 
-  .bgcolor {
+  .bg-img {
+    background-position: top;
+    background-image: url('../assets/images/beat-locker-splash-bg.jpg');
+    background-repeat: no-repeat;
+  }
+
+  .navtop {
     background-color: #5c5f5f;
   }
 
@@ -97,21 +118,24 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    background-color: #717e00;
+    color: (251, 251, 251, 1.0);
+    color: rgba(251, 251, 251, 1.0);
+    background-color:rgba(55, 37, 41, 1.0);
+    border-bottom-color:  rgba(180, 26, 44, 1.0);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
   }
 
   .SubNavlink:hover {
     cursor: pointer;
-    background-color: #fad815;
+    background-color: rgba(180, 26, 44, 1.0) ;
   }
 
-  img {
-
+  .user-image {
     border-radius: 250px;
     background: black;
     padding: 2px;
     width: 100px;
     height: 100px;
   }
-
 </style>

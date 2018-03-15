@@ -1,0 +1,52 @@
+<template>
+        <div>
+              <vue-slider v-model="value"></vue-slider>
+        </div>
+      </template>
+      <script>
+        import vueSlider from 'vue-slider-component'
+        export default {
+          data() {
+            return {
+              value: 50,
+              width: "auto",
+              height: 6,
+              direction: "horizontal",
+              dotSize: 16,
+              eventType: "auto",
+              min: 0,
+              max: 100,
+              interval: 1,
+              debug: false,
+              disabled: false,
+              show: true,
+              realTime: false,
+              tooltip: false,
+              clickable: true,
+              tooltipDir: "bottom",
+              piecewise: false,
+              lazy: false,
+              useKeyboard: false,
+              reverse: false,
+              speed: 0.5,
+              formatter: null,
+              focusStyle: null,
+              bgStyle: null,
+              sliderStyle: null,
+              tooltipStyle: null,
+              processStyle: null,
+              piecewiseStyle: null,
+            }
+      
+          },
+          components: {
+      
+            vueSlider
+          }
+        }
+      </script>
+      
+      <style>
+
+
+      </style>

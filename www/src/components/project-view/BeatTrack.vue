@@ -6,6 +6,13 @@
       <div class="track-controls">
         <instrumentDrop :defaultValue="beatTrack.instrumentName"></instrumentDrop>
       </div>
+      <div class="track-volume"> 
+        <volumeSlider></volumeSlider>
+      </div>
+      <div class="muteSolo">
+        <div class="mute">mute</div>
+        <div class="solo">solo</div>
+      </div>
 
       <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount">
 
@@ -26,10 +33,12 @@
 <script>
   import Tone from 'tone'
   import InstrumentDrop from './InstrumentDrop'
+  import VolumeSlider from './VolumeSlider'
   export default {
     name: 'BeatTrack',
     components: {
-      instrumentDrop: InstrumentDrop
+      instrumentDrop: InstrumentDrop,
+      volumeSlider: VolumeSlider
     },
     props: ['beatTrack'],
     data() {
@@ -65,8 +74,23 @@
     margin: 0.05rem;
   }
 
-  .track-controls {
-    min-width: 50%;
+  .track-volume {
+    min-width: 10%;
+    max-width: 50px;
+  }
+
+  .muteSolo {
+    color: rgba(251, 251, 251, 1.0);
+    font-size: .7rem;
+    outline-color: rgba(251, 251, 251, 1.0);
+    outline-style: solid;
+    outline-width: 1px;
+  }
+
+  .mute {
+    outline-color: rgba(251, 251, 251, 1.0);
+    outline-style: solid;
+    outline-width: 1px;
   }
 
   .step {
