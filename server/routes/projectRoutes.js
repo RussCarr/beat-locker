@@ -4,7 +4,11 @@ var track = require("../models/track");
 
 // Create a Project
 router.post("/api/projects", (req, res, next) => {
-  req.body.userId = req.session.uid; // Get the userId from the logged-in user's session
+  // req.body.userId = req.session.uid; // Get the userId from the logged-in user's session
+  if (req.session.uid) {
+    // If there's a current session, get the userId from the logged-in user's session.
+    req.body.userId = req.session.uid;
+  } // (Otherwise, the userId must supplied in the req.body)
   project
     .create(req.body)
     .then(project => {

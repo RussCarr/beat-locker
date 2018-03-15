@@ -30,7 +30,8 @@ export default new vuex.Store({
       message: ""
     },
     activeProject: {},
-    activeTracks: []
+    activeTracks: [],
+    userProjects: []
   },
 
   mutations: {
@@ -58,6 +59,10 @@ export default new vuex.Store({
         track => track._id === data.trackId
       ).stepSequence =
         data.stepSequence;
+    },
+    setUserProjects(state, userCreatedProject) {
+      console.log('state', userCreatedProject)
+      this.state.userProjects = userCreatedProject;
     }
   },
 
@@ -71,7 +76,7 @@ export default new vuex.Store({
           commit("setUser", newUser);
           commit("setAuthError", { error: false, message: "" });
 
-          dispatch('createProject', newUser._id)
+          dispatch("createProject", newUser._id);
 
           router.push({
             name: "Home"
@@ -153,7 +158,15 @@ export default new vuex.Store({
     },
 
     // API
-    createProject({commit, dispatch}, userId) {
+    getUserProjects({ commit, dispatch },activeUser) {
+            api.get(`users/${activeUser}/projects`).then(res => {
+        var userCreatedProjects = res.data;
+        console.log('user projects:', userCreatedProjects)
+        
+        commit("setUserProjects", userCreatedProjects);
+      });
+    },
+    createProject({ commit, dispatch }, userId) {
       api
         .post("projects", {
           createdAt: Date.now(),
@@ -230,75 +243,88 @@ export default new vuex.Store({
         });
     },
     getLatestProject({ commit, dispatch }, userId) {
-      api.get(`users/${userId}/projects`).then(res => {
-        var allUserProjects = res.data;
-        console.log("allUserProjects", allUserProjects);
+      api
+        .get(`users/${userId}/projects`)
+        .then(res => {
+          var allUserProjects = res.data;
+          console.log("allUserProjects", allUserProjects);
 
-        allUserProjects.sort((projA, projB) => {
-          return projB.createdAt - projA.createdAt;
-        });
-        var lastCreatedProject = allUserProjects[0];
-        commit("setActiveProject", lastCreatedProject);
+          allUserProjects.sort((projA, projB) => {
+            return projB.createdAt - projA.createdAt;
+          });
+          var lastCreatedProject = allUserProjects[0];
+          commit("setActiveProject", lastCreatedProject);
 
-        api(`projects/${lastCreatedProject._id}/tracks`).then(res => {
-          var projectTracks = res.data;
-          console.log("projectTracks", projectTracks);
-          commit("setActiveTracks", projectTracks);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    },
-    saveProject({ commit, dispatch }, data) {
-      api.put(`projects/${data.project._id}`, data.project).then(res => {
-        var savedProject = res.data.data;
-        console.log("saved project", savedProject);
-        commit("setActiveProject", savedProject);
-
-        api.put(`tracks/${data.tracks[0]._id}`, data.tracks[0]).then(res => {
-          var updatedTrack = res.data.data;
-          console.log("updatedTrack", updatedTrack);
-          commit("setActiveTracks", []);
-          commit("addActiveTrack", updatedTrack);
-
-          api.put(`tracks/${data.tracks[1]._id}`, data.tracks[1]).then(res => {
-            var updatedTrack = res.data.data;
-            console.log("updatedTrack", updatedTrack);
-            commit("addActiveTrack", updatedTrack);
-
-            api.put(`tracks/${data.tracks[2]._id}`, data.tracks[2]).then(res => {
-              var updatedTrack = res.data.data;
-              console.log("updatedTrack", updatedTrack);
-              commit("addActiveTrack", updatedTrack);
-
-              api.put(`tracks/${data.tracks[3]._id}`, data.tracks[3]).then(res => {
-                var updatedTrack = res.data.data;
-                console.log("updatedTrack", updatedTrack);
-                commit("addActiveTrack", updatedTrack);
-              })
-              .catch(err => {
-                console.log(err);
-              });
+          api(`projects/${lastCreatedProject._id}/tracks`)
+            .then(res => {
+              var projectTracks = res.data;
+              console.log("projectTracks", projectTracks);
+              commit("setActiveTracks", projectTracks);
             })
             .catch(err => {
               console.log(err);
             });
-          })
-          .catch(err => {
-            console.log(err);
-          });
         })
         .catch(err => {
           console.log(err);
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    },
+    saveProject({ commit, dispatch }, data) {
+      api
+        .put(`projects/${data.project._id}`, data.project)
+        .then(res => {
+          var savedProject = res.data.data;
+          console.log("saved project", savedProject);
+          commit("setActiveProject", savedProject);
+
+          api
+            .put(`tracks/${data.tracks[0]._id}`, data.tracks[0])
+            .then(res => {
+              var updatedTrack = res.data.data;
+              console.log("updatedTrack", updatedTrack);
+              commit("setActiveTracks", []);
+              commit("addActiveTrack", updatedTrack);
+
+              api
+                .put(`tracks/${data.tracks[1]._id}`, data.tracks[1])
+                .then(res => {
+                  var updatedTrack = res.data.data;
+                  console.log("updatedTrack", updatedTrack);
+                  commit("addActiveTrack", updatedTrack);
+
+                  api
+                    .put(`tracks/${data.tracks[2]._id}`, data.tracks[2])
+                    .then(res => {
+                      var updatedTrack = res.data.data;
+                      console.log("updatedTrack", updatedTrack);
+                      commit("addActiveTrack", updatedTrack);
+
+                      api
+                        .put(`tracks/${data.tracks[3]._id}`, data.tracks[3])
+                        .then(res => {
+                          var updatedTrack = res.data.data;
+                          console.log("updatedTrack", updatedTrack);
+                          commit("addActiveTrack", updatedTrack);
+                        })
+                        .catch(err => {
+                          console.log(err);
+                        });
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 });

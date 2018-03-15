@@ -33,15 +33,25 @@
     },
     data() {
       return {
-
+        // activeUser: {
+        //   userId: this.$store.user._id
+        // }
       }
     },
-    methods: {
-      instSelect() {
-        //
+    props: [
+      'activeUser'
+    ],
+    computed: {
+      // activeUser() {
+      //   return this.$store.state.user._id
+      // },
+    },
+      methods: {
+        instSelect() {
+          //
+        }
       }
     }
-  }
 
 </script>
 
@@ -49,11 +59,12 @@
   .home {
     overflow-y: hidden;
   }
+
   .footerBottom {
-  position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-  
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+
   }
 </style>

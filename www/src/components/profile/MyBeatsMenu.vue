@@ -5,16 +5,7 @@
         <h2>My Beats</h2>
       </div>
     </div>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
-    <myBeats></myBeats>
+    <myBeats :project='project' v-for='project in projects'></myBeats>
   </div>
 </template>
 
@@ -22,10 +13,25 @@
   import MyBeats from './MyBeats'
   export default {
     name: 'MyBeatsMenu',
-
     components: {
-      myBeats: MyBeats
+      myBeats: MyBeats,
     },
+    data() {
+      return {
+      // projects: this.$store.state.userProjects
+      }
+    },
+    computed: {
+      projects() {
+        return this.$store.state.userProjects
+      },
+     
+    },
+    methods: {
+      getProject() {
+        this.$store.dispatch()
+      }
+    }
   }
 
 </script>
