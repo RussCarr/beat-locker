@@ -71,7 +71,7 @@ export default new vuex.Store({
           commit("setUser", newUser);
           commit("setAuthError", { error: false, message: "" });
 
-          dispatch('createProject', newUser._id)
+          dispatch("createProject", newUser._id);
 
           router.push({
             name: "Home"
@@ -153,7 +153,7 @@ export default new vuex.Store({
     },
 
     // API
-    createProject({commit, dispatch}, userId) {
+    createProject({ commit, dispatch }, userId) {
       api
         .post("projects", {
           createdAt: Date.now(),
@@ -162,7 +162,7 @@ export default new vuex.Store({
         })
         .then(res => {
           var defaultProject = res.data;
-          commit("setActiveProject", defaultProject);
+          // commit("setActiveProject", defaultProject);
 
           var defaultTrack = {
             instrumentName: "clap-808",
@@ -176,6 +176,7 @@ export default new vuex.Store({
             .then(res => {
               var track0 = res.data;
               defaultProject.trackIds.push(track0._id);
+              console.log(defaultProject.trackIds);
               commit("setActiveTracks", []);
               commit("addActiveTrack", track0);
 
@@ -187,6 +188,7 @@ export default new vuex.Store({
                 .then(res => {
                   var track1 = res.data;
                   defaultProject.trackIds.push(track1._id);
+                  console.log(defaultProject.trackIds);
                   commit("addActiveTrack", track1);
 
                   defaultTrack.instrumentName = "snare-big";
@@ -197,6 +199,7 @@ export default new vuex.Store({
                     .then(res => {
                       var track2 = res.data;
                       defaultProject.trackIds.push(track2._id);
+                      console.log(defaultProject.trackIds);
                       commit("addActiveTrack", track2);
 
                       defaultTrack.instrumentName = "kick-heavy";
@@ -207,7 +210,19 @@ export default new vuex.Store({
                         .then(res => {
                           var track3 = res.data;
                           defaultProject.trackIds.push(track3._id);
+                          console.log(defaultProject.trackIds);
                           commit("addActiveTrack", track3);
+
+                          api
+                            .put(
+                              `projects/${defaultProject._id}`,
+                              defaultProject
+                            )
+                            .then(res => {
+                              var updatedProject = res.data.data;
+                              console.log('updatedProject', updatedProject);
+                              commit("setActiveProject", updatedProject);
+                            });
                         })
                         .catch(err => {
                           console.log(err);
@@ -230,75 +245,88 @@ export default new vuex.Store({
         });
     },
     getLatestProject({ commit, dispatch }, userId) {
-      api.get(`users/${userId}/projects`).then(res => {
-        var allUserProjects = res.data;
-        console.log("allUserProjects", allUserProjects);
+      api
+        .get(`users/${userId}/projects`)
+        .then(res => {
+          var allUserProjects = res.data;
+          console.log("allUserProjects", allUserProjects);
 
-        allUserProjects.sort((projA, projB) => {
-          return projB.createdAt - projA.createdAt;
-        });
-        var lastCreatedProject = allUserProjects[0];
-        commit("setActiveProject", lastCreatedProject);
+          allUserProjects.sort((projA, projB) => {
+            return projB.createdAt - projA.createdAt;
+          });
+          var lastCreatedProject = allUserProjects[0];
+          commit("setActiveProject", lastCreatedProject);
 
-        api(`projects/${lastCreatedProject._id}/tracks`).then(res => {
-          var projectTracks = res.data;
-          console.log("projectTracks", projectTracks);
-          commit("setActiveTracks", projectTracks);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    },
-    saveProject({ commit, dispatch }, data) {
-      api.put(`projects/${data.project._id}`, data.project).then(res => {
-        var savedProject = res.data.data;
-        console.log("saved project", savedProject);
-        commit("setActiveProject", savedProject);
-
-        api.put(`tracks/${data.tracks[0]._id}`, data.tracks[0]).then(res => {
-          var updatedTrack = res.data.data;
-          console.log("updatedTrack", updatedTrack);
-          commit("setActiveTracks", []);
-          commit("addActiveTrack", updatedTrack);
-
-          api.put(`tracks/${data.tracks[1]._id}`, data.tracks[1]).then(res => {
-            var updatedTrack = res.data.data;
-            console.log("updatedTrack", updatedTrack);
-            commit("addActiveTrack", updatedTrack);
-
-            api.put(`tracks/${data.tracks[2]._id}`, data.tracks[2]).then(res => {
-              var updatedTrack = res.data.data;
-              console.log("updatedTrack", updatedTrack);
-              commit("addActiveTrack", updatedTrack);
-
-              api.put(`tracks/${data.tracks[3]._id}`, data.tracks[3]).then(res => {
-                var updatedTrack = res.data.data;
-                console.log("updatedTrack", updatedTrack);
-                commit("addActiveTrack", updatedTrack);
-              })
-              .catch(err => {
-                console.log(err);
-              });
+          api(`projects/${lastCreatedProject._id}/tracks`)
+            .then(res => {
+              var projectTracks = res.data;
+              console.log("projectTracks", projectTracks);
+              commit("setActiveTracks", projectTracks);
             })
             .catch(err => {
               console.log(err);
             });
-          })
-          .catch(err => {
-            console.log(err);
-          });
         })
         .catch(err => {
           console.log(err);
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    },
+    saveProject({ commit, dispatch }, data) {
+      api
+        .put(`projects/${data.project._id}`, data.project)
+        .then(res => {
+          var savedProject = res.data.data;
+          console.log("saved project", savedProject);
+          commit("setActiveProject", savedProject);
+
+          api
+            .put(`tracks/${data.tracks[0]._id}`, data.tracks[0])
+            .then(res => {
+              var updatedTrack = res.data.data;
+              console.log("updatedTrack", updatedTrack);
+              commit("setActiveTracks", []);
+              commit("addActiveTrack", updatedTrack);
+
+              api
+                .put(`tracks/${data.tracks[1]._id}`, data.tracks[1])
+                .then(res => {
+                  var updatedTrack = res.data.data;
+                  console.log("updatedTrack", updatedTrack);
+                  commit("addActiveTrack", updatedTrack);
+
+                  api
+                    .put(`tracks/${data.tracks[2]._id}`, data.tracks[2])
+                    .then(res => {
+                      var updatedTrack = res.data.data;
+                      console.log("updatedTrack", updatedTrack);
+                      commit("addActiveTrack", updatedTrack);
+
+                      api
+                        .put(`tracks/${data.tracks[3]._id}`, data.tracks[3])
+                        .then(res => {
+                          var updatedTrack = res.data.data;
+                          console.log("updatedTrack", updatedTrack);
+                          commit("addActiveTrack", updatedTrack);
+                        })
+                        .catch(err => {
+                          console.log(err);
+                        });
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 });

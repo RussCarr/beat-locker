@@ -13,6 +13,16 @@ router.post("/api/projects", (req, res, next) => {
     .catch(next);
 });
 
+// Get a Project by ID
+router.get("/api/projects/:projectId", (req, res, next) => {
+  project
+    .findById(req.params.projectId)
+    .then(project => {
+      res.send(project);
+    })
+    .catch(next);
+});
+
 // Get Projects by UserId
 router.get("/api/users/:userId/projects", (req, res, next) => {
   if (req.session.uid) {
@@ -45,7 +55,8 @@ router.delete("/api/projects/:projectId", (req, res, next) => {
       res.send({ message: "Successfully deleted project" });
     })
     .catch(next);
-  track.deleteMany({ projectId: req.params.projectId })
+  track
+    .deleteMany({ projectId: req.params.projectId })
     .then(() => {
       console.log("Deleted project tracks");
     })
