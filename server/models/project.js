@@ -1,25 +1,25 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var schemaName = "Project"
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+var schemaName = "Project";
 
 var schema = new Schema({
   title: {
     type: String,
     required: true,
-    default: 'Untitled Project'
+    default: "Untitled Project"
   },
   description: {
     type: String,
     required: true,
-    default: 'New Beat-Locker project'
+    default: "New Beat-Locker project"
   },
   createdAt: {
-    type: Number,
+    type: Number
     // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
   },
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true
   },
   trackIds: [String], // IDs of the Tracks that 'belong' to this Project
@@ -41,7 +41,7 @@ var schema = new Schema({
   privacySetting: {
     type: String,
     required: true,
-    default: 'private'
+    default: "private"
   },
   forkCount: {
     type: Number,
@@ -60,12 +60,12 @@ var schema = new Schema({
   },
   originalProjectId: {
     type: Schema.Types.ObjectId,
-    ref: 'Project'
+    ref: "Project"
   },
   originalProjectCreatorId: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: "User"
   }
-})
+});
 
-module.exports = mongoose.model(schemaName, schema)
+module.exports = mongoose.model(schemaName, schema);
