@@ -108,7 +108,10 @@
             if (track[index] === true) {
               // Use slightly randomized velocities
               var velocity = Math.random() * 0.5 + 0.5
-              players.get(sampleNames[i]).start(time, 0, "32n", 0, velocity)
+              // players.get(sampleNames[i]).start(time, 0, "32n", 0, velocity)
+              var player = players.get(sampleNames[i])
+              console.log('player.mute', player.mute, 'player.volume', player.volume)
+              player.start(time, 0, "32n", 0, velocity)
             }
           }
         }, events, subdivision)
