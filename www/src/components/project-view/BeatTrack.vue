@@ -4,7 +4,7 @@
     <div class="d-flex flex-row align-items-center justify-content-center">
 
       <div class="track-controls">
-        <instrumentDrop :defaultValue="beatTrack.instrumentName"></instrumentDrop>
+        <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
       </div>
       <div class="track-volume"> 
         <volumeSlider></volumeSlider>
@@ -62,6 +62,15 @@
         } else {
           event.target.classList.add('selected')
         }
+      },
+      instrumentChange(instrument) {
+        var updatedTrack = {
+          '_id': this.beatTrack._id,
+          instrumentName: instrument.name,
+          instrumentSamplePath: instrument.samplePath,
+          stepSequence: this.stepSequence
+        }
+        this.$store.dispatch('updateTrack', updatedTrack)
       }
     }
   }

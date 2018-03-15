@@ -346,6 +346,23 @@ export default new vuex.Store({
         .catch(err => {
           console.log(err);
         });
+    },
+    updateTrack({ commit, dispatch }, updatedTrack) {
+      // console.log('updatedTrack', updatedTrack)
+      api.put(`tracks/${updatedTrack._id}`, updatedTrack).then(res => {
+        var updatedTrack = res.data.data;
+        console.log("updatedTrack", updatedTrack);
+
+        api
+          .get(`projects/${updatedTrack.projectId}/tracks`)
+          .then(res => {
+            var projectTracks = res.data;
+            commit("setActiveTracks", projectTracks);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
     }
   }
 });
