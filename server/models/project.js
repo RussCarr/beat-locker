@@ -5,11 +5,13 @@ var schemaName = "Project"
 var schema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    default: 'Untitled Project'
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    default: 'New Beat-Locker project'
   },
   createdAt: {
     type: Number,
@@ -41,18 +43,28 @@ var schema = new Schema({
     required: true,
     default: 'private'
   },
-  forkCount: Number,
-  playCount: Number,
-  shareCount: Number,
-  originalProject: {
-    projectId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Project'
-    },
-    creatorId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
+  forkCount: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  playCount: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  shareCount: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  originalProjectId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project'
+  },
+  originalProjectCreatorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 })
 

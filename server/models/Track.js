@@ -3,21 +3,15 @@ var Schema = mongoose.Schema
 var schemaName = "Track"
 
 var schema = new Schema({
-  name: {
+  instrumentName: {
     type: String,
-    required: true
+    required: true,
+    default: 'snare-big'
   },
-  instrument: {
-    name: {
-      type: String,
-      required: true,
-      default: 'snare-big'
-    },
-    samplePath: {
-      type: String,
-      required: true,
-      default: './../../assets/audio/snare-big.wav'
-    }
+  instrumentSamplePath: {
+    type: String,
+    required: true,
+    default: './../../assets/audio/snare-big.wav'
   },
   barCount: {
     type: Number,
@@ -30,7 +24,7 @@ var schema = new Schema({
     default: 4
   },
   stepSequence: {
-    type: Boolean,
+    type: [Boolean],
     required: true,
     default: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,]
   },

@@ -32,7 +32,7 @@
     },
     computed: {
       beatTracks() {
-        return this.$store.state.activeBeatTracks
+        return this.$store.state.activeTracks
       },
       project() {
         return this.$store.state.activeProject
