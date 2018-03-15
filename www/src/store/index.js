@@ -71,80 +71,7 @@ export default new vuex.Store({
           commit("setUser", newUser);
           commit("setAuthError", { error: false, message: "" });
 
-          api
-            .post("projects", {
-              createdAt: Date.now(),
-              userId: newUser._id,
-              trackIds: [] // Initially create the Project with empty trackIds array
-            })
-            .then(res => {
-              var defaultProject = res.data;
-              commit("setActiveProject", defaultProject);
-
-              var defaultTrack = {
-                instrumentName: "clap-808",
-                instrumentSamplePath: "./../../assets/audio/clap-808.wav",
-                projectId: defaultProject._id,
-                userId: defaultProject.userId
-              };
-
-              api
-                .post("tracks", defaultTrack)
-                .then(res => {
-                  var track0 = res.data;
-                  defaultProject.trackIds.push(track0._id);
-                  commit("setActiveTracks", []);
-                  commit("addActiveTrack", track0);
-
-                  defaultTrack.instrumentName = "hihat-808";
-                  defaultTrack.instrumentSamplePath =
-                    "./../../assets/audio/hihat-808.wav";
-                  api
-                    .post("tracks", defaultTrack)
-                    .then(res => {
-                      var track1 = res.data;
-                      defaultProject.trackIds.push(track1._id);
-                      commit("addActiveTrack", track1);
-
-                      defaultTrack.instrumentName = "snare-big";
-                      defaultTrack.instrumentSamplePath =
-                        "./../../assets/audio/snare-big.wav";
-                      api
-                        .post("tracks", defaultTrack)
-                        .then(res => {
-                          var track2 = res.data;
-                          defaultProject.trackIds.push(track2._id);
-                          commit("addActiveTrack", track2);
-
-                          defaultTrack.instrumentName = "kick-heavy";
-                          defaultTrack.instrumentSamplePath =
-                            "./../../assets/audio/kick-heavy.wav";
-                          api
-                            .post("tracks", defaultTrack)
-                            .then(res => {
-                              var track3 = res.data;
-                              defaultProject.trackIds.push(track3._id);
-                              commit("addActiveTrack", track3);
-                            })
-                            .catch(err => {
-                              console.log(err);
-                            });
-                        })
-                        .catch(err => {
-                          console.log(err);
-                        });
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          dispatch('createProject', newUser._id)
 
           router.push({
             name: "Home"
@@ -169,7 +96,7 @@ export default new vuex.Store({
           commit("setUser", newUser);
           commit("setAuthError", { error: false, message: "" });
 
-          dispatch("getUserLastProject", newUser._id);
+          dispatch("getLatestProject", newUser._id);
 
           router.push({
             name: "Home"
@@ -192,7 +119,7 @@ export default new vuex.Store({
           console.log("returning user:", sessionUser);
           commit("setUser", sessionUser);
 
-          dispatch("getUserLastProject", sessionUser._id);
+          dispatch("getLatestProject", sessionUser._id);
 
           router.push({
             name: "Home"
@@ -208,9 +135,9 @@ export default new vuex.Store({
         .then(() => {
           console.log("User logged out");
           commit("setUser", {});
-					commit("setAuthError", { error: false, message: "" });
-					commit('setActiveProject', {})
-					commit('setActiveTracks', [])
+          commit("setAuthError", { error: false, message: "" });
+          commit("setActiveProject", {});
+          commit("setActiveTracks", []);
           router.push({
             name: "Welcome"
           });
@@ -226,8 +153,84 @@ export default new vuex.Store({
     },
 
     // API
-    getUserLastProject({ commit, dispatch }, userId) {
-      api(`users/${userId}/projects`).then(res => {
+    createProject({commit, dispatch}, userId) {
+      api
+        .post("projects", {
+          createdAt: Date.now(),
+          userId: userId,
+          trackIds: [] // Initially create the Project with empty trackIds array
+        })
+        .then(res => {
+          var defaultProject = res.data;
+          commit("setActiveProject", defaultProject);
+
+          var defaultTrack = {
+            instrumentName: "clap-808",
+            instrumentSamplePath: "./../../assets/audio/clap-808.wav",
+            projectId: defaultProject._id,
+            userId: defaultProject.userId
+          };
+
+          api
+            .post("tracks", defaultTrack)
+            .then(res => {
+              var track0 = res.data;
+              defaultProject.trackIds.push(track0._id);
+              commit("setActiveTracks", []);
+              commit("addActiveTrack", track0);
+
+              defaultTrack.instrumentName = "hihat-808";
+              defaultTrack.instrumentSamplePath =
+                "./../../assets/audio/hihat-808.wav";
+              api
+                .post("tracks", defaultTrack)
+                .then(res => {
+                  var track1 = res.data;
+                  defaultProject.trackIds.push(track1._id);
+                  commit("addActiveTrack", track1);
+
+                  defaultTrack.instrumentName = "snare-big";
+                  defaultTrack.instrumentSamplePath =
+                    "./../../assets/audio/snare-big.wav";
+                  api
+                    .post("tracks", defaultTrack)
+                    .then(res => {
+                      var track2 = res.data;
+                      defaultProject.trackIds.push(track2._id);
+                      commit("addActiveTrack", track2);
+
+                      defaultTrack.instrumentName = "kick-heavy";
+                      defaultTrack.instrumentSamplePath =
+                        "./../../assets/audio/kick-heavy.wav";
+                      api
+                        .post("tracks", defaultTrack)
+                        .then(res => {
+                          var track3 = res.data;
+                          defaultProject.trackIds.push(track3._id);
+                          commit("addActiveTrack", track3);
+                        })
+                        .catch(err => {
+                          console.log(err);
+                        });
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getLatestProject({ commit, dispatch }, userId) {
+      api.get(`users/${userId}/projects`).then(res => {
         var allUserProjects = res.data;
         console.log("allUserProjects", allUserProjects);
 
@@ -241,7 +244,60 @@ export default new vuex.Store({
           var projectTracks = res.data;
           console.log("projectTracks", projectTracks);
           commit("setActiveTracks", projectTracks);
+        })
+        .catch(err => {
+          console.log(err);
         });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    },
+    saveProject({ commit, dispatch }, data) {
+      api.put(`projects/${data.project._id}`, data.project).then(res => {
+        var savedProject = res.data.data;
+        console.log("saved project", savedProject);
+        commit("setActiveProject", savedProject);
+
+        api.put(`tracks/${data.tracks[0]._id}`, data.tracks[0]).then(res => {
+          var updatedTrack = res.data.data;
+          console.log("updatedTrack", updatedTrack);
+          commit("setActiveTracks", []);
+          commit("addActiveTrack", updatedTrack);
+
+          api.put(`tracks/${data.tracks[1]._id}`, data.tracks[1]).then(res => {
+            var updatedTrack = res.data.data;
+            console.log("updatedTrack", updatedTrack);
+            commit("addActiveTrack", updatedTrack);
+
+            api.put(`tracks/${data.tracks[2]._id}`, data.tracks[2]).then(res => {
+              var updatedTrack = res.data.data;
+              console.log("updatedTrack", updatedTrack);
+              commit("addActiveTrack", updatedTrack);
+
+              api.put(`tracks/${data.tracks[3]._id}`, data.tracks[3]).then(res => {
+                var updatedTrack = res.data.data;
+                console.log("updatedTrack", updatedTrack);
+                commit("addActiveTrack", updatedTrack);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
     }
   }
