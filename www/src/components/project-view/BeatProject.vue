@@ -1,9 +1,11 @@
 <template>
-  <div class="text-center">
+  <div class="text-center mt-4">
 
     <div class="project">
 
-      <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack"></beatTrack>
+      <div class="board p-1">
+        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack"></beatTrack>
+      </div>
 
       <div class="controls mt-4">
         <button class="play btn" @click="play">Play</button>
@@ -83,6 +85,7 @@
 </script>
 
 <style>
-
-
+  /* .board {
+    background-color: rgba(251, 251, 251, 1.0);
+  } */
 </style>
