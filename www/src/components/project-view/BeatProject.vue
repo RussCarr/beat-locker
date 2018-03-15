@@ -23,7 +23,7 @@
         <span class="project-title h5 text-light">Name: {{project.title}}</span>
         <a href="#" class="title-edit-toggle text-light ml-3"><i class="fas fa-pencil-alt"></i></a>
   
-        <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block">Save</button>
+        <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
       </div>
     </div>
 
@@ -94,6 +94,13 @@
       },
       stop() {
         this.loop.stop()
+      },
+      saveProject() {
+        var data = {
+          project: this.project,
+          tracks: this.beatTracks
+        }
+        this.$store.dispatch('saveProject', data)
       }
     }
   }

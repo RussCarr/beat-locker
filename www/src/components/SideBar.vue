@@ -1,6 +1,13 @@
 <template>
   <div class="sidebar">
     <slideout menu="#menu" side="right" panel="#panel" :toggleSelectors="['.toggle-button']" @on-open="open">
+      <main id="panel">
+        <header>
+          <button class="toggle-button">
+            <</button>
+              My Projects
+        </header>
+      </main>
       <nav id="menu">
         <div class="myBeatsRoll">
           <myBeatsMenu></myBeatsMenu>
@@ -9,15 +16,6 @@
           <messages class="mt-1 text-center"></messages>
         </div>
       </nav>
-      <main id="panel">
-        <header>
-          <div>
-            <button class="toggle-button">
-              <</button>
-                My Projects
-          </div>
-        </header>
-      </main>
     </slideout>
 
   </div>
@@ -69,7 +67,10 @@
     right: 0px
   }
 
-  #panel {}
+  #panel {
+    /* margin-left: 1px; */
+    width: 120px;
+     }
 
   .slideout-menu {
     position: fixed;
@@ -86,7 +87,7 @@
   }
 
   .slideout-menu-left {
-    left: 2px;
+    left: 0;
   }
 
   .slideout-menu-right {
@@ -98,7 +99,7 @@
     color: white;
     position: relative;
     z-index: 1;
-    will-change: transform;
+    /* will-change: transform; */
     max-height: 80vh;
   }
 

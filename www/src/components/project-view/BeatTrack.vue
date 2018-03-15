@@ -4,15 +4,15 @@
     <div class="d-flex flex-row align-items-center justify-content-center">
 
       <div class="track-controls">
-        <!-- <span class="instrument pr-2">{{ beatTrack.instrumentName }}</span> -->
         <instrumentDrop :defaultValue="beatTrack.instrumentName"></instrumentDrop>
       </div>
 
-      <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, i in beatTrack.barCount">
+      <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount">
 
-        <div class="step-wrapper border border-dark" v-for="step, j in beatTrack.stepsPerBar">
+        <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in beatTrack.stepsPerBar">
 
-          <div class="step" @click="selectStep($event, (i * 4) + j, i, j)"></div>
+          <div class="step" @click="selectStep($event, (barIndex * beatTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
+          :class="{ 'selected': stepSequence[(barIndex * beatTrack.stepsPerBar) + stepIndexInBar] }"></div>
 
         </div>
 

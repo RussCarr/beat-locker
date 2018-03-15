@@ -1,11 +1,22 @@
 var router = require("express").Router();
 var project = require("../models/project");
+var track = require("../models/track");
 
 // Create a Project
 router.post("/api/projects", (req, res, next) => {
   req.body.userId = req.session.uid; // Get the userId from the logged-in user's session
   project
     .create(req.body)
+    .then(project => {
+      res.send(project);
+    })
+    .catch(next);
+});
+
+// Get a Project by ID
+router.get("/api/projects/:projectId", (req, res, next) => {
+  project
+    .findById(req.params.projectId)
     .then(project => {
       res.send(project);
     })
@@ -26,7 +37,7 @@ router.get("/api/users/:userId/projects", (req, res, next) => {
     .catch(next);
 });
 
-// Update a Project
+// Update a Project by ID
 router.put("/api/projects/:projectId", (req, res, next) => {
   project
     .findByIdAndUpdate(req.params.projectId, req.body, { new: true })
@@ -42,6 +53,12 @@ router.delete("/api/projects/:projectId", (req, res, next) => {
     .findByIdAndRemove(req.params.projectId)
     .then(project => {
       res.send({ message: "Successfully deleted project" });
+    })
+    .catch(next);
+  track
+    .deleteMany({ projectId: req.params.projectId })
+    .then(() => {
+      console.log("Deleted project tracks");
     })
     .catch(next);
 });
