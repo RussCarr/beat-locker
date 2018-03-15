@@ -80,7 +80,7 @@
   }
 
   .scrolling-wrapper {
-    /* overflow-x: scroll; */
+    overflow-x: scroll;
     /* overflow-y: hidden; */
     /* white-space: nowrap; */
   }
