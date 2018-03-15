@@ -15,11 +15,23 @@
       </div>
 
       <div class="controls mt-4">
-        <a href="#" class="play text-light" @click="play">
+<<<<<<< HEAD
+        <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
+          <button class="playStopButtons">
+            <i class="far fa-play-circle fa-3x"></i>
+          </button>
+        </a>
+        <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
+          <button class="playStopButtons">
+            <i class="far fa-stop-circle fa-3x"></i>
+          </button>
+=======
+        <a href="#" class="play text-light" @click.prevent="play">
           <i class="far fa-play-circle fa-3x"></i>
         </a>
-        <a href="#" class="stop text-light" @click="stop">
+        <a href="#" class="stop text-light" @click.prevent="stop">
           <i class="far fa-stop-circle fa-3x"></i>
+>>>>>>> 231665a7f9e8964cd84aabe2f147b57a30ca4043
         </a>
       </div>
 
@@ -59,7 +71,8 @@
       return {
         updatedProjectTitle: "",
         showTitleEdit: false,
-        loop: {}
+        loop: {},
+        isPlaying: false,
       }
     },
     computed: {
@@ -80,10 +93,13 @@
     },
     methods: {
       play() {
+        this.isPlaying = true
+
         // Note: For audio files, you MUST use 'require' a literal string-value to get Webpack to recognize the resource as a file path and locate it!!!!
         var requiredSamples = samplePaths
 
         var samples = {}
+        console.log('beatTracks', this.beatTracks[0])
         this.beatTracks.forEach(track => {
           var name = track.instrumentName
           var resource = requiredSamples[name]
@@ -92,7 +108,7 @@
         var sampleNames = Object.keys(samples)
 
         var players = new Tone.Players(samples).toMaster()
-        // console.log('players', players)
+        console.log('players', players)
 
         // Define sequence options:
         // 1. Create an array of integers with length equal to the length of the current track stepSequences
@@ -108,16 +124,24 @@
             if (track[index] === true) {
               // Use slightly randomized velocities
               var velocity = Math.random() * 0.5 + 0.5
-              players.get(sampleNames[i]).start(time, 0, "32n", 0, velocity)
+              // players.get(sampleNames[i]).start(time, 0, "32n", 0, velocity)
+              var player = players.get(sampleNames[i])
+              // player.mute = true // <-- THIS WILL MUTE THE PLAYER
+              // player.volume.input.value = 1e-2 // <-- THIS WILL UPDATE THE VOLUME SETTING (range is 3.4e-38 to 3.4e+38)
+              // player.volume.overridden = true // <-- THIS WILL APPLY AN UPDATED VOLUME SETTING
+              player.start(time, 0, "32n", 0, velocity)
             }
           }
         }, events, subdivision)
 
         Tone.Transport.start()
         this.loop.start()
+
+
       },
       stop() {
         this.loop.stop()
+        this.isPlaying = false
       },
       updateTitle() {
         var data = {
@@ -143,6 +167,16 @@
   .bottom-controls {
     min-width: 100%;
     padding-left: 37%;
+  }
+
+  .playStopButtons {
+    background: none;
+    border: none;
+    color: white;
+  }
+
+  .playStopButtons:focus {
+    outline: 0;
   }
 
 </style>
