@@ -3,7 +3,7 @@
     <slideout menu="#menu" side="right" panel="#panel" :toggleSelectors="['.toggle-button']" @on-open="open">
       <main id="panel">
         <header>
-          <button class="toggle-button">
+          <button :activeUser='activeUser' @click='getProjects(activeUser)' class="toggle-button">
             <</button>
               My Projects
         </header>
@@ -32,10 +32,26 @@
       myBeatsMenu: MyBeatsMenu,
       messages: Messages
     },
+    data() {
+      return {
+        
+      }
+    },
+    // props: [
+    //   'activeUser'
+    // ],
+    computed: {
+      activeUser() {
+        return this.$store.state.user._id
+      },
+    },
     methods: {
       open: function () {
         console.log('slideoutOpen')
-
+      },
+      getProjects(activeUser) {
+       console.log('hello',activeUser)
+        this.$store.dispatch('getUserProjects',activeUser)
       }
     },
 

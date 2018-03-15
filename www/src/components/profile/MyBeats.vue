@@ -4,36 +4,41 @@
       <div class="col-2 mr-2">
         <div class="">
           <label class="switch">
-            <input type="checkbox" v-model="shared">
+            <input type="checkbox" @change="showShared" v-model="shared">
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            <!-- <span v-show="!shared"></span>Private</span> -->
+            <span v-if="!shared">Private</span>
             <span v-if="shared">Shared</span>
           </p>
         </div>
       </div>
       <div class="col-6">
-        <h5 @click="showStats = showStats ? false : true" class="btn-link text-white text-center">Track Name =</h5>
+        <h5 @click="showStats = showStats ? false : true" class="btn-link text-white text-center">{{project.title}} =</h5>
       </div>
       <div class="col-1">
         <button @click='closeTrackStats' class="btn btn-sm btn-dark">></button>
       </div>
       <div class="col-1">
-        <button class="btn btn-sm btn-danger">Delete</button>
+        <button @click='deleteProject' class="btn btn-sm btn-danger">Delete</button>
       </div>
     </div>
     <div class="trackStats" v-if="showStats">
       <div class="row">
         <div class="col text-center">
-          <p>plays 4</p>
+          <p>Plays: {{project.playCount}}</p>
+        </div>
+        <div class="col text-center">
+          <p>Forked: {{project.forkCount}}</p>
+        </div>
+        <div class="col text-center">
+          <p>Shared: {{project.shareCount}}</p>
         </div>
       </div>
-      <div class="col text-center">
-        <p>plays 4</p>
-      </div>
-      <div class="col text-center">
-        <p>plays 4</p>
+      <div class="row">
+        <div class="col">
+          <p class="text-center">{{project.description}}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -51,7 +56,9 @@
     computed: {
 
     },
-
+    props: [
+      'project'
+    ],
     methods: {
       closeTrackStats() {
         this.showStats = false
@@ -59,6 +66,12 @@
       showTrackStats() {
         this.showStats = true
       },
+      showShared() {
+        this.showShared = true
+      },
+      deleteProject() {
+        
+      }
     }
   }
 </script>
