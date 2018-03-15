@@ -75,7 +75,7 @@
   }
 
   .track-controls {
-    min-width: 50%;
+    /* min-width: 50%; */
   }
 
   .track-volume {

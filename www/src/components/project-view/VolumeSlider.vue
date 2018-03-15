@@ -1,6 +1,6 @@
 <template>
         <div>
-              <vue-slider class="mt-4" v-model="value"></vue-slider>
+              <vue-slider v-model="value"></vue-slider>
         </div>
       </template>
       <script>
@@ -47,4 +47,8 @@
       </script>
       
       <style>
+        .tooltip-off {
+          tooltip: false;
+        }
+
       </style>
