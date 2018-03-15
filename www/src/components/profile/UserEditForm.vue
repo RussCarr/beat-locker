@@ -1,10 +1,9 @@
 <template>
-  <div class="userProfile">
+  <div class="userEditForm">
     <div class="row">
       <div class="col">
-        <div class="col-sm-11">
-        </div>
-        <div class="col-sm-1  d-flex">
+        <div class="col-sm-10"></div>
+        <div class="col-sm-2  d-flex">
           <h6 @click="openSideBar" @OpenSideBar="openSideBar" class="sideBarLayout">
             <i class="far fa-edit"></i>Edit Profile</h6>
         </div>
@@ -17,23 +16,38 @@
             <div class="modal-container">
 
               <div class="modal-header">
-                header
+                <h3>Profile Edit Form</h3>
               </div>
 
               <div class="modal-body">
-                  <ul>
-                      <li>Profile Pic</li>
-                      <li>Name</li>
-                      <li>Age</li>
-                      <li>Bio</li>
-                      <li>Music Style</li>
-                      <li>Intrests</li>
-                    </ul>
+                <div class="container mt-4">
+                  <form action="#" class="border border-secondary rounded p-4" @submit.prevent="submit">
+                    <div class="form-group">
+                      <label class="ml-4" for="username">Name: </label>
+                      <input type="text" id="username" class="form-control" v-model="user.name" placeholder="My Name">
+                    </div>
+                    <div class="form-group">
+                      <label class="ml-4" for="email">Email: </label>
+                      <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
+                    </div>
+                    <div class="form-group">
+                      <label class="ml-4" for="password">Password: </label>
+                      <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
+                    </div>
+                    <div class="form-group">
+                      <label class="ml-4" for="imgUrl">Image URL: </label>
+                      <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
+                    </div>
+                    <div class="form-group">
+                      <label class="ml-4" for="bio">Brief bio: </label>
+                      <input type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Who I am...">
+                    </div>
+                  </form>
+                </div>
               </div>
 
               <div class="modal-footer">
                 <div name="footer">
-                  default footer
                   <button class="modal-default-button" @click="close">
                     OK
                   </button>
@@ -54,12 +68,20 @@
 
     data() {
       return {
-        showSideBar: false
-
+        showSideBar: false,
+        user: {
+          name: "",
+          email: "",
+          password: "",
+          imgUrl: "",
+          bio: ""
+        }
       }
-
     },
     methods: {
+      submit() {
+        this.$store.dispatch('registerUser', this.user)
+      },
       close() {
         this.showSideBar = false
       },
@@ -71,6 +93,10 @@
 </script>
 
 <style>
+  .form-group {
+    color: black;
+  }
+
   .sidebar {
     display: flex
   }
@@ -93,7 +119,7 @@
   }
 
   .modal-container {
-    width: 300px;
+    width: 800px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;
@@ -105,7 +131,7 @@
 
   .modal-header h3 {
     margin-top: 0;
-    color: #42b983;
+    color: black;
   }
 
   .modal-body {

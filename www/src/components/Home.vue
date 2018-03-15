@@ -16,8 +16,6 @@
       <p>Footer</p>
     </div>
   </div>
-
-  </div>
 </template>
 
 <script>
