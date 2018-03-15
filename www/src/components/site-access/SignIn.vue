@@ -1,23 +1,6 @@
 <template>
   <div class="background">
     <div class="signIn">
-<<<<<<< HEAD
-        <form class="p-4" @submit.prevent="submit">
-            <div class="form-group">
-              <label class="ml-4" for="email">Email:</label>
-              <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
-            </div>
-            <div class="form-group">
-              <label class="ml-4" for="password">Password:</label>
-              <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
-            </div>
-            <button class="btn btn-primary signInButton px-4" type="submit">Sign in</button>
-            <button class="btn btn-secondary px-4" @click="closeModal">Close</button>
-            <div class="text-center pt-4">
-              <a href="#" class="text-muted" @click.prevent="showRegisterForm">Click here to register.</a>
-            </div>
-          </form>
-=======
 
       <errorMsg v-if="authError.error">{{authError.message}}</errorMsg>
 
@@ -36,7 +19,6 @@
           <a href="#" class="text-muted" @click.prevent="showRegisterForm">Click here to register.</a>
         </div>
       </form>
->>>>>>> 107a7a84ed7bec58ad7ffd573cfc6f87a873f337
     </div>
   </div>
 </template>
