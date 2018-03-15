@@ -1,6 +1,5 @@
 <template>
   <div class="text-center">
-    <h1>Project Editor</h1>
 
     <div class="project">
 
@@ -21,7 +20,7 @@
   import BeatTrack from './BeatTrack'
   import samplePaths from './samplePaths.js'
   export default {
-    name: 'Project',
+    name: 'BeatProject',
     components: {
       beatTrack: BeatTrack
     },
@@ -45,7 +44,7 @@
 
         var samples = {}
         this.beatTracks.forEach(track => {
-          var name = track.instrument.name
+          var name = track.instrumentName
           var resource = requiredSamples[name]
           samples[name] = resource
         })

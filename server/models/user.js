@@ -1,8 +1,8 @@
-var mongoose = require('mongoose')
-var bcrypt = require('bcryptjs')
-var Schema = mongoose.Schema
-var schemaName = "User"
-const SALT_FACTOR = 13
+var mongoose = require("mongoose");
+var bcrypt = require("bcryptjs");
+var Schema = mongoose.Schema;
+var schemaName = "User";
+const SALT_FACTOR = 13;
 
 var schema = new Schema({
   name: {
@@ -15,7 +15,7 @@ var schema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: true
     // minlength: 6
   },
   imgUrl: String,
@@ -23,14 +23,14 @@ var schema = new Schema({
   age: Number,
   musicStyle: String,
   interests: [String]
-})
+});
 
 schema.statics.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_FACTOR))
-}
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_FACTOR));
+};
 
 schema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(password, this.password)
-}
+  return bcrypt.compareSync(password, this.password);
+};
 
-module.exports = mongoose.model(schemaName, schema)
+module.exports = mongoose.model(schemaName, schema);

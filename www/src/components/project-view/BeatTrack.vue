@@ -3,12 +3,11 @@
 
     <div class="d-flex flex-row align-items-center justify-content-center">
 
-      <span class="instrument pr-2">{{ beatTrack.instrument.title }}</span>
+      <span class="instrument pr-2">{{ beatTrack.instrumentName }}</span>
 
       <div class="bar-wrapper d-flex flex-row" v-for="bar, i in beatTrack.barCount">
 
         <div class="step-wrapper p-1" v-for="step, j in beatTrack.stepsPerBar">
-          {{ (i * 4) + j }}
 
           <div class="step border" @click="selectStep($event, (i * 4) + j, i, j)"></div>
 

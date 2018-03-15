@@ -1,7 +1,6 @@
 <template>
   <div class="background">
     <div class="signIn">
-
         <form class="p-4" @submit.prevent="submit">
             <div class="form-group">
               <label class="ml-4" for="email">Email:</label>
@@ -18,7 +17,6 @@
             </div>
           </form>
     </div>
-
   </div>
 </template>
 <script>
@@ -76,14 +74,9 @@
     }
   }
 
-  .signInForm {
-    padding: 1rem;
-  }
-
   form {
     background-color: rgba(55, 37, 41, .8);
     color: rgba(251, 251, 251, 1.0);
-
   }
 
   .signInButton {
