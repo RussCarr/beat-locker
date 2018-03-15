@@ -20,7 +20,6 @@
         </div>
       </form>
     </div>
-
   </div>
 </template>
 
@@ -88,14 +87,9 @@
     }
   }
 
-  .signInForm {
-    padding: 1rem;
-  }
-
   form {
     background-color: rgba(55, 37, 41, .8);
     color: rgba(251, 251, 251, 1.0);
-
   }
 
   .signInButton {
