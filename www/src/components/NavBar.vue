@@ -51,9 +51,7 @@
         this.$store.dispatch('logoutUser')
       },
       userProfile() {
-        this.$router.push({
-          path: '/UserProfile'
-        }, 'UserProfile')
+        this.$router.push({path: '/UserProfile'})
       },
       help() {
         this.$router.push('Help')
@@ -63,9 +61,7 @@
         this.$router.push('Home')
       },
       community() {
-        this.$router.push({
-          path: '/Explorer'
-        }, 'Explorer')
+        this.$router.push({path: '/Explorer'})
       }
     }
   }

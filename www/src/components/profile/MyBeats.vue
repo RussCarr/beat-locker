@@ -4,18 +4,21 @@
       <div class="col-2 mr-2">
         <div class="">
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" v-model="shared">
             <span class="slider round"></span>
           </label>
-          <p class="text-center">Private</p>
+          <p class="text-center">
+            <!-- <span v-show="!shared"></span>Private</span> -->
+            <span v-if="shared">Shared</span>
+          </p>
         </div>
       </div>
       <div class="col-6">
         <h5 @click="showStats = showStats ? false : true" class="btn-link text-white text-center">Track Name =</h5>
       </div>
       <div class="col-1">
-          <button @click='closeTrackStats' class="btn btn-sm btn-dark">></button>
-        </div>
+        <button @click='closeTrackStats' class="btn btn-sm btn-dark">></button>
+      </div>
       <div class="col-1">
         <button class="btn btn-sm btn-danger">Delete</button>
       </div>
@@ -41,9 +44,14 @@
     name: 'Mybeats',
     data() {
       return {
-        showStats: false
+        showStats: false,
+        shared: false
       }
     },
+    computed: {
+
+    },
+
     methods: {
       closeTrackStats() {
         this.showStats = false
