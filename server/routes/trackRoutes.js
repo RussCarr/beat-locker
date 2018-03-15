@@ -15,7 +15,17 @@ router.post("/api/tracks", (req, res, next) => {
     .catch(next);
 });
 
-// Delete a Track
+// Update a Track by ID
+router.put("/api/tracks/:trackId", (req, res, next) => {
+  track
+    .findByIdAndUpdate(req.params.trackId, req.body, { new: true })
+    .then(track => {
+      res.send({ message: "Successfully updated track", data: track });
+    })
+    .catch(next);
+});
+
+// Delete a Track by ID
 router.delete("/api/tracks/:trackId", (req, res, next) => {
   track
     .findByIdAndRemove(req.params.trackId)

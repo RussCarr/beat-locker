@@ -92,7 +92,7 @@
     color: rgba(251, 251, 251, 1.0);
   }
 
-  .signInButton {
+    .signInButton {
     background-color: rgba(57, 123, 172, 1.0);
     border-color: rgba(33, 92, 136, 1.0);
     transition: all;
@@ -100,6 +100,13 @@
   }
 
   .signInButton:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .signInButton:active,
+  .signInButton:visited,
+  .signInButton:focus {
     background-color: rgba(33, 92, 136, 1.0);
     border-color: rgba(33, 92, 136, 1.0);
   }
