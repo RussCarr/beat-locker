@@ -61,7 +61,7 @@ export default new vuex.Store({
         data.stepSequence;
     },
     setUserProjects(state, userCreatedProject) {
-      console.log('state', userCreatedProject)
+      console.log("state", userCreatedProject);
       this.state.userProjects = userCreatedProject;
     }
   },
@@ -158,14 +158,30 @@ export default new vuex.Store({
     },
 
     // API
-    getUserProjects({ commit, dispatch },activeUser) {
-            api.get(`users/${activeUser}/projects`).then(res => {
-        var userCreatedProjects = res.data;
-        console.log('user projects:', userCreatedProjects)
-        
-        commit("setUserProjects", userCreatedProjects);
-      });
+    getUserProjects({ commit, dispatch }, activeUser) {
+      api
+        .get(`users/${activeUser}/projects`)
+        .then(res => {
+          var userCreatedProjects = res.data;
+          console.log("user projects:", userCreatedProjects);
+          commit("setUserProjects", userCreatedProjects);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
+    deleteProject({ commit, dispatch }, project) {
+      var project_Id = project._id;
+      api
+        .delete(`projects/${project_Id}`)
+        .then(res => {
+          dispatch("getUserProjects", project.userId);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
     createProject({ commit, dispatch }, userId) {
       api
         .post("projects", {
