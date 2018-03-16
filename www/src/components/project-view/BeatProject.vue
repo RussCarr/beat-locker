@@ -4,7 +4,8 @@
     <div class="project">
 
       <div class="board p-1">
-        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"></beatTrack>
+        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
+          v-on:soloTrack="toggleSolo(beatTrack)"></beatTrack>
       </div>
 
     </div>
@@ -113,11 +114,10 @@
             var track = this.beatTracks[i]
             var stepSequence = track.stepSequence
 
-            if (stepSequence[index] === true) {
-              // Use slightly randomized velocities
-              var velocity = Math.random() * 0.5 + 0.5
-              var player = players.get(sampleNames[i])
+            // Get an instance of Tone.Player for the current track
+            var player = players.get(sampleNames[i])
 
+            if (stepSequence[index] === true) {
               var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion
               player.volume.input.value = volume // Update the volume setting
               player.volume.overridden = true // Apply the updated setting
@@ -125,9 +125,8 @@
               if (track.muted) {
                 player.mute = true // Mute the player
               }
-              
-              // console.log('player', player)
 
+              var velocity = Math.random() * 0.5 + 0.5 // Use slightly randomized velocities
               player.start(time, 0, "32n", 0, velocity)
             }
           }
@@ -157,7 +156,23 @@
       },
       toggleMute(track) {
         track.muted = track.muted ? false : true
-        console.log('track', track, 'muted', track.muted)
+      },
+      toggleSolo(track) {
+        if (track.solo) { // If removing 'solo' from a track...
+          track.solo = false
+          this.beatTracks.forEach(beatTrack => {
+            if (beatTrack._id !== track._id) {
+              beatTrack.muted = false // ... unmute all other tracks
+            }
+          })
+        } else { // If engaging 'solo' on a track...
+          track.solo = true
+          this.beatTracks.forEach(beatTrack => {
+            if (beatTrack._id !== track._id) {
+              beatTrack.muted = true // ... mute all other tracks
+            }
+          })
+        }
       }
     }
   }

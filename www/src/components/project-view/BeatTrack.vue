@@ -11,7 +11,7 @@
       </div>
       <div>
         <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
-        <div class="solo">solo</div>
+        <div class="solo" :class="{ 'engaged': solo }"  @click="soloTrack">solo</div>
       </div>
 
       <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount">
@@ -45,7 +45,13 @@
       return {
         stepSequence: this.beatTrack.stepSequence,
         faderSetting: this.beatTrack.faderSetting,
-        muted: false
+        muted: false,
+        solo: false
+      }
+    },
+    computed: {
+      projectTracks() {
+        return this.$store.state.activeTracks
       }
     },
     methods: {
@@ -84,8 +90,18 @@
         this.$store.dispatch('updateTrack', updatedTrack)
       },
       muteTrack() {
-        this.muted = this.muted ? false : true
-        this.$emit('muteTrack')
+        // Do not allow muting to be engaged if any track is currently 'solo'
+        if (!this.projectTracks.find(track => track.solo)) {
+          this.muted = this.muted ? false : true
+          this.$emit('muteTrack')
+        }
+      },
+      soloTrack() {
+        // Do not allow solo to be engaged if any other track is currently 'solo'
+        if (!this.projectTracks.find(track => track._id !== this.beatTrack._id && track.solo)) {
+          this.solo = this.solo ? false : true
+          this.$emit('soloTrack')
+        }
       }
     }
   }
@@ -135,7 +151,8 @@
     cursor: pointer;
   }
 
-  .mute.engaged {
+  .mute.engaged,
+  .solo.engaged {
     background-color: rgba(206, 33, 53, 1.0);
   }
 

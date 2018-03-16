@@ -63,6 +63,10 @@ var schema = new Schema({
   muted: {
     type: Boolean,
     default: false
+  },
+  solo: {
+    type: Boolean,
+    default: false
   }
 });
 
