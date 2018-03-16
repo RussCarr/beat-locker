@@ -38,7 +38,7 @@ var schema = new Schema({
     required: true,
     default: 120
   },
-  privacySetting: {
+  private: {
     type: Boolean,
     required: true,
     default: false

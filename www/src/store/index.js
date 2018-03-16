@@ -83,6 +83,10 @@ export default new vuex.Store({
     setUserProjects(state, userCreatedProject) {
       console.log("state", userCreatedProject);
       this.state.userProjects = userCreatedProject;
+    },
+    setAllUserProjects(state,allUserProjects) {
+      console.log("state", allUserProjects);
+      this.state.community = allUserProjects;
     }
   },
 
@@ -191,6 +195,17 @@ export default new vuex.Store({
           console.log(err);
         });
     },
+    getAllUserProjects({ commit, dispatch } ) {
+      api
+        .get(`projects`)
+        .then(res => {
+          console.log("user projects:", res.data);
+          commit("setAllUserProjects", res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     deleteProject({ commit, dispatch }, project) {
       var project_Id = project._id;
       api
@@ -204,7 +219,7 @@ export default new vuex.Store({
     },
     getProjectPrivacy({ commit, dispatch }, payload) {
       var setting = {
-        privacySetting: payload[1]
+        private: payload[1]
       };
       console.log("setting", setting, payload);
       api

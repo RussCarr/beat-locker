@@ -8,7 +8,7 @@
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            <!-- {{project.privacySetting}} -->
+            <!-- {{project.private}} -->
             <span v-if="!shared" >Private</span>
             <span v-if="shared" >Shared</span>
           </p>
@@ -51,7 +51,7 @@
     data() {
       return {
         showStats: false,
-        shared: this.project.privacySetting,
+        shared: this.project.private,
         // btnDisable: false
       
       }
@@ -68,13 +68,13 @@
         var payload = [this.project]
         if (shared == true) {
           var newStatus = true
-          // var sharedProject = payload.privacySetting
+          // var sharedProject = payload.private
           payload.push(newStatus)
           // console.log(payload,"payload shared")
           this.$store.dispatch('getProjectPrivacy', payload)
         } else {
           var newStatus = false
-          // var NotSharedProject = payload.privacySetting
+          // var NotSharedProject = payload.private
           payload.push(newStatus)
           // console.log(payload,"payload private")
           this.$store.dispatch('getProjectPrivacy', payload)
