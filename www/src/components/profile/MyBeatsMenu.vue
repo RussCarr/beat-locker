@@ -5,7 +5,7 @@
         <h2>My Beats</h2>
       </div>
     </div>
-    <myBeats :project='project' v-for='project in projects'></myBeats>
+    <myBeats :project='project' v-for='project in projects' :key='project._id'></myBeats>
   </div>
 </template>
 
