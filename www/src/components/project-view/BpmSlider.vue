@@ -1,7 +1,7 @@
 <template>
   <div>
-    <vue-slider ref='slider' v-bind="defaultSlider" class="mt-4" v-model="defaultSlider.value"></vue-slider>
-    
+    <vue-slider ref='slider' v-bind="config" v-model="value" @drag-end="bpmChange"></vue-slider>
+
   </div>
 </template>
 <script>
@@ -10,16 +10,27 @@
     components: {
       vueSlider
     },
+    props: ['setting'],
+    computed: {
+      value: {
+        get() {
+          return this.setting === this.config.value ? this.config.value : this.setting
+        },
+        set(value) {
+          this.config.value = value
+        }
+      }
+    },
     data() {
       return {
-        defaultSlider: {
-          value: 120,
+        config: {
+          value: 0,
           width: 'auto',
           height: 6,
           direction: 'horizontal',
           dotSize: 16,
           eventType: 'auto',
-          min: 40,
+          min: 0,
           max: 214,
           interval: 1,
           debug: process && process.env && process.env.NODE_ENV !== 'production',
@@ -27,7 +38,7 @@
           show: true,
           realTime: false,
           tooltip: 'hover',
-          clickable: true,
+          clickable: false,
           tooltipDir: 'top',
           piecewise: false,
           lazy: false,
@@ -40,10 +51,9 @@
             "backgroundColor": "#fff",
             "boxShadow": "inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)"
           },
-          sliderStyle:
-            {
-              "backgroundColor": "rgba(150, 16, 33, 1.0)"
-            },
+          sliderStyle: {
+            "backgroundColor": "rgba(150, 16, 33, 1.0)"
+          },
           tooltipStyle: {
             "backgroundColor": "rgba(206, 33, 53, 1.0)",
             "borderColor": "rgba(150, 16, 33, 1.0)"
@@ -55,10 +65,22 @@
           piecewiseStyle: null
         },
       }
-
     },
+    methods: {
+      bpmChange() {
+        this.$refs.slider.refresh()
+        this.$emit('bpmChange', this.config.value)
+      }
+    },
+    mounted() {
+      this.$refs.slider.refresh()
+      this.$refs.slider.setValue(this.$store.state.activeProject.bpmSetting)
+    }
   }
+
 </script>
 
 <style>
+
+
 </style>

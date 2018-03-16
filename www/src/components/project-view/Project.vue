@@ -20,14 +20,12 @@
 
 <script>
   import SideBar from '../SideBar'
-  import Slider from './Slider'
   import InstrumentDrop from './InstrumentDrop'
   import BeatProject from './BeatProject'
   export default {
     name: 'Project',
     components: {
       sidebar: SideBar,
-      slider: Slider,
       instrumentdrop: InstrumentDrop,
       beatProject: BeatProject
     },

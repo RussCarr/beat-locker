@@ -1,7 +1,7 @@
 <template>
   <div>
     <vue-slider ref='slider' v-bind="config" v-model="value" @drag-end="changeFader"></vue-slider>
-    
+
   </div>
 </template>
 <script>
@@ -10,7 +10,7 @@
     components: {
       vueSlider
     },
-    props: [ 'setting' ],
+    props: ['setting'],
     computed: {
       value: {
         get() {
@@ -24,7 +24,7 @@
     data() {
       return {
         config: {
-          value: 7,
+          value: 5,
           width: 'auto',
           height: 6,
           direction: 'horizontal',
@@ -51,10 +51,9 @@
             "backgroundColor": "#fff",
             "boxShadow": "inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)"
           },
-          sliderStyle:
-            {
-              "backgroundColor": "rgba(150, 16, 33, 1.0)"
-            },
+          sliderStyle: {
+            "backgroundColor": "rgba(150, 16, 33, 1.0)"
+          },
           tooltipStyle: {
             "backgroundColor": "rgba(206, 33, 53, 1.0)",
             "borderColor": "rgba(150, 16, 33, 1.0)"
@@ -73,7 +72,10 @@
       }
     }
   }
+
 </script>
 
 <style>
+
+
 </style>
