@@ -9,29 +9,26 @@
         <div class="col-6">
           <h1>Profile</h1>
         </div>
-            <div class="col-1">
-              <sidebar></sidebar>
-            </div>
+        <div class="col-1">
+          <sidebar></sidebar>
+        </div>
       </div>
       <div class="row">
-        
-          <div class="col-4">
-            <img class="my-5 ml-5" src="http://placehold.it/300x300">
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-              <input type="file" name="fileToUpload" id="fileToUpload">
-              <input type="submit" value="Upload Image" name="submit">
-            </form>
-          </div>
-          <div class="col-7 mt-5">
-            <ul>
-              <li>Name:  {user.name}</li>
-              <li>Age:  {user.name}</li>
-              <li>Bio:  {user.name}</li>
-              <li>Music Style:  {user.name}</li>
-              <li>Intrests:  {user.name}</li>
-            </ul>
-          </div>
-        
+
+        <div class="col-4">
+          <img class="my-5 ml-5" :src="user.imgUrl">
+          
+        </div>
+        <div class="col-7 mt-5">
+          <ul>
+            <li>Name: {{user.name}}</li>
+            <li>Age: {{user.age}}</li>
+            <li>Bio: {{user.bio}}</li>
+            <li>Music Style: {{user.style}}</li>
+            <li>Intrests: {{user.interests}}</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </div>
@@ -49,6 +46,11 @@
       sidebar: SideBar,
       userEditForm: UserEditForm
     },
+    computed: {
+      user() {
+        return this.$store.state.user
+      }
+    }
   }
 </script>
 

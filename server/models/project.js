@@ -39,10 +39,10 @@ var schema = new Schema({
     // default: 120
     default: 5
   },
-  privacySetting: {
-    type: String,
+  private: {
+    type: Boolean,
     required: true,
-    default: "private"
+    default: false
   },
   forkCount: {
     type: Number,

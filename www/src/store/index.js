@@ -83,6 +83,10 @@ export default new vuex.Store({
     setUserProjects(state, userCreatedProject) {
       console.log("state", userCreatedProject);
       this.state.userProjects = userCreatedProject;
+    },
+    setAllUserProjects(state,allUserProjects) {
+      console.log("state", allUserProjects);
+      this.state.community = allUserProjects;
     }
   },
 
@@ -179,12 +183,24 @@ export default new vuex.Store({
 
     // API
     getUserProjects({ commit, dispatch }, activeUser) {
+      console.log("get user projects:", activeUser);
       api
         .get(`users/${activeUser}/projects`)
         .then(res => {
           var userCreatedProjects = res.data;
           console.log("user projects:", userCreatedProjects);
           commit("setUserProjects", userCreatedProjects);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getAllUserProjects({ commit, dispatch } ) {
+      api
+        .get(`projects`)
+        .then(res => {
+          console.log("user projects:", res.data);
+          commit("setAllUserProjects", res.data);
         })
         .catch(err => {
           console.log(err);
@@ -203,13 +219,13 @@ export default new vuex.Store({
     },
     getProjectPrivacy({ commit, dispatch }, payload) {
       var setting = {
-        privacySetting: payload[1]
+        private: payload[1]
       };
-      console.log("setting", setting);
+      console.log("setting", setting, payload);
       api
         .put(`projects/${payload[0]._id}`, setting)
         .then(res => {
-          dispatch("getUserProjects", payload[0]._id);
+          dispatch("getUserProjects", payload[0].userId);
         })
         .catch(err => {
           console.log(err);

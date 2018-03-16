@@ -43,6 +43,7 @@
 
       }
     },
+    
     computed: {
       isHomeRoute() {
         return this.$route.path === "/Home" || this.$route.path === "/home"
@@ -66,6 +67,7 @@
         this.$router.push('Home')
       },
       community() {
+        this.$store.dispatch('getAllUserProjects')
         this.$router.push({ path: '/Explorer' })
       },
       home() {

@@ -19,11 +19,16 @@
     data() {
       return {
       // projects: this.$store.state.userProjects
+      updatedProjects:{}
       }
     },
     computed: {
       projects() {
         return this.$store.state.userProjects
+      },
+      updateProjects(){
+        return this.$store.dispatch('getUserProjects',project.userId)
+        console.log(project.userId)
       },
      
     },

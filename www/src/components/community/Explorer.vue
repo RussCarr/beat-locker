@@ -60,7 +60,10 @@
     },
     computed: {
       allSharedProjects() {
-        return this.$store.state.community
+        var communityData = this.$store.state.community;
+        console.log('communityData',communityData)
+        communityData.indexOf(privacy.true)
+
       }
     },
     methods: {
