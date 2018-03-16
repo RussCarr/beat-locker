@@ -25,6 +25,12 @@
 
       </div>
 
+      <div class="ml-3">
+        <a href="#" class="delete-track text-light" @click.prevent="deleteTrack">
+          <i class="fas fa-trash-alt fa-lg"></i>
+        </a>
+      </div>
+
     </div>
 
   </div>
@@ -103,6 +109,9 @@
           this.solo = this.solo ? false : true
           this.$emit('soloTrack')
         }
+      },
+      deleteTrack() {
+
       }
     }
   }

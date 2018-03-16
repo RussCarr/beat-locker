@@ -10,42 +10,50 @@
 
     </div>
 
-    <div class="bottom-controls">
-      <div class="controls mt-4">
-        <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
-          <button class="playStopButtons">
-            <i class="far fa-play-circle fa-3x"></i>
-          </button>
-        </a>
-        <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
-          <button class="playStopButtons">
-            <i class="far fa-stop-circle fa-3x"></i>
-          </button>
-        </a>
-      </div>
+    <div class="row">
 
-      <div class="bpm-slider-container mt-3 text-center">
-        <input type="range" min=40 max="214" v-model="bpmSetting" class="bpm-slider" @change="bpmChange">
-        <span class="bpm d-inline-block text-light mt-1"><small>BPM: {{bpmSetting}}</small></span>
-      </div>
-
-      <div class="text-left my-4">
-        <div v-if="!showTitleEdit">
-          <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
-          <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
-            <i class="fas fa-pencil-alt"></i>
+      <div class="col-4 mt-4 pr-5">
+        <button class="btn btn-sm btn-outline-light mr-2">add track</button>
+      </div>      
+  
+      <div class="bottom-controls col-8 pl-0 pr-4">
+        <div class="controls mt-4">
+          <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
+            <button class="playStopButtons">
+              <i class="far fa-play-circle fa-3x"></i>
+            </button>
+          </a>
+          <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
+            <button class="playStopButtons">
+              <i class="far fa-stop-circle fa-3x"></i>
+            </button>
           </a>
         </div>
-        <div v-if="showTitleEdit">
-          <input type="text" class="form-control" v-model="projectTitle">
-          <button class="btn btn-sm px-4" @click="updateTitle">save</button>
-          <button class="btn btn-sm px-4" @click="showTitleEdit = false">cancel</button>
+  
+        <div class="bpm-slider-container mt-3 text-center">
+          <input type="range" min=40 max="214" v-model="bpmSetting" class="bpm-slider" @change="bpmChange">
+          <span class="bpm d-inline-block text-light mt-1"><small>BPM: {{bpmSetting}}</small></span>
         </div>
-
-        <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
+  
+        <div class="text-left my-4">
+          <div v-if="!showTitleEdit">
+            <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
+            <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+          </div>
+          <div v-if="showTitleEdit">
+            <input type="text" class="form-control" v-model="projectTitle">
+            <button class="btn btn-sm px-4" @click="updateTitle">save</button>
+            <button class="btn btn-sm px-4" @click="showTitleEdit = false">cancel</button>
+          </div>
+  
+          <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
+        </div>
       </div>
-    </div>
 
+    </div>
+    
 
   </div>
 </template>
@@ -201,8 +209,8 @@
 
 <style>
   .bottom-controls {
-    min-width: 100%;
-    padding-left: 37%;
+    /* min-width: 100%;
+    padding-left: 37%; */
   }
 
   .playStopButtons {
