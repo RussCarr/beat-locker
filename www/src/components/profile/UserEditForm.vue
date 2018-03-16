@@ -21,28 +21,28 @@
 
               <div class="modal-body">
 
-                  <form action="#" class="border border-secondary" @submit.prevent="submit">
-                    <div class="form-group">
-                      <label class="ml-4" for="username">Name: </label>
-                      <input type="text" id="username" class="form-control" v-model="user.name" placeholder="My Name">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="email">Email: </label>
-                      <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="password">Password: </label>
-                      <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="imgUrl">Image URL: </label>
-                      <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="bio">Brief bio: </label>
-                      <textarea type="text" id="bio" class="form-control" v-model="user.bio"  rows="3" placeholder="Who I am..."></textarea>
-                    </div>
-                  </form>
+                <form action="#" class="border border-secondary" @submit.prevent="submit">
+                  <div class="form-group">
+                    <label class="ml-4" for="username">Name: </label>
+                    <input type="text" id="username" class="form-control" v-model="user.name" placeholder="My Name">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="email">Email: </label>
+                    <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="password">Password: </label>
+                    <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="imgUrl">Image URL: </label>
+                    <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="bio">Brief bio: </label>
+                    <textarea type="text" id="bio" class="form-control" v-model="user.bio" rows="3" placeholder="Who I am..."></textarea>
+                  </div>
+                </form>
 
               </div>
 
@@ -100,13 +100,8 @@
     color: black;
     color: rgba(251, 251, 251, 1.0);
   }
-  div {
-    outline-color: blueviolet;
-    outline-style: dotted;
-    outline-width: 1px;
-  }
 
-    .okButton {
+  .okButton {
     background-color: rgba(57, 123, 172, 1.0);
     border-color: rgba(33, 92, 136, 1.0);
     transition: all;
