@@ -59,6 +59,10 @@ var schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true
+  },
+  muted: {
+    type: Boolean,
+    default: false
   }
 });
 
