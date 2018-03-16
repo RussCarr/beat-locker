@@ -10,7 +10,7 @@
         <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
       </div>
       <div>
-        <div class="mute">mute</div>
+        <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
         <div class="solo">solo</div>
       </div>
 
@@ -44,7 +44,8 @@
     data() {
       return {
         stepSequence: this.beatTrack.stepSequence,
-        faderSetting: this.beatTrack.faderSetting
+        faderSetting: this.beatTrack.faderSetting,
+        muted: false
       }
     },
     methods: {
@@ -81,6 +82,10 @@
           stepSequence: this.stepSequence
         }
         this.$store.dispatch('updateTrack', updatedTrack)
+      },
+      muteTrack() {
+        this.muted = this.muted ? false : true
+        this.$emit('muteTrack')
       }
     }
   }
@@ -128,6 +133,10 @@
   .mute:hover,.mute:active {
     background-color: rgba(206, 33, 53, 1.0);
     cursor: pointer;
+  }
+
+  .mute.engaged {
+    background-color: rgba(206, 33, 53, 1.0);
   }
 
   .step {

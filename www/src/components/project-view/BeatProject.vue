@@ -4,7 +4,7 @@
     <div class="project">
 
       <div class="board p-1">
-        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack"></beatTrack>
+        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"></beatTrack>
       </div>
 
     </div>
@@ -87,7 +87,7 @@
       play() {
         this.isPlaying = true
 
-        // Note: For audio files, you MUST use 'require' a literal string-value to get Webpack to recognize the resource as a file path and locate it!!!!
+        // Note: For audio files, you MUST 'require' a literal string-value to get Webpack to recognize the resource as a file path and locate it!!!!
         var requiredSamples = samplePaths
 
         var samples = {}
@@ -110,21 +110,23 @@
         // Create the beat sequence
         this.loop = new Tone.Sequence((time, index) => {
           for (var i = 0; i < this.beatTracks.length; i++) {
-            var track = this.beatTracks[i].stepSequence
+            var track = this.beatTracks[i]
+            var stepSequence = track.stepSequence
 
-            if (track[index] === true) {
+            if (stepSequence[index] === true) {
               // Use slightly randomized velocities
               var velocity = Math.random() * 0.5 + 0.5
               var player = players.get(sampleNames[i])
-              // player.mute = true // <-- THIS WILL MUTE THE PLAYER
-              // player.volume.input.value = 1e-2 // <-- THIS WILL UPDATE THE VOLUME SETTING (range is 3.4e-38 to 3.4e+38)
-              // player.volume.overridden = true // <-- THIS WILL APPLY AN UPDATED VOLUME SETTING
 
-              var volume = Math.pow(2, this.beatTracks[i].faderSetting) * 0.01
-              player.volume.input.value = volume
-              player.volume.overridden = true
+              var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion
+              player.volume.input.value = volume // Update the volume setting
+              player.volume.overridden = true // Apply the updated setting
+
+              if (track.muted) {
+                player.mute = true // Mute the player
+              }
               
-              console.log('player', player)
+              // console.log('player', player)
 
               player.start(time, 0, "32n", 0, velocity)
             }
@@ -133,8 +135,6 @@
 
         Tone.Transport.start()
         this.loop.start()
-
-
       },
       stop() {
         this.loop.stop()
@@ -154,6 +154,10 @@
           tracks: this.beatTracks
         }
         this.$store.dispatch('saveProject', data)
+      },
+      toggleMute(track) {
+        track.muted = track.muted ? false : true
+        console.log('track', track, 'muted', track.muted)
       }
     }
   }
