@@ -7,10 +7,10 @@
         <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
       </div>
       <div class="track-volume"> 
-        <volumeSlider></volumeSlider>
+        <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
       </div>
-      <div class="muteSolo">
-        <div class="mute">mute</div>
+      <div>
+        <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
         <div class="solo">solo</div>
       </div>
 
@@ -43,7 +43,9 @@
     props: ['beatTrack'],
     data() {
       return {
-        stepSequence: this.beatTrack.stepSequence
+        stepSequence: this.beatTrack.stepSequence,
+        faderSetting: this.beatTrack.faderSetting,
+        muted: false
       }
     },
     methods: {
@@ -71,6 +73,19 @@
           stepSequence: this.stepSequence
         }
         this.$store.dispatch('updateTrack', updatedTrack)
+      },
+      faderChange(value) {
+        this.faderSetting = value
+        var updatedTrack = {
+          '_id': this.beatTrack._id,
+          faderSetting: value,
+          stepSequence: this.stepSequence
+        }
+        this.$store.dispatch('updateTrack', updatedTrack)
+      },
+      muteTrack() {
+        this.muted = this.muted ? false : true
+        this.$emit('muteTrack')
       }
     }
   }
@@ -88,18 +103,40 @@
     max-width: 50px;
   }
 
-  .muteSolo {
+  .solo {
     color: rgba(251, 251, 251, 1.0);
     font-size: .7rem;
     outline-color: rgba(251, 251, 251, 1.0);
     outline-style: solid;
     outline-width: 1px;
+    padding-left:.2rem;
+    padding-right: .2rem;
+    margin-right: .4rem;
+  }
+
+  .solo:hover,.solo:active{
+    background-color: rgba(206, 33, 53, 1.0);
+    cursor: pointer;
   }
 
   .mute {
+    color: rgba(251, 251, 251, 1.0);
+    font-size: .7rem;
     outline-color: rgba(251, 251, 251, 1.0);
     outline-style: solid;
     outline-width: 1px;
+    padding-left:.2rem;
+    padding-right: .2rem;
+    margin-right: .4rem;
+  }
+
+  .mute:hover,.mute:active {
+    background-color: rgba(206, 33, 53, 1.0);
+    cursor: pointer;
+  }
+
+  .mute.engaged {
+    background-color: rgba(206, 33, 53, 1.0);
   }
 
   .step {
@@ -109,7 +146,7 @@
   }
 
   .selected {
-    background-color: tomato;
+    background-color: rgba(229, 140, 148, 1.0);
   }
 
   .scrolling-wrapper {

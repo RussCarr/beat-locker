@@ -89,7 +89,6 @@
 
   .register {
     width: 95%;
-    background-position: center;
     background-color: rgba(206, 33, 53, 1.0);
     padding-top: 2rem;
     padding-bottom: 2rem;

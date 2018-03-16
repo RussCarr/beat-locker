@@ -15,6 +15,16 @@ router.post("/api/tracks", (req, res, next) => {
     .catch(next);
 });
 
+// Get a Track by ID
+router.get("/api/tracks/:trackId", (req, res, next) => {
+  track
+    .findById(req.params.trackId)
+    .then(track => {
+      res.send(track);
+    })
+    .catch(next);
+});
+
 // Update a Track by ID
 router.put("/api/tracks/:trackId", (req, res, next) => {
   track

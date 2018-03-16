@@ -4,7 +4,7 @@
       <div class="col">
         <div class="col-sm-10"></div>
         <div class="col-sm-2  d-flex">
-          <h6 @click="openSideBar" @OpenSideBar="openSideBar" class="sideBarLayout">
+          <h6 @click="openSideBar" @OpenSideBar="openSideBar" class="sideBarLayout edit-profile-cursor">
             <i class="far fa-edit"></i>Edit Profile</h6>
         </div>
       </div>
@@ -20,36 +20,39 @@
               </div>
 
               <div class="modal-body">
-                <div class="container mt-4">
-                  <form action="#" class="border border-secondary rounded p-4" @submit.prevent="submit">
-                    <div class="form-group">
-                      <label class="ml-4" for="username">Name: </label>
-                      <input type="text" id="username" class="form-control" v-model="user.name" placeholder="My Name">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="email">Email: </label>
-                      <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="password">Password: </label>
-                      <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="imgUrl">Image URL: </label>
-                      <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
-                    </div>
-                    <div class="form-group">
-                      <label class="ml-4" for="bio">Brief bio: </label>
-                      <input type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Who I am...">
-                    </div>
-                  </form>
-                </div>
+
+                <form action="#" class="border border-secondary" @submit.prevent="submit">
+                  <div class="form-group">
+                    <label class="ml-4" for="username">Name: </label>
+                    <input type="text" id="username" class="form-control" v-model="user.name" placeholder="My Name">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="email">Email: </label>
+                    <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="password">Password: </label>
+                    <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="imgUrl">Image URL: </label>
+                    <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="bio">Brief bio: </label>
+                    <textarea type="text" id="bio" class="form-control" v-model="user.bio" rows="3" placeholder="Who I am..."></textarea>
+                  </div>
+                </form>
+
               </div>
 
               <div class="modal-footer">
                 <div name="footer">
-                  <button class="modal-default-button" @click="close">
+                  <button class="btn btn-primary okButton px-4" @click="close">
                     OK
+                  </button>
+                  <button class="btn btn-secondary px-4" @click="close">
+                    Close
                   </button>
                 </div>
               </div>
@@ -95,10 +98,34 @@
 <style>
   .form-group {
     color: black;
+    color: rgba(251, 251, 251, 1.0);
+  }
+
+  .okButton {
+    background-color: rgba(57, 123, 172, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+    transition: all;
+    transition-duration: 400ms;
+  }
+
+  .okButton:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .okButton:active,
+  .okButton:visited,
+  .okButton:focus {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
   }
 
   .sidebar {
     display: flex
+  }
+
+  .edit-profile-cursor {
+    cursor: pointer;
   }
 
   .modal-mask {
@@ -121,9 +148,10 @@
   .modal-container {
     width: 800px;
     margin: 0px auto;
-    padding: 20px 30px;
-    background-color: #fff;
-    border-radius: 2px;
+    background-color: rgba(206, 33, 53, 1.0);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
@@ -131,11 +159,17 @@
 
   .modal-header h3 {
     margin-top: 0;
-    color: black;
+    color: rgba(251, 251, 251, 1.0);
+    border-bottom-color:  rgba(206, 33, 53, 1.0);
+  }
+
+  .modal-footer {
+    border-top-color:  rgba(206, 33, 53, 1.0);
   }
 
   .modal-body {
-    margin: 20px 0;
+    background-color: rgba(55, 37, 41, 1.0);
+    color: rgba(251, 251, 251, 1.0);
   }
 
   .modal-default-button {
