@@ -10,7 +10,7 @@
         <img class="user-image" @click='userProfile' src="../assets/images/user-user.png">
       </div>
       <div class="col-sm-2 user">
-        <div class="h5 text-light">{{user.name}}</div>
+        <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
       </div>
     </div>
     <div class="row">
@@ -19,8 +19,8 @@
           New Project
         </div>
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="!isHomeRoute" @click="home">
-            Home
-          </div>
+          Home
+        </div>
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
           Community
         </div>
@@ -56,7 +56,7 @@
         this.$store.dispatch('logoutUser')
       },
       userProfile() {
-        this.$router.push({path: '/UserProfile'})
+        this.$router.push({ path: '/UserProfile' })
       },
       help() {
         this.$router.push('Help')
@@ -66,10 +66,10 @@
         this.$router.push('Home')
       },
       community() {
-        this.$router.push({path: '/Explorer'})
+        this.$router.push({ path: '/Explorer' })
       },
       home() {
-        this.$router.push({path: '/home'})
+        this.$router.push({ path: '/home' })
       }
     }
   }
@@ -89,9 +89,13 @@
     text-align: center;
   }
 
+  .user-name {
+    cursor: pointer;
+  } 
+
   .logo {
-    width: 90%;  
-    max-width: 500px; 
+    width: 90%;
+    max-width: 500px;
   }
 
   .logo:hover {
@@ -120,15 +124,15 @@
     margin: 0;
     color: (251, 251, 251, 1.0);
     color: rgba(251, 251, 251, 1.0);
-    background-color:rgba(55, 37, 41, 1.0);
-    border-bottom-color:  rgba(180, 26, 44, 1.0);
+    background-color: rgba(55, 37, 41, 1.0);
+    border-bottom-color: rgba(180, 26, 44, 1.0);
     border-bottom-style: solid;
     border-bottom-width: 1px;
   }
 
   .SubNavlink:hover {
     cursor: pointer;
-    background-color: rgba(180, 26, 44, 1.0) ;
+    background-color: rgba(180, 26, 44, 1.0);
   }
 
   .user-image {
@@ -137,5 +141,6 @@
     padding: 2px;
     width: 100px;
     height: 100px;
+    cursor: pointer;
   }
 </style>
