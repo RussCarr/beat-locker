@@ -4,7 +4,7 @@
       <div class="col">
         <div class="col-sm-10"></div>
         <div class="col-sm-2  d-flex">
-          <h6 @click="openSideBar" @OpenSideBar="openSideBar" class="sideBarLayout">
+          <h6 @click="openSideBar" @OpenSideBar="openSideBar" class="sideBarLayout edit-profile-cursor">
             <i class="far fa-edit"></i>Edit Profile</h6>
         </div>
       </div>
@@ -124,6 +124,10 @@
     display: flex
   }
 
+  .edit-profile-cursor {
+    cursor: pointer;
+  }
+
   .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -156,6 +160,11 @@
   .modal-header h3 {
     margin-top: 0;
     color: rgba(251, 251, 251, 1.0);
+    border-bottom-color:  rgba(206, 33, 53, 1.0);
+  }
+
+  .modal-footer {
+    border-top-color:  rgba(206, 33, 53, 1.0);
   }
 
   .modal-body {
