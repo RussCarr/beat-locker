@@ -4,13 +4,13 @@
       <div class="col-2 mr-2">
         <div class="">
           <label class="switch">
-            <input type="checkbox" @change="showShared(shared,project)" v-model="shared">
+            <input type="checkbox" v-model="shared" >
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            {{project.privacySetting}}
-            <!-- <span v-if="!shared">Private</span>
-            <span v-if="shared">Shared</span> -->
+            <!-- {{project.privacySetting}} -->
+            <span v-if="!shared" >Private</span>
+            <span v-if="shared" >Shared</span>
           </p>
         </div>
       </div>
@@ -51,13 +51,34 @@
     data() {
       return {
         showStats: false,
-        shared: false,
+        shared: this.project.privacySetting,
         // btnDisable: false
+      
       }
     },
     computed: {
       disable() {
         return this.$store.state.userProjects.length === 1
+      },
+      
+    },
+    watch: {
+      shared: function(shared) {
+        // console.log('adsf',shared,this.project)
+        var payload = [this.project]
+        if (shared == true) {
+          var newStatus = true
+          // var sharedProject = payload.privacySetting
+          payload.push(newStatus)
+          // console.log(payload,"payload shared")
+          this.$store.dispatch('getProjectPrivacy', payload)
+        } else {
+          var newStatus = false
+          // var NotSharedProject = payload.privacySetting
+          payload.push(newStatus)
+          // console.log(payload,"payload private")
+          this.$store.dispatch('getProjectPrivacy', payload)
+        }
       }
     },
     props: [
@@ -70,31 +91,7 @@
       showTrackStats() {
         this.showStats = true
       },
-      showShared(shared,project) {
-        console.log('adsf',project)
-        var payload = [project]
-        if (shared == true) {
-          var newStatus = "Shared"
-          // var sharedProject = payload.privacySetting
-          payload.push(newStatus)
-          console.log(payload,"payload shared")
-          this.$store.dispatch('getProjectPrivacy', payload)
-        } else {
-          var newStatus = "Private"
-          // var NotSharedProject = payload.privacySetting
-          payload.push(newStatus)
-          console.log(payload,"payload private")
-          this.$store.dispatch('getProjectPrivacy', payload)
-        }
-      },
-      // showShared2(shared) {
-      //   var project = project.privacySetting
-      //   if (shared = true) {
-
-      //   } else {
-
-      //   }
-      // },
+   
       deleteProject(project) {
         this.$store.dispatch('deleteProject', project)
       }

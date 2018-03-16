@@ -39,9 +39,9 @@ var schema = new Schema({
     default: 120
   },
   privacySetting: {
-    type: String,
+    type: Boolean,
     required: true,
-    default: "private"
+    default: false
   },
   forkCount: {
     type: Number,

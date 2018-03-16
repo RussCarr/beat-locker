@@ -179,6 +179,7 @@ export default new vuex.Store({
 
     // API
     getUserProjects({ commit, dispatch }, activeUser) {
+      console.log("get user projects:", activeUser);
       api
         .get(`users/${activeUser}/projects`)
         .then(res => {
@@ -205,11 +206,11 @@ export default new vuex.Store({
       var setting = {
         privacySetting: payload[1]
       };
-      console.log("setting", setting);
+      console.log("setting", setting, payload);
       api
         .put(`projects/${payload[0]._id}`, setting)
         .then(res => {
-          dispatch("getUserProjects", payload[0]._id);
+          dispatch("getUserProjects", payload[0].userId);
         })
         .catch(err => {
           console.log(err);
