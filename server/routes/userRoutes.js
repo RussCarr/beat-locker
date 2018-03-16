@@ -63,4 +63,14 @@ function deleteuser(req, res, next) {
     .catch(next);
 }
 
+//EDIT USER as put
+router.put("/api/users/:userId", editUser);
+function editUser(req, res, next) {
+  user.findByIdAndUpdate(req.params.userId)
+  .then(user => {
+    res.send(user);
+  })
+  .catch(next);
+}
+
 module.exports = { router };

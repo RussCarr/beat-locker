@@ -43,6 +43,7 @@
 
       }
     },
+    
     computed: {
       isHomeRoute() {
         return this.$route.path === "/Home" || this.$route.path === "/home"
