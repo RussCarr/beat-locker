@@ -12,30 +12,30 @@
         </div>
         <div class="col-12 mt-3">
           Sort by...
-         
+
           <div class="col-12 mt-3">
-              
-              <select>
-                <option>Top 10 Forked</option>
-                <option>Top 10 Shared</option>
-                <option>Top 10 Newly Created</option>
-                <option>Top 10 of 2017</option>
-              </select>
-              
-            </div>
+
+            <select>
+              <option>Top 10 Forked</option>
+              <option>Top 10 Shared</option>
+              <option>Top 10 Newly Created</option>
+              <option>Top 10 of 2017</option>
+            </select>
+
+          </div>
         </div>
       </div>
       <div class="col-8 text-center">
         Sorted by {Catagory}
-        <sharedTracks class="mt-4"></sharedTracks>
+        <sharedProjects :allSharedProject='allSharedProject' class="mt-4" v-for="allSharedProject in allSharedProjects" :key='allSharedProject._id'></sharedProjects>
 
       </div>
       <div class="col-0">
-        
+
       </div>
       <div class="col-0">
-        
-        </div>
+
+      </div>
     </div>
 
   </div>
@@ -44,18 +44,23 @@
 <script>
   import Navbar from '../Navbar'
   import SideBar from '../SideBar'
-  import SharedTracks from './SharedTracks'
-   export default {
+  import SharedProjects from './SharedProjects'
+  export default {
     name: 'Explorer',
     components: {
       navbar: Navbar,
-           sidebar: SideBar,
-           sharedTracks: SharedTracks,
+      sidebar: SideBar,
+      sharedProjects: SharedProjects,
 
     },
     data() {
       return {
 
+      }
+    },
+    computed: {
+      allSharedProjects() {
+        return this.$store.state.community
       }
     },
     methods: {

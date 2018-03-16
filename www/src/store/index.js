@@ -31,7 +31,27 @@ export default new vuex.Store({
     },
     activeProject: {},
     activeTracks: [],
-    userProjects: []
+    userProjects: [],
+    community: {
+      0: {
+        barCount: 4,
+        faderSetting: 50,
+        instrumentName: "clap-808",
+        instrumentSamplePath: "./../../assets/audio/clap-808.wav",
+        projectId: "5aabb45f5ba70c02c0f9acfe",
+        stepSequence: [false, false],
+        stepsPerBar: 4,
+        title: "Untitled Project",
+        trackIds: [
+          "5aabb45f5ba70c02c0f9acff",
+          "5aabb4605ba70c02c0f9ad00",
+          "5aabb4605ba70c02c0f9ad01",
+          "5aabb4605ba70c02c0f9ad02"
+        ],
+        userId: "5aaac27ef6130629ac4c2e0e",
+        _id: "5aabb45f5ba70c02c0f9acff"
+      }
+    }
   },
 
   mutations: {
@@ -176,6 +196,20 @@ export default new vuex.Store({
         .delete(`projects/${project_Id}`)
         .then(res => {
           dispatch("getUserProjects", project.userId);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getProjectPrivacy({ commit, dispatch }, payload) {
+      var setting = {
+        privacySetting: payload[1]
+      };
+      console.log("setting", setting);
+      api
+        .put(`projects/${payload[0]._id}`, setting)
+        .then(res => {
+          dispatch("getUserProjects", payload[0]._id);
         })
         .catch(err => {
           console.log(err);

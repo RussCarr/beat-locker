@@ -4,12 +4,13 @@
       <div class="col-2 mr-2">
         <div class="">
           <label class="switch">
-            <input type="checkbox" @change="showShared" v-model="shared">
+            <input type="checkbox" @change="showShared(shared,project)" v-model="shared">
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            <span v-if="!shared">Private</span>
-            <span v-if="shared">Shared</span>
+            {{project.privacySetting}}
+            <!-- <span v-if="!shared">Private</span>
+            <span v-if="shared">Shared</span> -->
           </p>
         </div>
       </div>
@@ -55,8 +56,8 @@
       }
     },
     computed: {
-      disable(){
-      return this.$store.state.userProjects.length===1
+      disable() {
+        return this.$store.state.userProjects.length === 1
       }
     },
     props: [
@@ -69,9 +70,31 @@
       showTrackStats() {
         this.showStats = true
       },
-      showShared() {
-        this.showShared = true
+      showShared(shared,project) {
+        console.log('adsf',project)
+        var payload = [project]
+        if (shared == true) {
+          var newStatus = "Shared"
+          // var sharedProject = payload.privacySetting
+          payload.push(newStatus)
+          console.log(payload,"payload shared")
+          this.$store.dispatch('getProjectPrivacy', payload)
+        } else {
+          var newStatus = "Private"
+          // var NotSharedProject = payload.privacySetting
+          payload.push(newStatus)
+          console.log(payload,"payload private")
+          this.$store.dispatch('getProjectPrivacy', payload)
+        }
       },
+      // showShared2(shared) {
+      //   var project = project.privacySetting
+      //   if (shared = true) {
+
+      //   } else {
+
+      //   }
+      // },
       deleteProject(project) {
         this.$store.dispatch('deleteProject', project)
       }
