@@ -25,7 +25,8 @@
             <li>Age: {{user.age}}</li>
             <li>Bio: {{user.bio}}</li>
             <li>Music Style: {{user.style}}</li>
-            <li>Intrests: {{user.interests}}</li>
+            <li>Interests: {{user.interests}}</li>
+            <li>Music Styles: {{user.musicStyle}}</li>
           </ul>
         </div>
 

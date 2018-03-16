@@ -47,8 +47,28 @@
                     <input type="text" id="interests" class="form-control" v-model="user.interests" placeholder="Interests">
                   </div>
                   <div class="form-group">
-                      <label class="ml-4" for="age">Age: </label>
-                      <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+                    <label class="ml-4" for="age">Age: </label>
+                    <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+                  </div>
+                  <div class="form-group">
+                      <label for="musicStyle">Select genre</label>
+                      <select class="form-control" id="musicStyle">
+                        <option>African</option>
+                        <option>Asian</option>
+                        <option>Blues</option>
+                        <option>Caribbean</option>
+                        <option>Country</option>
+                        <option>Easy listening</option>
+                        <option>Electronic</option>
+                        <option>Blues</option>
+                        <option>Folk</option>
+                        <option>Hip hop</option>
+                        <option>Jazz</option>
+                        <option>Latin</option>
+                        <option>Pop</option>
+                        <option>R&B and soul</option>
+                        <option>Rock</option>
+                      </select>
                     </div>
                 </form>
 
@@ -56,7 +76,7 @@
 
               <div class="modal-footer">
                 <div name="footer">
-                  <button class="btn btn-primary okButton px-4" @click="close">
+                  <button type="submit" class="btn btn-primary okButton px-4" @click.prevent="submit" @click="close">
                     OK
                   </button>
                   <button class="btn btn-secondary px-4" @click="close">
@@ -89,7 +109,7 @@
     },
     methods: {
       submit() {
-        this.$store.dispatch('registerUser', this.user)
+        this.$store.dispatch('editUser', this.user)
       },
       close() {
         this.showSideBar = false
