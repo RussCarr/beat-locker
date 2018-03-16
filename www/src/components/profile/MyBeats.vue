@@ -20,7 +20,7 @@
         <button @click='closeTrackStats' class="btn btn-sm btn-dark">></button>
       </div>
       <div class="col-1">
-        <button @click='deleteProject' class="btn btn-sm btn-danger">Delete</button>
+        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger">Delete</button>
       </div>
     </div>
     <div class="trackStats" v-if="showStats">
@@ -50,11 +50,14 @@
     data() {
       return {
         showStats: false,
-        shared: false
+        shared: false,
+        // btnDisable: false
       }
     },
     computed: {
-
+      disable(){
+      return this.$store.state.userProjects.length===1
+      }
     },
     props: [
       'project'
@@ -69,8 +72,8 @@
       showShared() {
         this.showShared = true
       },
-      deleteProject() {
-        
+      deleteProject(project) {
+        this.$store.dispatch('deleteProject', project)
       }
     }
   }

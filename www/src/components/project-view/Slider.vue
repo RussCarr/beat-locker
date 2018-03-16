@@ -36,10 +36,22 @@
           speed: 0.5,
           formatter: null,
           focusStyle: null,
-          bgStyle: null,
-          sliderStyle: null,
-          tooltipStyle: null,
-          processStyle: null,
+          bgStyle: {
+            "backgroundColor": "#fff",
+            "boxShadow": "inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)"
+          },
+          sliderStyle:
+            {
+              "backgroundColor": "rgba(150, 16, 33, 1.0)"
+            },
+          tooltipStyle: {
+            "backgroundColor": "rgba(206, 33, 53, 1.0)",
+            "borderColor": "rgba(150, 16, 33, 1.0)"
+          },
+          processStyle: {
+            "backgroundColor": "rgba(206, 33, 53, 1.0)",
+            "boxShadow": "inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)"
+          },
           piecewiseStyle: null
         },
       }

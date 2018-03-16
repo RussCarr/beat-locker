@@ -9,7 +9,7 @@
       <div class="track-volume"> 
         <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
       </div>
-      <div class="muteSolo">
+      <div>
         <div class="mute">mute</div>
         <div class="solo">solo</div>
       </div>
@@ -98,18 +98,36 @@
     max-width: 50px;
   }
 
-  .muteSolo {
+  .solo {
     color: rgba(251, 251, 251, 1.0);
     font-size: .7rem;
     outline-color: rgba(251, 251, 251, 1.0);
     outline-style: solid;
     outline-width: 1px;
+    padding-left:.2rem;
+    padding-right: .2rem;
+    margin-right: .4rem;
+  }
+
+  .solo:hover,.solo:active{
+    background-color: rgba(206, 33, 53, 1.0);
+    cursor: pointer;
   }
 
   .mute {
+    color: rgba(251, 251, 251, 1.0);
+    font-size: .7rem;
     outline-color: rgba(251, 251, 251, 1.0);
     outline-style: solid;
     outline-width: 1px;
+    padding-left:.2rem;
+    padding-right: .2rem;
+    margin-right: .4rem;
+  }
+
+  .mute:hover,.mute:active {
+    background-color: rgba(206, 33, 53, 1.0);
+    cursor: pointer;
   }
 
   .step {
@@ -119,7 +137,7 @@
   }
 
   .selected {
-    background-color: tomato;
+    background-color: rgba(229, 140, 148, 1.0);
   }
 
   .scrolling-wrapper {
