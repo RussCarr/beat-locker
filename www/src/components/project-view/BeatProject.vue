@@ -5,46 +5,55 @@
 
       <div class="board p-1">
         <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
-          v-on:soloTrack="toggleSolo(beatTrack)"></beatTrack>
+          v-on:soloTrack="toggleSolo(beatTrack)" v-on:stopPlayback="stop"></beatTrack>
       </div>
 
     </div>
 
-    <div class="bottom-controls">
-      <div>
-        <slider></slider>
-      </div>
+    <div class="row">
 
-      <div class="controls mt-4">
-        <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
-          <button class="playStopButtons">
-            <i class="far fa-play-circle fa-3x"></i>
-          </button>
-        </a>
-        <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
-          <button class="playStopButtons">
-            <i class="far fa-stop-circle fa-3x"></i>
-          </button>
-        </a>
-      </div>
-
-      <div class="text-left my-4">
-        <div v-if="!showTitleEdit">
-          <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
-          <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
-            <i class="fas fa-pencil-alt"></i>
+      <div class="col-4 mt-4 pr-5">
+        <button class="btn btn-sm btn-outline-light mr-2">add track</button>
+      </div>      
+  
+      <div class="bottom-controls col-8 pl-0 pr-4">
+        <div class="controls mt-4">
+          <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
+            <button class="playStopButtons">
+              <i class="far fa-play-circle fa-3x"></i>
+            </button>
+          </a>
+          <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
+            <button class="playStopButtons">
+              <i class="far fa-stop-circle fa-3x"></i>
+            </button>
           </a>
         </div>
-        <div v-if="showTitleEdit">
-          <input type="text" class="form-control" v-model="projectTitle">
-          <button class="btn btn-sm px-4" @click="updateTitle">save</button>
-          <button class="btn btn-sm px-4" @click="showTitleEdit = false">cancel</button>
+  
+        <div class="bpm-slider-container mt-3 text-center">
+          <input type="range" min=40 max="214" v-model="bpmSetting" class="bpm-slider" @change="bpmChange">
+          <span class="bpm d-inline-block text-light mt-1"><small>BPM: {{bpmSetting}}</small></span>
         </div>
-
-        <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
+  
+        <div class="text-left my-4">
+          <div v-if="!showTitleEdit">
+            <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
+            <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+          </div>
+          <div v-if="showTitleEdit">
+            <input type="text" class="form-control" v-model="projectTitle">
+            <button class="btn btn-sm px-4" @click="updateTitle">save</button>
+            <button class="btn btn-sm px-4" @click="showTitleEdit = false">cancel</button>
+          </div>
+  
+          <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
+        </div>
       </div>
-    </div>
 
+    </div>
+    
 
   </div>
 </template>
@@ -53,12 +62,10 @@
   import Tone from 'tone'
   import BeatTrack from './BeatTrack'
   import samplePaths from './samplePaths.js'
-  import Slider from './Slider'
   export default {
     name: 'BeatProject',
     components: {
-      beatTrack: BeatTrack,
-      slider: Slider
+      beatTrack: BeatTrack
     },
     data() {
       return {
@@ -66,6 +73,7 @@
         showTitleEdit: false,
         loop: {},
         isPlaying: false,
+        bpmSetting: 120
       }
     },
     computed: {
@@ -75,6 +83,14 @@
         },
         set(value) {
           this.updatedProjectTitle = value
+        }
+      },
+      bpmStoredSetting: {
+        get() {
+          return this.$store.state.activeProject.bpmSetting
+        },
+        set(value) {
+          this.bpmSetting = value
         }
       },
       beatTracks() {
@@ -118,7 +134,7 @@
             var player = players.get(sampleNames[i])
 
             if (stepSequence[index] === true) {
-              var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion
+              var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion (customized)
               player.volume.input.value = volume // Update the volume setting
               player.volume.overridden = true // Apply the updated setting
 
@@ -132,20 +148,15 @@
           }
         }, events, subdivision)
 
-        Tone.Transport.start()
-        this.loop.start()
+        Tone.Transport.bpm.value = this.project.bpmSetting // Set beats-per-minute
+        console.log('bpm setting', this.project.bpmSetting, 'Tone.Transport.bpm.value', Tone.Transport.bpm.value)
+
+        Tone.Transport.start() // Start ToneJS's core time-keeper
+        this.loop.start() // Start the loop play-back
       },
       stop() {
         this.loop.stop()
         this.isPlaying = false
-      },
-      updateTitle() {
-        var data = {
-          projectId: this.project._id,
-          newTitle: this.projectTitle
-        }
-        this.$store.dispatch('updateProjectTitle', data)
-        this.showTitleEdit = false
       },
       saveProject() {
         var data = {
@@ -173,6 +184,23 @@
             }
           })
         }
+      },
+      updateTitle() {
+        var updatedProject = {
+          '_id': this.project._id,
+          title: this.projectTitle
+        }
+        this.$store.dispatch('updateProject', updatedProject)
+        this.showTitleEdit = false
+      },
+      bpmChange() {
+        this.stop() // Stop play-back if the BPM setting changes
+        var value = Number(this.bpmSetting)
+        var updatedProject = {
+          '_id': this.project._id,
+          bpmSetting: value
+        }
+        this.$store.dispatch('updateProject', updatedProject)
       }
     }
   }
@@ -181,8 +209,8 @@
 
 <style>
   .bottom-controls {
-    min-width: 100%;
-    padding-left: 37%;
+    /* min-width: 100%;
+    padding-left: 37%; */
   }
 
   .playStopButtons {
@@ -193,6 +221,44 @@
 
   .playStopButtons:focus {
     outline: 0;
+  }
+
+
+  .bpm-slider-container {
+    width: 100%;
+  }
+
+  .bpm-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #fff;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+  }
+
+  .bpm-slider:hover {
+    opacity: 1;
+  }
+
+  .bpm-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: rgba(206, 33, 53, 1.0);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .bpm-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: rgba(206, 33, 53, 1.0);
+    border-radius: 50%;
+    cursor: pointer;
   }
 
 </style>

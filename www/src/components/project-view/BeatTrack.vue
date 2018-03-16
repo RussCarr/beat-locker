@@ -25,6 +25,12 @@
 
       </div>
 
+      <div class="ml-3">
+        <a href="#" class="delete-track text-light" @click.prevent="deleteTrack">
+          <i class="fas fa-trash-alt fa-lg"></i>
+        </a>
+      </div>
+
     </div>
 
   </div>
@@ -72,6 +78,7 @@
         }
       },
       instrumentChange(instrument) {
+        this.$emit('stopPlayback') // Stop play-back if the instrument-choice has changed
         var updatedTrack = {
           '_id': this.beatTrack._id,
           instrumentName: instrument.name,
@@ -102,6 +109,9 @@
           this.solo = this.solo ? false : true
           this.$emit('soloTrack')
         }
+      },
+      deleteTrack() {
+
       }
     }
   }

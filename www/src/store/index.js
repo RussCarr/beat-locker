@@ -415,9 +415,9 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    updateProjectTitle({ commit, dispatch }, data) {
+    updateProject({ commit, dispatch }, updatedProject) {
       api
-        .put(`projects/${data.projectId}`, { title: data.newTitle })
+        .put(`projects/${updatedProject._id}`, updatedProject)
         .then(res => {
           var updatedProject = res.data.data;
           console.log(updatedProject);
