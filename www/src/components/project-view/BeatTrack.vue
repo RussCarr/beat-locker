@@ -96,6 +96,7 @@
     outline-width: 1px;
     padding-left:.2rem;
     padding-right: .2rem;
+    margin-right: .4rem;
   }
 
   .solo:hover,.solo:active{
@@ -111,6 +112,7 @@
     outline-width: 1px;
     padding-left:.2rem;
     padding-right: .2rem;
+    margin-right: .4rem;
   }
 
   .mute:hover,.mute:active {
