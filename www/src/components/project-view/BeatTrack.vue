@@ -7,7 +7,7 @@
         <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
       </div>
       <div class="track-volume"> 
-        <volumeSlider></volumeSlider>
+        <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
       </div>
       <div class="muteSolo">
         <div class="mute">mute</div>
@@ -43,7 +43,8 @@
     props: ['beatTrack'],
     data() {
       return {
-        stepSequence: this.beatTrack.stepSequence
+        stepSequence: this.beatTrack.stepSequence,
+        faderSetting: this.beatTrack.faderSetting
       }
     },
     methods: {
@@ -68,6 +69,15 @@
           '_id': this.beatTrack._id,
           instrumentName: instrument.name,
           instrumentSamplePath: instrument.samplePath,
+          stepSequence: this.stepSequence
+        }
+        this.$store.dispatch('updateTrack', updatedTrack)
+      },
+      faderChange(value) {
+        this.faderSetting = value
+        var updatedTrack = {
+          '_id': this.beatTrack._id,
+          faderSetting: value,
           stepSequence: this.stepSequence
         }
         this.$store.dispatch('updateTrack', updatedTrack)

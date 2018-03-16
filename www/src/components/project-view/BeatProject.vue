@@ -93,7 +93,6 @@
         var sampleNames = Object.keys(samples)
 
         var players = new Tone.Players(samples).toMaster()
-        console.log('players', players)
 
         // Define sequence options:
         // 1. Create an array of integers with length equal to the length of the current track stepSequences
@@ -109,11 +108,17 @@
             if (track[index] === true) {
               // Use slightly randomized velocities
               var velocity = Math.random() * 0.5 + 0.5
-              // players.get(sampleNames[i]).start(time, 0, "32n", 0, velocity)
               var player = players.get(sampleNames[i])
               // player.mute = true // <-- THIS WILL MUTE THE PLAYER
               // player.volume.input.value = 1e-2 // <-- THIS WILL UPDATE THE VOLUME SETTING (range is 3.4e-38 to 3.4e+38)
               // player.volume.overridden = true // <-- THIS WILL APPLY AN UPDATED VOLUME SETTING
+
+              var volume = Math.pow(2, this.beatTracks[i].faderSetting) * 0.01
+              player.volume.input.value = volume
+              player.volume.overridden = true
+              
+              console.log('player', player)
+
               player.start(time, 0, "32n", 0, velocity)
             }
           }

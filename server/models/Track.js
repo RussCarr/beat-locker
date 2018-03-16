@@ -48,7 +48,7 @@ var schema = new Schema({
   faderSetting: {
     type: Number,
     required: true,
-    default: 50
+    default: 5
   },
   projectId: {
     type: Schema.Types.ObjectId,

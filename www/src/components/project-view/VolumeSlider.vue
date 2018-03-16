@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-slider ref='slider' v-bind="defaultSlider"v-model="defaultSlider.value"></vue-slider>
+    <vue-slider ref='slider' v-bind="config" v-model="value" @drag-end="changeFader"></vue-slider>
     
   </div>
 </template>
@@ -10,9 +10,20 @@
     components: {
       vueSlider
     },
+    props: [ 'setting' ],
+    computed: {
+      value: {
+        get() {
+          return this.setting === this.config.value ? this.config.value : this.setting
+        },
+        set(value) {
+          this.config.value = value
+        }
+      }
+    },
     data() {
       return {
-        defaultSlider: {
+        config: {
           value: 7,
           width: 'auto',
           height: 6,
@@ -43,8 +54,12 @@
           piecewiseStyle: null
         },
       }
-
     },
+    methods: {
+      changeFader() {
+        this.$emit('faderChange', this.config.value)
+      }
+    }
   }
 </script>
 
