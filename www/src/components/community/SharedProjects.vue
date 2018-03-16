@@ -7,10 +7,10 @@
         </div>
       </div>
       <div class="col-8">
-        Tracks Name
+        {{allSharedProject.title}}
       </div>
       <div class="col-1">
-        #1<button>S</button>
+        #1<button>Share</button>
       </div>
       <div class="col-1">
         #4<button>F</button> 
@@ -31,6 +31,9 @@
 
       }
     },
+    props: [
+    'allSharedProject'
+    ],
     methods: {
       instSelect() {
         //
