@@ -50,6 +50,10 @@ var schema = new Schema({
     required: true,
     default: 5
   },
+  createdAt: {
+    type: Number
+    // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
+  },
   projectId: {
     type: Schema.Types.ObjectId,
     ref: "Project",

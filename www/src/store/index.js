@@ -84,7 +84,7 @@ export default new vuex.Store({
       console.log("state", userCreatedProject);
       this.state.userProjects = userCreatedProject;
     },
-    setAllUserProjects(state,allUserProjects) {
+    setAllUserProjects(state, allUserProjects) {
       console.log("state", allUserProjects);
       this.state.community = allUserProjects;
     }
@@ -195,7 +195,7 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    getAllUserProjects({ commit, dispatch } ) {
+    getAllUserProjects({ commit, dispatch }) {
       api
         .get(`projects`)
         .then(res => {
@@ -232,6 +232,45 @@ export default new vuex.Store({
         });
     },
 
+    createTrack({ commit, dispatch }, project) {
+      var defaultTrack = {
+        createdAt: Date.now(),
+        instrumentName: "clap-808",
+        instrumentSamplePath: "./../../assets/audio/clap-808.wav",
+        projectId: project._id,
+        userId: project.userId,
+        barCount: project.barCount,
+        stepsPerBar: project.stepsPerBar,
+        stepSequence: new Array(project.barCount * project.stepsPerBar).fill(
+          false
+        )
+      };
+      console.log('default track', defaultTrack)
+
+      api
+        .post("tracks", defaultTrack)
+        .then(res => {
+          var track = res.data;
+          project.trackIds.push(track._id);
+          commit("addActiveTrack", track);
+          console.log('added track', track)
+
+          api
+            .put(`projects/${project._id}`, project)
+            .then(res => {
+              var updatedProject = res.data.data;
+              commit("setActiveProject", updatedProject);
+              console.log('active project', updatedProject)
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
     createProject({ commit, dispatch }, userId) {
       api
         .post("projects", {
@@ -243,6 +282,7 @@ export default new vuex.Store({
           var defaultProject = res.data;
 
           var defaultTrack = {
+            createdAt: Date.now(),
             instrumentName: "clap-808",
             instrumentSamplePath: "./../../assets/audio/clap-808.wav",
             projectId: defaultProject._id,
@@ -295,6 +335,9 @@ export default new vuex.Store({
                             .then(res => {
                               var updatedProject = res.data.data;
                               commit("setActiveProject", updatedProject);
+                            })
+                            .catch(err => {
+                              console.log(err);
                             });
                         })
                         .catch(err => {
