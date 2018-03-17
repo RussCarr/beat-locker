@@ -13,7 +13,7 @@
     <div class="row">
 
       <div class="col-4 mt-4 pr-5">
-        <button class="btn btn-sm btn-outline-light mr-2">add track</button>
+        <button class="btn btn-sm btn-outline-light mr-2" @click="createTrack">add track</button>
       </div>      
   
       <div class="bottom-controls col-8 pl-0 pr-4">
@@ -94,7 +94,11 @@
         }
       },
       beatTracks() {
-        return this.$store.state.activeTracks
+        var tracks = this.$store.state.activeTracks
+        // Sort the tracks from first-created (at top) to last-created (at bottom)
+        return tracks.sort((trackA, trackB) => {
+          return trackA.createdAt - trackB.createdAt
+        })
       },
       project() {
         return this.$store.state.activeProject
@@ -108,7 +112,6 @@
         var requiredSamples = samplePaths
 
         var samples = {}
-        console.log('beatTracks', this.beatTracks[0])
         this.beatTracks.forEach(track => {
           var name = track.instrumentName
           var resource = requiredSamples[name]
@@ -132,6 +135,7 @@
 
             // Get an instance of Tone.Player for the current track
             var player = players.get(sampleNames[i])
+            // console.log('player', player)
 
             if (stepSequence[index] === true) {
               var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion (customized)
@@ -149,7 +153,7 @@
         }, events, subdivision)
 
         Tone.Transport.bpm.value = this.project.bpmSetting // Set beats-per-minute
-        console.log('bpm setting', this.project.bpmSetting, 'Tone.Transport.bpm.value', Tone.Transport.bpm.value)
+        // console.log('bpm setting', this.project.bpmSetting, 'Tone.Transport.bpm.value', Tone.Transport.bpm.value)
 
         Tone.Transport.start() // Start ToneJS's core time-keeper
         this.loop.start() // Start the loop play-back
@@ -201,6 +205,9 @@
           bpmSetting: value
         }
         this.$store.dispatch('updateProject', updatedProject)
+      },
+      createTrack() {
+        this.$store.dispatch('createTrack', this.project)
       }
     }
   }

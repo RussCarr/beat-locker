@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="col-sm-1 user">
-        <img class="user-image" @click='userProfile' src="../assets/images/user-user.png">
+        <img class="user-image" @click='userProfile' v-model="user.imgUrl" id="imgUrl" :src="user.imgUrl">
       </div>
       <div class="col-sm-2 user">
         <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
@@ -139,6 +139,7 @@
 
   .user-image {
     border-radius: 250px;
+    background-image: url("../assets/images/user-user.png");
     background: black;
     padding: 2px;
     width: 100px;

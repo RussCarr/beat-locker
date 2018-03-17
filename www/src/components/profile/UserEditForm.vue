@@ -51,24 +51,8 @@
                     <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
                   </div>
                   <div class="form-group">
-                      <label for="musicStyle">Select genre</label>
-                      <select class="form-control" id="musicStyle">
-                        <option>African</option>
-                        <option>Asian</option>
-                        <option>Blues</option>
-                        <option>Caribbean</option>
-                        <option>Country</option>
-                        <option>Easy listening</option>
-                        <option>Electronic</option>
-                        <option>Blues</option>
-                        <option>Folk</option>
-                        <option>Hip hop</option>
-                        <option>Jazz</option>
-                        <option>Latin</option>
-                        <option>Pop</option>
-                        <option>R&B and soul</option>
-                        <option>Rock</option>
-                      </select>
+                      <label class="ml-4" for="genres">Genres: </label>
+                      <input type="text" id="genres" class="form-control" v-model="user.genres" placeholder="Your favorite genres">  
                     </div>
                 </form>
 

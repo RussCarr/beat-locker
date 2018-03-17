@@ -36,8 +36,7 @@ var schema = new Schema({
   bpmSetting: {
     type: Number,
     required: true,
-    // default: 120
-    default: 5
+    default: 120
   },
   shared: {
     type: Boolean,
