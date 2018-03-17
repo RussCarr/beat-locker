@@ -39,7 +39,7 @@ var schema = new Schema({
     // default: 120
     default: 5
   },
-  private: {
+  shared: {
     type: Boolean,
     required: true,
     default: false
