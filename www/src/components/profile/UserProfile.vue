@@ -1,39 +1,54 @@
 <template>
-  <div class="userProfile">
-    <div class="container-fluid">
-      <navbar></navbar>
+  <div class="row">
+    <div class="col-sm-12">
       <div class="row">
-        <div class="col-5">
+        <div class="col-sm-12">
+          <navbar></navbar>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-12">
+      <div class="row userProfile justify-content-between">
+        <div class="col-sm-5">
           <userEditForm></userEditForm>
         </div>
-        <div class="col-6">
-          <h1>Profile</h1>
+        <div class="col-sm-6">
+
         </div>
         <div class="col-1">
           <sidebar></sidebar>
         </div>
       </div>
+    </div>
+    <div class="col-sm-12">
       <div class="row">
-
-        <div class="col-4">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3 centerFlex profile-bg-img profile-pad">
           <div class="profile-img">
             <img :src="user.imgUrl" class="img-fluid" alt="Responsive image">
           </div>
         </div>
-        <div class="col-7 mt-5">
-          <ul>
-            <li>Name: {{user.name}}</li>
-            <li>Age: {{user.age}}</li>
-            <li>Bio: {{user.bio}}</li>
-            <li>Music Style: {{user.style}}</li>
-            <li>Interests: {{user.interests}}</li>
-            <li>Genres: {{user.genres}}</li>
-          </ul>
+        <div class="col-sm-5 profile-pad centerFlex">
+          <div class="div profile-text">
+            <p class="h4">Profile</p>
+            <ul>
+              <li>Name: {{user.name}}</li>
+              <li>Age: {{user.age}}</li>
+              <li>Bio: {{user.bio}}</li>
+              <li>Music Style: {{user.style}}</li>
+              <li>Interests: {{user.interests}}</li>
+              <li>Genres: {{user.genres}}</li>
+            </ul>
+          </div>
         </div>
-
+        <div class="col-sm-2"></div>
       </div>
     </div>
   </div>
+
+
+
 
 </template>
 
@@ -59,13 +74,43 @@
 <style scoped>
   .userProfile {
     color: white;
-    display: flex;
   }
 
   .profile-img {
     width: 250px;
     height: 250px;
-    margin-left: 2rem;
-    margin-top: 2rem;
+  }
+
+  .profile-text {
+    color: white;
+    background-color: rgba(206, 33, 53, 1.0);
+    padding: 1rem;
+  }
+
+  .centerFlex {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .profile-bg-img {
+    background-position: top;
+    background-image: url("../../assets/images/beat-locker-splash-bg.jpg");
+    background-repeat: no-repeat;
+  }
+
+  .profile-pad {
+    padding: 2rem;
+    background-position: top;
+    background-image: url("../../assets/images/beat-locker-splash-bg.jpg");
+    background-repeat: no-repeat;
+  }
+
+  .profile-margin {
+    margin: 2rem;
+  }
+
+  .below-nav {
+    margin-bottom: 2rem;
   }
 </style>
