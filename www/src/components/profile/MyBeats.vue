@@ -70,13 +70,13 @@
           // var sharedProject = payload.private
           payload.push(newStatus)
           // console.log(payload,"payload shared")
-          this.$store.dispatch('getProjectPrivacy', payload)
+          this.$store.dispatch('getProjectShared', payload)
         } else {
           var newStatus = false
           // var NotSharedProject = payload.private
           payload.push(newStatus)
           // console.log(payload,"payload private")
-          this.$store.dispatch('getProjectPrivacy', payload)
+          this.$store.dispatch('getProjectShared', payload)
         }
       }
     },

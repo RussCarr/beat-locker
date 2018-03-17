@@ -210,9 +210,9 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    getProjectPrivacy({ commit, dispatch }, payload) {
+    getProjectShared({ commit, dispatch }, payload) {
       var setting = {
-        privacy: payload[1]
+        shared: payload[1]
       };
       console.log("setting", setting, payload);
       api
