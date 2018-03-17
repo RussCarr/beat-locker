@@ -14,15 +14,10 @@
           <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
         </div>
         <div class="row">
-            
-                <button :activeUser='activeUser' @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
-                    <i class="fas fa-angle-double-left"></i> My Projects  </button>
-                    
-              
-
+          <button @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
+            <i class="fas fa-angle-double-left"></i> My Projects </button>
         </div>
       </div>
-    
     </div>
     <div class="row">
       <nav class="navbar subNavbar">
@@ -54,7 +49,7 @@
 
       }
     },
-    
+
     computed: {
       isHomeRoute() {
         return this.$route.path === "/Home" || this.$route.path === "/home"
@@ -85,8 +80,8 @@
         this.$router.push({ path: '/home' })
       },
       getProjects(user) {
-       console.log('navuser',user)
-        this.$store.dispatch('getUserProjects',user)
+        console.log('navuser', user)
+        this.$store.dispatch('getUserProjects', user)
       }
     }
   }
@@ -108,10 +103,12 @@
 
   .user-name {
     cursor: pointer;
-  } 
-.toggle-button{
-  color: red;
-}
+  }
+
+  .toggle-button {
+    color: red;
+  }
+
   .logo {
     width: 90%;
     max-width: 500px;

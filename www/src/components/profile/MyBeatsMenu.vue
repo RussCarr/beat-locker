@@ -28,7 +28,7 @@
       },
       updateProjects(){
         return this.$store.dispatch('getUserProjects',project.userId)
-        console.log(project.userId)
+        // console.log(project.userId)
       },
      
     },
