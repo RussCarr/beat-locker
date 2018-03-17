@@ -3,6 +3,15 @@ var project = require("../models/project");
 var track = require("../models/track");
 var router = require("express").Router();
 
+//GET USER BY ID
+router.get("/api/users/:userId", (req, res, next) => {
+  user.findById(req.params.userId)
+  .then(user => {
+    return res.send(user);
+  })
+  .catch(next);
+})
+
 // Get user info by email
 router.get("/api/users/email/:userEmail", (req, res, next) => {
   user.findOne({ email: req.params.userEmail })
@@ -63,10 +72,10 @@ function deleteuser(req, res, next) {
     .catch(next);
 }
 
-//EDIT USER as put
+//EDIT USER PROFILE
 router.put("/api/users/:userId", editUser);
 function editUser(req, res, next) {
-  user.findByIdAndUpdate(req.params.userId)
+  user.findByIdAndUpdate(req.params.userId,  req.body, { new: true }) // add req.body & {new:true}
   .then(user => {
     res.send(user);
   })

@@ -16,8 +16,9 @@
       <div class="row">
 
         <div class="col-4">
-          <img class="my-5 ml-5" :src="user.imgUrl">
-          
+          <div class="profile-img">
+            <img :src="user.imgUrl" class="img-fluid" alt="Responsive image">
+          </div>
         </div>
         <div class="col-7 mt-5">
           <ul>
@@ -25,7 +26,8 @@
             <li>Age: {{user.age}}</li>
             <li>Bio: {{user.bio}}</li>
             <li>Music Style: {{user.style}}</li>
-            <li>Intrests: {{user.interests}}</li>
+            <li>Interests: {{user.interests}}</li>
+            <li>Genres: {{user.genres}}</li>
           </ul>
         </div>
 
@@ -54,9 +56,16 @@
   }
 </script>
 
-<style>
+<style scoped>
   .userProfile {
     color: white;
     display: flex;
+  }
+
+  .profile-img {
+    width: 250px;
+    height: 250px;
+    margin-left: 2rem;
+    margin-top: 2rem;
   }
 </style>

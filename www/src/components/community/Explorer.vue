@@ -61,8 +61,18 @@
     computed: {
       allSharedProjects() {
         var communityData = this.$store.state.community;
-        console.log('communityData',communityData)
-        communityData.indexOf(privacy.true)
+        // getPrivacy(communityData)
+        // return communityData.privacy
+        // getPrivacy()
+         var test = communityData.filter(project => {
+          return project.shared===true
+        }) 
+        console.log('communityData1', test)
+        // Object.keys(communityData).forEach(privacy => {
+        //  for(var privacy in communityData)
+        return test
+       
+        // })
 
       }
     },

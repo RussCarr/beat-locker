@@ -8,7 +8,6 @@
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            <!-- {{project.private}} -->
             <span v-if="!shared" >Private</span>
             <span v-if="shared" >Shared</span>
           </p>
@@ -51,7 +50,7 @@
     data() {
       return {
         showStats: false,
-        shared: this.project.private,
+        shared: this.project.shared,
         // btnDisable: false
       
       }

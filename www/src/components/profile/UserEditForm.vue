@@ -47,8 +47,12 @@
                     <input type="text" id="interests" class="form-control" v-model="user.interests" placeholder="Interests">
                   </div>
                   <div class="form-group">
-                      <label class="ml-4" for="age">Age: </label>
-                      <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+                    <label class="ml-4" for="age">Age: </label>
+                    <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+                  </div>
+                  <div class="form-group">
+                      <label class="ml-4" for="genres">Genres: </label>
+                      <input type="text" id="genres" class="form-control" v-model="user.genres" placeholder="Your favorite genres">  
                     </div>
                 </form>
 
@@ -56,7 +60,7 @@
 
               <div class="modal-footer">
                 <div name="footer">
-                  <button class="btn btn-primary okButton px-4" @click="close">
+                  <button type="submit" class="btn btn-primary okButton px-4" @click.prevent="submit" @click="close">
                     OK
                   </button>
                   <button class="btn btn-secondary px-4" @click="close">
@@ -89,7 +93,7 @@
     },
     methods: {
       submit() {
-        this.$store.dispatch('registerUser', this.user)
+        this.$store.dispatch('editUser', this.user)
       },
       close() {
         this.showSideBar = false
