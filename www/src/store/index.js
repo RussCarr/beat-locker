@@ -200,9 +200,12 @@ export default new vuex.Store({
     },
     deleteProject({ commit, dispatch }, project) {
       var project_Id = project._id;
-      api
+      commit("setActiveProject", []);
+        commit("setActiveTracks", []);
+        api
         .delete(`projects/${project_Id}`)
         .then(res => {
+          dispatch('getLatestProject', project.userId)
           dispatch("getUserProjects", project.userId);
         })
         .catch(err => {

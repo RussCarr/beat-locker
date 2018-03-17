@@ -25,8 +25,11 @@
           </div>
         </div>
       </div>
-      <div class="col-8 text-center">
-        Sorted by {Catagory}
+      <div class="col-7 text-center">
+         
+                <p class="text-center">Sorted by {Catagory}</p>
+             
+    
         <sharedProjects :allSharedProject='allSharedProject' class="mt-4" v-for="allSharedProject in allSharedProjects" :key='allSharedProject._id'></sharedProjects>
 
       </div>

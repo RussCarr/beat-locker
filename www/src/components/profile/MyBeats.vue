@@ -14,14 +14,14 @@
         </div>
       </div>
       <div class="col-6">
-        <h5 @click="showStats = showStats ? false : true" class="btn-link text-white text-center">{{project.title}} =</h5>
+        <h5 @click="showStats = showStats ? false : true" class="btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
       <div class="col-1">
         <!-- <playProject :project="project"></playProject>> -->
-        <button @click='loadProject(project)' class="btn btn-sm btn-info">></button>
+        <button @click='loadProject(project)' class="btn btn-sm btn-info"><i class="fas fa-spinner"></i></button>
       </div>
       <div class="col-1">
-        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger">Delete</button>
+        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
     <div class="trackStats" v-if="showStats">
@@ -38,6 +38,7 @@
       </div>
       <div class="row">
         <div class="col">
+          <p class="">Project Description:</p>
           <p class="text-center">{{project.description}}</p>
         </div>
       </div>
@@ -119,8 +120,8 @@
   .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 44px;
+    height: 22px;
   }
 
   /* Hide default HTML checkbox */
@@ -146,8 +147,8 @@
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 15px;
+    width: 15px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -182,5 +183,12 @@
   .trackTitle {
     font-size: 20px;
     color: #fbfbfb
+  }
+  .trackStats{
+    background-color: rgba(229, 140, 148, 1.0);
+    margin-bottom: 10px;
+  }
+  .trackDrop {
+    background-color: rgba(229, 140, 148, 1.0);
   }
 </style>
