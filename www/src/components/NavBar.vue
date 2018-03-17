@@ -10,8 +10,19 @@
         <img class="user-image" @click='userProfile' v-model="user.imgUrl" id="imgUrl" :src="user.imgUrl">
       </div>
       <div class="col-sm-2 user">
-        <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
+        <div class="row">
+          <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
+        </div>
+        <div class="row">
+            
+                <button :activeUser='activeUser' @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
+                    <i class="fas fa-angle-double-left"></i> My Projects  </button>
+                    
+              
+
+        </div>
       </div>
+    
     </div>
     <div class="row">
       <nav class="navbar subNavbar">
@@ -72,6 +83,10 @@
       },
       home() {
         this.$router.push({ path: '/home' })
+      },
+      getProjects(user) {
+       console.log('navuser',user)
+        this.$store.dispatch('getUserProjects',user)
       }
     }
   }
@@ -94,7 +109,9 @@
   .user-name {
     cursor: pointer;
   } 
-
+.toggle-button{
+  color: red;
+}
   .logo {
     width: 90%;
     max-width: 500px;
