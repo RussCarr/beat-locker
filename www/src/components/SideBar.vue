@@ -55,8 +55,8 @@
 </script>
 
 <style scoped>
-.header{
-  /* z-index: 0; */
+.sidebar{
+  z-index: 100;
 }
   .messageRoll {
     /* position: fixed;  */
@@ -95,7 +95,7 @@
     height: 100vh;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    z-index: 0;
+    z-index: 1;
     display: none;
     background-color: #6b202d;
     color: white;

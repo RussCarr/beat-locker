@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid explorer">
     <navbar></navbar>
+    <sidebar></sidebar>
     <div class="row">
       <div class="col-3">
         <div class="col-12 mt-3">
@@ -54,6 +55,7 @@
       navbar: Navbar,
       sidebar: SideBar,
       sharedProjects: SharedProjects,
+      
 
     },
     data() {

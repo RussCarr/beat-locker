@@ -1,6 +1,7 @@
 <template>
   <div class="help">
     <navbar></navbar>
+    <sidebar></sidebar>
     <h1 class="mx-3 mb-5">Help</h1>
     <h3 class="ml-5">Article 1</h3>
     <p class="mx-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam debitis vero unde atque officiis quam sit, ipsum in soluta
@@ -64,10 +65,12 @@
 
 <script>
   import Navbar from './Navbar'
+  import SideBar from './SideBar'
   export default {
     name: 'Help',
     components: {
       navbar: Navbar,
+      sidebar: SideBar
     }
   }
 
@@ -76,6 +79,6 @@
 <style>
   .help {
     color: white;
+    z-index: -1;
   }
-
 </style>
