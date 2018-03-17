@@ -1,7 +1,29 @@
 <template>
-  <div class="text-center mt-4 mb-5">
+  <div class="text-center mt-2 mb-5">
 
-    <div class="project">
+    <div class="row my-4 text-left">
+
+      <div class="col-4 pl-0">
+        <button class="save btn btn-sm btn-outline-light px-4 pb-2" @click="saveProject">save project</button>
+      </div>
+
+      <div class="col-8 pl-0">
+        <div v-if="!showTitleEdit">
+          <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
+          <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
+            <i class="fas fa-pencil-alt"></i>
+          </a>
+        </div>
+        <div v-if="showTitleEdit" class="d-flex align-content-center">
+          <input type="text" class="form-control w-50 d-inline-block" v-model="projectTitle">
+          <button class="save-project btn ml-2 px-4 text-white" @click="updateTitle">save</button>
+          <button class="cancel btn btn-secondary ml-2 px-4 text-white" @click="cancelTitleEdit">cancel</button>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="project pl-2">
 
       <div class="board p-1">
         <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
@@ -34,22 +56,7 @@
           <input type="range" min=40 max="214" v-model="bpmSetting" class="bpm-slider" @change="bpmChange">
           <span class="bpm d-inline-block text-light mt-1"><small>BPM: {{bpmSetting}}</small></span>
         </div>
-  
-        <div class="text-left my-4">
-          <div v-if="!showTitleEdit">
-            <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
-            <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
-              <i class="fas fa-pencil-alt"></i>
-            </a>
-          </div>
-          <div v-if="showTitleEdit">
-            <input type="text" class="form-control" v-model="projectTitle">
-            <button class="btn btn-sm px-4" @click="updateTitle">save</button>
-            <button class="btn btn-sm px-4" @click="cancelTitleEdit">cancel</button>
-          </div>
-  
-          <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
-        </div>
+        
       </div>
 
     </div>
@@ -69,7 +76,7 @@
     },
     data() {
       return {
-        updatedProjectTitle: " ",
+        updatedTitle: "",
         showTitleEdit: false,
         loop: {},
         isPlaying: false,
@@ -79,10 +86,10 @@
     computed: {
       projectTitle: {
         get() {
-          return this.updatedProjectTitle !== " " ? this.updatedProjectTitle : this.$store.state.activeProject.title
+          return this.$store.state.activeProject.title
         },
         set(value) {
-          this.updatedProjectTitle = value
+          this.updatedTitle = value
         }
       },
       bpmStoredSetting: {
@@ -192,13 +199,13 @@
       updateTitle() {
         var updatedProject = {
           '_id': this.project._id,
-          title: this.projectTitle
+          title: this.updatedTitle
         }
         this.$store.dispatch('updateProject', updatedProject)
         this.showTitleEdit = false
       },
       cancelTitleEdit() {
-        this.updatedProjectTitle = this.$store.state.activeProject.title
+        this.updatedTitle = this.$store.state.activeProject.title
         this.showTitleEdit = false
       },
       bpmChange() {
@@ -213,9 +220,6 @@
       createTrack() {
         this.$store.dispatch('createTrack', this.project)
       }
-    },
-    mounted() {
-      this.updatedProjectTitle = this.$store.state.activeProject.title
     }
   }
 
@@ -227,6 +231,14 @@
     padding-left: 37%; */
   }
 
+  .save-project {
+    background-color: rgba(57, 123, 172, 1.0);
+  }
+
+  .save-project:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+  }
+
   .playStopButtons {
     background: none;
     border: none;
@@ -236,7 +248,6 @@
   .playStopButtons:focus {
     outline: 0;
   }
-
 
   .bpm-slider-container {
     width: 100%;
