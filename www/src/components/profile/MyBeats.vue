@@ -4,23 +4,24 @@
       <div class="col-2 mr-2">
         <div class="">
           <label class="switch">
-            <input type="checkbox" v-model="shared" >
+            <input type="checkbox" v-model="shared">
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            <span v-if="!shared" >Private</span>
-            <span v-if="shared" >Shared</span>
+            <span v-if="!shared">Private</span>
+            <span v-if="shared">Shared</span>
           </p>
         </div>
       </div>
       <div class="col-6">
-        <h5 @click="showStats = showStats ? false : true" class="btn-link text-white text-center">{{project.title}} =</h5>
+        <h5 @click="showStats = showStats ? false : true" class="btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
       <div class="col-1">
-        <button @click='closeTrackStats' class="btn btn-sm btn-dark">></button>
+        <!-- <playProject :project="project"></playProject>> -->
+        <button @click='loadProject(project)' class="btn btn-sm btn-info"><i class="fas fa-spinner"></i></button>
       </div>
       <div class="col-1">
-        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger">Delete</button>
+        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
     <div class="trackStats" v-if="showStats">
@@ -37,6 +38,7 @@
       </div>
       <div class="row">
         <div class="col">
+          <p class="">Project Description:</p>
           <p class="text-center">{{project.description}}</p>
         </div>
       </div>
@@ -45,24 +47,28 @@
 </template>
 
 <script>
+  // import PlayProject from './PlayProject'
   export default {
     name: 'Mybeats',
+    components: {
+      // playProject: PlayProject
+    },
     data() {
       return {
         showStats: false,
         shared: this.project.shared,
         // btnDisable: false
-      
+
       }
     },
     computed: {
       disable() {
         return this.$store.state.userProjects.length === 1
       },
-      
+
     },
     watch: {
-      shared: function(shared) {
+      shared: function (shared) {
         // console.log('adsf',shared,this.project)
         var payload = [this.project]
         if (shared == true) {
@@ -84,13 +90,13 @@
       'project'
     ],
     methods: {
-      closeTrackStats() {
-        this.showStats = false
+      loadProject(project) {
+        this.$store.dispatch('loadProjectFromSidebar', project)
       },
       showTrackStats() {
         this.showStats = true
       },
-   
+
       deleteProject(project) {
         this.$store.dispatch('deleteProject', project)
       }
@@ -114,8 +120,8 @@
   .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 44px;
+    height: 22px;
   }
 
   /* Hide default HTML checkbox */
@@ -141,8 +147,8 @@
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 15px;
+    width: 15px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -177,5 +183,12 @@
   .trackTitle {
     font-size: 20px;
     color: #fbfbfb
+  }
+  .trackStats{
+    background-color: rgba(229, 140, 148, 1.0);
+    margin-bottom: 10px;
+  }
+  .trackDrop {
+    background-color: rgba(229, 140, 148, 1.0);
   }
 </style>
