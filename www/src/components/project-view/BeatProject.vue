@@ -45,7 +45,7 @@
           <div v-if="showTitleEdit">
             <input type="text" class="form-control" v-model="projectTitle">
             <button class="btn btn-sm px-4" @click="updateTitle">save</button>
-            <button class="btn btn-sm px-4" @click="showTitleEdit = false">cancel</button>
+            <button class="btn btn-sm px-4" @click="cancelTitleEdit">cancel</button>
           </div>
   
           <button class="save btn btn-sm btn-outline-light px-4 mt-3 d-block" @click="saveProject">Save</button>
@@ -69,7 +69,7 @@
     },
     data() {
       return {
-        updatedProjectTitle: "",
+        updatedProjectTitle: " ",
         showTitleEdit: false,
         loop: {},
         isPlaying: false,
@@ -79,7 +79,7 @@
     computed: {
       projectTitle: {
         get() {
-          return this.updatedProjectTitle !== "" ? this.updatedProjectTitle : this.$store.state.activeProject.title
+          return this.updatedProjectTitle !== " " ? this.updatedProjectTitle : this.$store.state.activeProject.title
         },
         set(value) {
           this.updatedProjectTitle = value
@@ -197,6 +197,10 @@
         this.$store.dispatch('updateProject', updatedProject)
         this.showTitleEdit = false
       },
+      cancelTitleEdit() {
+        this.updatedProjectTitle = this.$store.state.activeProject.title
+        this.showTitleEdit = false
+      },
       bpmChange() {
         this.stop() // Stop play-back if the BPM setting changes
         var value = Number(this.bpmSetting)
@@ -209,6 +213,9 @@
       createTrack() {
         this.$store.dispatch('createTrack', this.project)
       }
+    },
+    mounted() {
+      this.updatedProjectTitle = this.$store.state.activeProject.title
     }
   }
 
