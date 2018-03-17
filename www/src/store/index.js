@@ -32,26 +32,7 @@ export default new vuex.Store({
     activeProject: {},
     activeTracks: [],
     userProjects: [],
-    community: {
-      0: {
-        barCount: 4,
-        faderSetting: 50,
-        instrumentName: "clap-808",
-        instrumentSamplePath: "./../../assets/audio/clap-808.wav",
-        projectId: "5aabb45f5ba70c02c0f9acfe",
-        stepSequence: [false, false],
-        stepsPerBar: 4,
-        title: "Untitled Project",
-        trackIds: [
-          "5aabb45f5ba70c02c0f9acff",
-          "5aabb4605ba70c02c0f9ad00",
-          "5aabb4605ba70c02c0f9ad01",
-          "5aabb4605ba70c02c0f9ad02"
-        ],
-        userId: "5aaac27ef6130629ac4c2e0e",
-        _id: "5aabb45f5ba70c02c0f9acff"
-      }
-    }
+    community: []
   },
 
   mutations: {
@@ -81,7 +62,6 @@ export default new vuex.Store({
         data.stepSequence;
     },
     setUserProjects(state, userCreatedProject) {
-      console.log("state", userCreatedProject);
       this.state.userProjects = userCreatedProject;
     },
     setAllUserProjects(state,allUserProjects) {
@@ -183,12 +163,12 @@ export default new vuex.Store({
 
     // API
     getUserProjects({ commit, dispatch }, activeUser) {
-      console.log("get user projects:", activeUser);
+   
       api
         .get(`users/${activeUser}/projects`)
         .then(res => {
           var userCreatedProjects = res.data;
-          console.log("user projects:", userCreatedProjects);
+ 
           commit("setUserProjects", userCreatedProjects);
         })
         .catch(err => {
@@ -199,8 +179,7 @@ export default new vuex.Store({
       api
         .get(`projects`)
         .then(res => {
-          console.log("user projects:", res.data);
-          commit("setAllUserProjects", res.data);
+                   commit("setAllUserProjects", res.data);
         })
         .catch(err => {
           console.log(err);
@@ -219,7 +198,7 @@ export default new vuex.Store({
     },
     getProjectPrivacy({ commit, dispatch }, payload) {
       var setting = {
-        private: payload[1]
+        privacy: payload[1]
       };
       console.log("setting", setting, payload);
       api
