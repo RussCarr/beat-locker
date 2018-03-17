@@ -99,7 +99,7 @@ export default new vuex.Store({
     editUser({ commit, dispatch }, user) {
      console.log(user, "looking for user from edit user form")
       api
-        .put("users/" + user._id , user) // should go to /api/user/:userId ${userId}??
+        .put("users/" + user._id , user) 
         .then(res => {
           var updatedUser = res.data;
           commit("setUser", updatedUser);
