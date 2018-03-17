@@ -4,12 +4,12 @@
       <div class="col-2 mr-2">
         <div class="">
           <label class="switch">
-            <input type="checkbox" v-model="shared" >
+            <input type="checkbox" v-model="shared">
             <span class="slider round"></span>
           </label>
           <p class="text-center">
-            <span v-if="!shared" >Private</span>
-            <span v-if="shared" >Shared</span>
+            <span v-if="!shared">Private</span>
+            <span v-if="shared">Shared</span>
           </p>
         </div>
       </div>
@@ -17,7 +17,8 @@
         <h5 @click="showStats = showStats ? false : true" class="btn-link text-white text-center">{{project.title}} =</h5>
       </div>
       <div class="col-1">
-        <button @click='closeTrackStats' class="btn btn-sm btn-dark">></button>
+        <!-- <playProject :project="project"></playProject>> -->
+        <button @click='loadProject(project)' class="btn btn-sm btn-info">></button>
       </div>
       <div class="col-1">
         <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger">Delete</button>
@@ -45,24 +46,28 @@
 </template>
 
 <script>
+  // import PlayProject from './PlayProject'
   export default {
     name: 'Mybeats',
+    components: {
+      // playProject: PlayProject
+    },
     data() {
       return {
         showStats: false,
         shared: this.project.shared,
         // btnDisable: false
-      
+
       }
     },
     computed: {
       disable() {
         return this.$store.state.userProjects.length === 1
       },
-      
+
     },
     watch: {
-      shared: function(shared) {
+      shared: function (shared) {
         // console.log('adsf',shared,this.project)
         var payload = [this.project]
         if (shared == true) {
@@ -84,13 +89,13 @@
       'project'
     ],
     methods: {
-      closeTrackStats() {
-        this.showStats = false
+      loadProject(project) {
+        this.$store.dispatch('loadProjectFromSidebar', project)
       },
       showTrackStats() {
         this.showStats = true
       },
-   
+
       deleteProject(project) {
         this.$store.dispatch('deleteProject', project)
       }
