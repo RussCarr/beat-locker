@@ -4,7 +4,7 @@
       <div class="col">
         <div class="col-sm-10"></div>
         <div class="col-sm-2  d-flex">
-          <h6 @click="openSideBar" @OpenSideBar="openSideBar" class="sideBarLayout edit-profile-cursor">
+          <h6 @click="openSideBar" @OpenSideBar="openSideBar(this.user)" class="sideBarLayout edit-profile-cursor">
             <i class="far fa-edit"></i>Edit Profile</h6>
         </div>
       </div>
@@ -24,7 +24,7 @@
                 <form action="#" class="border border-secondary" @submit.prevent="submit">
                   <div class="form-group">
                     <label class="ml-4" for="username">Name: </label>
-                    <input type="text" id="username" class="form-control" v-model="user.name" placeholder="My Name">
+                    <input type="text" id="username" class="form-control" v-model="user.name" placeholder="Name">
                   </div>
                   <div class="form-group">
                     <label class="ml-4" for="email">Email: </label>
@@ -40,15 +40,43 @@
                   </div>
                   <div class="form-group">
                     <label class="ml-4" for="bio">Brief bio: </label>
-                    <textarea type="text" id="bio" class="form-control" v-model="user.bio" rows="3" placeholder="Who I am..."></textarea>
+                    <textarea type="text" id="bio" class="form-control" v-model="user.bio" rows="2" placeholder="Who I am..."></textarea>
                   </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="interests">Interests: </label>
+                    <input type="text" id="interests" class="form-control" v-model="user.interests" placeholder="Interests">
+                  </div>
+                  <div class="form-group">
+                    <label class="ml-4" for="age">Age: </label>
+                    <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+                  </div>
+                  <div class="form-group">
+                      <label for="musicStyle">Select genre</label>
+                      <select class="form-control" id="musicStyle">
+                        <option>African</option>
+                        <option>Asian</option>
+                        <option>Blues</option>
+                        <option>Caribbean</option>
+                        <option>Country</option>
+                        <option>Easy listening</option>
+                        <option>Electronic</option>
+                        <option>Blues</option>
+                        <option>Folk</option>
+                        <option>Hip hop</option>
+                        <option>Jazz</option>
+                        <option>Latin</option>
+                        <option>Pop</option>
+                        <option>R&B and soul</option>
+                        <option>Rock</option>
+                      </select>
+                    </div>
                 </form>
 
               </div>
 
               <div class="modal-footer">
                 <div name="footer">
-                  <button class="btn btn-primary okButton px-4" @click="close">
+                  <button type="submit" class="btn btn-primary okButton px-4" @click.prevent="submit" @click="close">
                     OK
                   </button>
                   <button class="btn btn-secondary px-4" @click="close">
@@ -72,18 +100,16 @@
     data() {
       return {
         showSideBar: false,
-        user: {
-          name: "",
-          email: "",
-          password: "",
-          imgUrl: "",
-          bio: ""
-        }
+      }
+    },
+    computed: {
+      user() {
+        return this.$store.state.user
       }
     },
     methods: {
       submit() {
-        this.$store.dispatch('registerUser', this.user)
+        this.$store.dispatch('editUser', this.user)
       },
       close() {
         this.showSideBar = false
@@ -92,6 +118,7 @@
         this.showSideBar = true
       },
     },
+
   }
 </script>
 
@@ -160,11 +187,11 @@
   .modal-header h3 {
     margin-top: 0;
     color: rgba(251, 251, 251, 1.0);
-    border-bottom-color:  rgba(206, 33, 53, 1.0);
+    border-bottom-color: rgba(206, 33, 53, 1.0);
   }
 
   .modal-footer {
-    border-top-color:  rgba(206, 33, 53, 1.0);
+    border-top-color: rgba(206, 33, 53, 1.0);
   }
 
   .modal-body {
