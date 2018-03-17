@@ -55,6 +55,9 @@ export default new vuex.Store({
     addActiveTrack(state, track) {
       this.state.activeTracks.push(track);
     },
+    removeActiveTrack(state, track) {
+      this.state.activeTracks.splice(this.state.activeTracks.indexOf(track), 1);
+    },
     updateActiveTracks(state, data) {
       this.state.activeTracks.find(
         track => track._id === data.trackId
@@ -97,9 +100,9 @@ export default new vuex.Store({
     },
 
     editUser({ commit, dispatch }, user) {
-     console.log(user, "looking for user from edit user form")
+      console.log(user, "looking for user from edit user form");
       api
-        .put("users/" + user._id , user) 
+        .put("users/" + user._id, user)
         .then(res => {
           var updatedUser = res.data;
           commit("setUser", updatedUser);
@@ -176,12 +179,11 @@ export default new vuex.Store({
 
     // API
     getUserProjects({ commit, dispatch }, activeUser) {
-   
       api
         .get(`users/${activeUser}/projects`)
         .then(res => {
           var userCreatedProjects = res.data;
- 
+
           commit("setUserProjects", userCreatedProjects);
         })
         .catch(err => {
@@ -192,7 +194,7 @@ export default new vuex.Store({
       api
         .get(`projects`)
         .then(res => {
-                   commit("setAllUserProjects", res.data);
+          commit("setAllUserProjects", res.data);
         })
         .catch(err => {
           console.log(err);
@@ -201,11 +203,11 @@ export default new vuex.Store({
     deleteProject({ commit, dispatch }, project) {
       var project_Id = project._id;
       commit("setActiveProject", []);
-        commit("setActiveTracks", []);
-        api
+      commit("setActiveTracks", []);
+      api
         .delete(`projects/${project_Id}`)
         .then(res => {
-          dispatch('getLatestProject', project.userId)
+          dispatch("getLatestProject", project.userId);
           dispatch("getUserProjects", project.userId);
         })
         .catch(err => {
@@ -240,7 +242,6 @@ export default new vuex.Store({
           false
         )
       };
-      console.log('default track', defaultTrack)
 
       api
         .post("tracks", defaultTrack)
@@ -248,14 +249,44 @@ export default new vuex.Store({
           var track = res.data;
           project.trackIds.push(track._id);
           commit("addActiveTrack", track);
-          console.log('added track', track)
 
           api
             .put(`projects/${project._id}`, project)
             .then(res => {
               var updatedProject = res.data.data;
               commit("setActiveProject", updatedProject);
-              console.log('active project', updatedProject)
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    deleteTrack({ commit, dispatch }, data) {
+      api
+        .delete(`tracks/${data.deleting._id}`)
+        .then(() => {
+          commit("removeActiveTrack", data.deleting);
+          api
+            .get(`projects/${data.project._id}`)
+            .then(res => {
+              var project = res.data;
+              var trackIds = project.trackIds;
+              trackIds.splice(project.trackIds.indexOf(data.deleting._id), 1);
+              api
+                .put(`projects/${data.project._id}`, {
+                  trackIds: trackIds
+                })
+                .then(res => {
+                  var updatedProject = res.data.data;
+                  commit("setActiveProject", updatedProject);
+                })
+                .catch(err => {
+                  console.log(err);
+                });
             })
             .catch(err => {
               console.log(err);
@@ -359,31 +390,35 @@ export default new vuex.Store({
       commit("setActiveProject", []);
       commit("setActiveTracks", []);
       api
-      .get(`/projects/${project._id}`)
-      .then(res => {
-        // var allUserProjects = res.data;
-        console.log("UserProject", res.data);
-console.log('STATE',this.state.activeProject,this.state.activeTracks)
-        // allUserProjects.sort((projA, projB) => {
-        //   return projB.createdAt - projA.createdAt;
-        // });
-        // var lastCreatedProject = allUserProjects[0];
-        var project = res.data
-        console.log("Project ID", res.data);
-        commit("setActiveProject", project);
-        api(`projects/${project._id}/tracks`)
-          .then(res => {
-            var projectTracks = res.data;
-            console.log("projectTracks", projectTracks);
-            commit("setActiveTracks", projectTracks);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+        .get(`/projects/${project._id}`)
+        .then(res => {
+          // var allUserProjects = res.data;
+          console.log("UserProject", res.data);
+          console.log(
+            "STATE",
+            this.state.activeProject,
+            this.state.activeTracks
+          );
+          // allUserProjects.sort((projA, projB) => {
+          //   return projB.createdAt - projA.createdAt;
+          // });
+          // var lastCreatedProject = allUserProjects[0];
+          var project = res.data;
+          console.log("Project ID", res.data);
+          commit("setActiveProject", project);
+          api(`projects/${project._id}/tracks`)
+            .then(res => {
+              var projectTracks = res.data;
+              console.log("projectTracks", projectTracks);
+              commit("setActiveTracks", projectTracks);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     getLatestProject({ commit, dispatch }, userId) {
       api

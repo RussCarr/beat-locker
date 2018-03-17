@@ -27,7 +27,7 @@
 
       <div class="board p-1">
         <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
-          v-on:soloTrack="toggleSolo(beatTrack)" v-on:stopPlayback="stop"></beatTrack>
+          v-on:soloTrack="toggleSolo(beatTrack)" v-on:stopPlayback="stop" v-on:deleteTrack="deleteTrack(beatTrack)"></beatTrack>
       </div>
 
     </div>
@@ -219,6 +219,13 @@
       },
       createTrack() {
         this.$store.dispatch('createTrack', this.project)
+      },
+      deleteTrack(track) {
+        var data = {
+          project: this.project,
+          deleting: track
+        }
+        this.$store.dispatch('deleteTrack', data)
       }
     }
   }

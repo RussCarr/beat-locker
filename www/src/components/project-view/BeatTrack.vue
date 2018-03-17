@@ -111,7 +111,7 @@
         }
       },
       deleteTrack() {
-
+        this.$emit('deleteTrack', this.beatTrack)
       }
     }
   }
