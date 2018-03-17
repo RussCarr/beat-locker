@@ -2,12 +2,11 @@
   <div class="sidebar">
     <slideout menu="#menu" side="right" panel="#panel" :toggleSelectors="['.toggle-button']" @on-open="open">
       <main id="panel">
-        <header>
-          <button :activeUser='activeUser' @click='getProjects(activeUser)' class="toggle-button">
-            <</button>
-              My Projects
-        </header>
       </main>
+      <header class="header">
+          <!-- <button :activeUser='activeUser' @click='getProjects(activeUser)' class="toggle-button"></button> -->
+            
+        </header>
       <nav id="menu">
         <div class="myBeatsRoll">
           <myBeatsMenu></myBeatsMenu>
@@ -49,16 +48,16 @@
       open: function () {
         console.log('slideoutOpen')
       },
-      getProjects(activeUser) {
-       console.log('hello',activeUser)
-        this.$store.dispatch('getUserProjects',activeUser)
-      }
+      
     },
 
   }
 </script>
 
 <style scoped>
+.header{
+  /* z-index: 0; */
+}
   .messageRoll {
     /* position: fixed;  */
     overflow-y: scroll;
@@ -90,7 +89,7 @@
 
   .slideout-menu {
     position: fixed;
-    top: 202px;
+    top: 181px;
     bottom: 0;
     width: 400px;
     height: 100vh;

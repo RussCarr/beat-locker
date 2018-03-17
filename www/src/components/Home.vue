@@ -3,18 +3,17 @@
     <navbar></navbar>
     <div class="row">
       <div class="col">
-
-        <div class="col-sm-11">
+        <div class="col-11">
           <project></project>
         </div>
       </div>
-      <div class="col-sm-1">
+      <div class="col-1">
         <sidebar></sidebar>
       </div>
     </div>
     <div class="row">
+      <bottom class="footerBottom"></bottom>
     </div>
-    <bottom class="footerBottom"></bottom>
   </div>
 </template>
 
@@ -46,18 +45,19 @@
       //   return this.$store.state.user._id
       // },
     },
-      methods: {
-        instSelect() {
-          //
-        }
+    methods: {
+      instSelect() {
+        //
       }
     }
+  }
 
 </script>
 
 <style scoped>
   .home {
     overflow-y: hidden;
+    overflow-x: hidden;
   }
 
   .footerBottom {
