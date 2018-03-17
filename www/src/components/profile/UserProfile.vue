@@ -26,7 +26,7 @@
             <li>Bio: {{user.bio}}</li>
             <li>Music Style: {{user.style}}</li>
             <li>Interests: {{user.interests}}</li>
-            <li>Music Styles: {{user.musicStyle}}</li>
+            <li>Genres: {{user.genres}}</li>
           </ul>
         </div>
 

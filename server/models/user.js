@@ -21,7 +21,7 @@ var schema = new Schema({
   imgUrl: String,
   bio: String,
   age: Number,
-  musicStyle: String,
+  genres: String,
   interests: [String]
 });
 
