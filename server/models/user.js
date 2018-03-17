@@ -22,7 +22,7 @@ var schema = new Schema({
   bio: String,
   age: Number,
   genres: String,
-  interests: [String]
+  interests: String,
 });
 
 schema.statics.generateHash = function(password) {

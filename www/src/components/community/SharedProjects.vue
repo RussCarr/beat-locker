@@ -10,7 +10,12 @@
         {{allSharedProject.title}}
       </div>
       <div class="col-1">
-        #1<button>Share</button>
+        #1<select>
+            <option>Facebook</option>
+            <option>SMS:Twilio</option>
+            <option>Twitter</option>
+            <option>Email:mailgun</option>
+          </select>
       </div>
       <div class="col-1">
         #4<button>F</button> 

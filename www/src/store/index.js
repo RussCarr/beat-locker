@@ -98,9 +98,8 @@ export default new vuex.Store({
 
     editUser({ commit, dispatch }, user) {
      console.log(user, "looking for user from edit user form")
-     debugger
       api
-        .put("users/" + user._id , user) // should go to /api/user/:userId ${userId}??
+        .put("users/" + user._id , user) 
         .then(res => {
           var updatedUser = res.data;
           commit("setUser", updatedUser);
@@ -210,9 +209,9 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    getProjectPrivacy({ commit, dispatch }, payload) {
+    getProjectShared({ commit, dispatch }, payload) {
       var setting = {
-        privacy: payload[1]
+        shared: payload[1]
       };
       console.log("setting", setting, payload);
       api
@@ -352,6 +351,36 @@ export default new vuex.Store({
         .catch(err => {
           console.log(err);
         });
+    },
+    loadProjectFromSidebar({ commit, dispatch }, project) {
+      commit("setActiveProject", []);
+      commit("setActiveTracks", []);
+      api
+      .get(`/projects/${project._id}`)
+      .then(res => {
+        // var allUserProjects = res.data;
+        console.log("UserProject", res.data);
+console.log('STATE',this.state.activeProject,this.state.activeTracks)
+        // allUserProjects.sort((projA, projB) => {
+        //   return projB.createdAt - projA.createdAt;
+        // });
+        // var lastCreatedProject = allUserProjects[0];
+        var project = res.data
+        console.log("Project ID", res.data);
+        commit("setActiveProject", project);
+        api(`projects/${project._id}/tracks`)
+          .then(res => {
+            var projectTracks = res.data;
+            console.log("projectTracks", projectTracks);
+            commit("setActiveTracks", projectTracks);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
     },
     getLatestProject({ commit, dispatch }, userId) {
       api
