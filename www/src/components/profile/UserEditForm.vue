@@ -14,49 +14,57 @@
         <div class="modal-mask">
           <div class="modal-wrapper">
             <div class="modal-container">
-
-              <div class="modal-header">
+              <div class="modal-header ">
                 <h3>Profile Edit Form</h3>
               </div>
-
               <div class="modal-body">
-
-                <form action="#" class="border border-secondary" @submit.prevent="submit">
-                  <div class="form-group">
-                    <label class="ml-4" for="username">Name: </label>
-                    <input type="text" id="username" class="form-control" v-model="user.name" placeholder="Name">
-                  </div>
-                  <div class="form-group">
-                    <label class="ml-4" for="email">Email: </label>
-                    <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
-                  </div>
-                  <div class="form-group">
-                    <label class="ml-4" for="password">Password: </label>
-                    <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
-                  </div>
-                  <div class="form-group">
-                    <label class="ml-4" for="imgUrl">Image URL: </label>
-                    <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
-                  </div>
-                  <div class="form-group">
-                    <label class="ml-4" for="bio">Brief bio: </label>
-                    <textarea type="text" id="bio" class="form-control" v-model="user.bio" rows="2" placeholder="Who I am..."></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label class="ml-4" for="interests">Interests: </label>
-                    <input type="text" id="interests" class="form-control" v-model="user.interests" placeholder="Interests">
-                  </div>
-                  <div class="form-group">
-                    <label class="ml-4" for="age">Age: </label>
-                    <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
-                  </div>
-                  <div class="form-group">
-                      <label class="ml-4" for="genres">Genres: </label>
-                      <input type="text" id="genres" class="form-control" v-model="user.genres" placeholder="Your favorite genres">  
+                <form action="#" @submit.prevent="submit">
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="username">Name: </label>
+                      <input type="text" id="username" class="form-control" v-model="user.name" placeholder="Name">
                     </div>
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="email">Email: </label>
+                      <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="password">Password: </label>
+                      <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="imgUrl">Image URL: </label>
+                      <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="age">Age: </label>
+                      <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="genres">Genres: </label>
+                      <input type="text" id="genres" class="form-control" v-model="user.genres" placeholder="Your favorite genres">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="interests">Interests: </label>
+                      <input type="text" id="interests" class="form-control" rows="2" v-model="user.interests" placeholder="Interests">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label class="ml-4" for="bio">Brief bio: </label>
+                      <textarea type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Who I am..."></textarea>
+                    </div>
+                  </div>
                 </form>
 
               </div>
+
+
+
 
               <div class="modal-footer">
                 <div name="footer">
@@ -166,6 +174,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
+    Overflow-y: scroll
   }
 
   .modal-header h3 {
