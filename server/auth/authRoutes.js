@@ -3,7 +3,8 @@ var router = require('express').Router()
 var errorMessage = { error: 'Invalid Username and/or Password' }
 
 router.post('/auth/register', (req, res) => {
-  req.body.password = User.generateHash(req.body.password)
+  req.body.password = User.generateHash(req.body.password.trim())
+  req.body.email = req.body.email.trim()
   User.create(req.body)
     .then(user => {
       if (!user) {
