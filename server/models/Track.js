@@ -6,49 +6,49 @@ var schema = new Schema({
   instrumentName: {
     type: String,
     required: true,
-    // default: "snare-big"
+    default: "snare-big"
   },
   instrumentSamplePath: {
     type: String,
     required: true,
-    // default: "./../../assets/audio/snare-big.wav"
+    default: "./../../assets/audio/snare-big.wav"
   },
   barCount: {
     type: Number,
     required: true,
-    // default: 4
+    default: 4
   },
   stepsPerBar: {
     type: Number,
     required: true,
-    // default: 4
+    default: 4
   },
   stepSequence: {
     type: [Boolean],
     required: true,
-    // default: [
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false,
-    //   false
-    // ]
+    default: [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
   },
   faderSetting: {
     type: Number,
     required: true,
-    // default: 5
+    default: 5
   },
   createdAt: {
     type: Number
