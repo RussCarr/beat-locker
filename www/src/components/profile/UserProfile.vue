@@ -79,6 +79,11 @@
   .profile-img {
     width: 250px;
     height: 250px;
+    background-color: black;
+    outline-color: black;
+    outline-style: solid;
+    outline-width: 2px;
+  
   }
 
   .profile-text {
