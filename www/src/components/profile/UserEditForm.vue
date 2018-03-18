@@ -101,7 +101,17 @@
     },
     methods: {
       submit() {
-        this.$store.dispatch('editUser', this.user)
+        var updatedUser = {
+          _id: this.user._id,
+          name: this.user.name,
+          email: this.user.email,
+          imgUrl: this.user.imgUrl,
+          age: this.user.age,
+          genres: this.user.genres,
+          interest: this.user.interests,
+          bio: this.user.bio
+        }
+        this.$store.dispatch('editUser', updatedUser)
       },
       close() {
         this.showSideBar = false
