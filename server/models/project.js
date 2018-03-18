@@ -14,7 +14,8 @@ var schema = new Schema({
     default: "New Beat-Locker project"
   },
   createdAt: {
-    type: Number
+    type: Number,
+    required: true
     // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
   },
   userId: {
@@ -59,12 +60,11 @@ var schema = new Schema({
     default: 0
   },
   // originalProjectId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true
+  //   type: String
+    // required: true
   // },
   // originalProjectCreatorId: {
-  //   type: String,
+  //   type: String
     // required: true
   // },
   // originalcreatedAt: {

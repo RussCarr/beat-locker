@@ -21,7 +21,7 @@ var schema = new Schema({
   imgUrl: {
     type: String,
     // required: true,
-    default: 'https://robohash.org/${user.name}.png'
+    default: 'https://robohash.org/default.png'
 },
   
   bio: String,
