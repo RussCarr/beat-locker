@@ -1,8 +1,9 @@
 var router = require("express").Router();
 var project = require("../models/project");
+var projectFork = require("../models/projectFork");
 var track = require("../models/track");
 
-// Create a Project
+// // Create a Project
 router.post("/api/projects", (req, res, next) => {
   // req.body.userId = req.session.uid; // Get the userId from the logged-in user's session
   if (req.session.uid) {
@@ -43,6 +44,7 @@ router.get("/api/users/:userId/projects", (req, res, next) => {
 
 // Update a Project by ID
 router.put("/api/projects/:projectId", (req, res, next) => {
+  console.log('here is the req',req)
   project
     .findByIdAndUpdate(req.params.projectId, req.body, { new: true })
     .then(project => {

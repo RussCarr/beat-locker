@@ -81,7 +81,7 @@
       },
       getProjects(user) {
         console.log('navuser', user)
-        this.$store.dispatch('getUserProjects', user)
+        this.$store.dispatch('getUserProjects', user._id)
       }
     }
   }
