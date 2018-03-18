@@ -19,9 +19,11 @@ var schema = new Schema({
     // minlength: 6
   },
   imgUrl: {
-    String,
-    default: "http://placehold.it/300x300"
-  },
+    type: String,
+    // required: true,
+    default: 'http://placehold.it/200X200'
+},
+  
   bio: String,
   age: Number,
   genres: String,
