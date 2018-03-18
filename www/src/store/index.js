@@ -420,10 +420,33 @@ export default new vuex.Store({
         });
     },
     cloneProject({ commit, dispatch }, payload) {
-      console.log(payload)
+      console.log('Hello Before',payload)
+      debugger
+      var clonedProject = payload
+      // var originalProjectId = ""
+      // var originalCreatedAt = ""
+      // var originalProjectCreatorId = ""
+      clonedProject.originalProjectId=""
+      clonedProject.originalCreatedAt=""
+      clonedProject.originalProjectCreatorId=""
+      // orginal created info
+      clonedProject.originalProjectId = clonedProject._id
+      clonedProject.originalCreatedAt = clonedProject.createdAt
+      clonedProject.originalProjectCreatorId = clonedProject.userId
+      //orginal stuff changed
+      clonedProject.title = clonedProject.title + " Cloned"
+      clonedProject.forkCount = clonedProject.forkCount + 1
+      clonedProject.shared = false
+      clonedProject.createdAt = Date.now()
+      // deleted stuff
+      delete clonedProject._id
+      // delete clonedProject.createdAt
+      delete clonedProject.userId
+      console.log('hello after',clonedProject)
+      // clonedProject.userId = ""
       // var cloned = res.data;
       api
-      .post("projects")
+      .post("projects",clonedProject)
       .then(res => {
         console.log("Cloned DATA", res.data);
         var clonedProject = payload
@@ -436,8 +459,23 @@ export default new vuex.Store({
         clonedProject._id = res.data._id
         clonedProject.createdAt = ""
         clonedProject.shared = false
-        console.log('clonedProject',clonedProject)
-       dispatch('updateProject',clonedProject)
+        // console.log('clonedProject',clonedProject)
+        // api.put(`projects/${clonedProject._id}`, clonedProject)
+        // .then(res => {
+        //   var updatedProject = res.data.data;
+        //   console.log(updatedProject);
+        //   commit("setActiveProject", updatedProject);
+        // })
+      //  for (const trackIds in updatedProject) {
+      //    if (updatedProject.hasOwnProperty(trackIds)) {
+      //      const element = updatedProject[trackIds];
+      //      api.post('tracks')
+      //      .then(res => {
+      //        console.log('cloned Track',res.data)
+      //      })
+      //    }
+      //  } 
+      //  dispatch('updateProject',clonedProject)
           // console.log("Cloned Updated DATA", res);
         
         // dispatch("getLatestProject", newUser._id);
