@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-12 profile-top-margin">
       <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-3 centerFlex profile-bg-img profile-pad">
@@ -114,6 +114,10 @@
 
   .profile-margin {
     margin: 2rem;
+  }
+
+  .profile-top-margin {
+    margin-top: 2rem;
   }
 
   .below-nav {
