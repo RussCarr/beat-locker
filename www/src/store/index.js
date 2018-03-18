@@ -434,7 +434,7 @@ export default new vuex.Store({
         .then(res => {
           console.log("Cloned DATA", res);
           // var cloned = res.data;
-          ;
+          
 
           // dispatch("getLatestProject", newUser._id);
         })

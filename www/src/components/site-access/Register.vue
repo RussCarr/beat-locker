@@ -48,7 +48,7 @@
           name: "",
           email: "",
           password: "",
-          imgUrl: "",
+          // imgUrl: "",
           bio: ""
         }
       }

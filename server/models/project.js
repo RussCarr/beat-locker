@@ -61,11 +61,11 @@ var schema = new Schema({
   originalProjectId: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true
+    // required: true
   },
   originalProjectCreatorId: {
     type: String,
-    required: true
+    // required: true
   },
   originalcreatedAt: {
     type: Number
