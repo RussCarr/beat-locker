@@ -100,7 +100,6 @@ export default new vuex.Store({
     },
 
     editUser({ commit, dispatch }, user) {
-      console.log(user, "looking for user from edit user form");
       api
         .put("users/" + user._id, user)
         .then(res => {
@@ -582,7 +581,6 @@ export default new vuex.Store({
         });
     },
     updateTrack({ commit, dispatch }, updatedTrack) {
-      // console.log('updatedTrack', updatedTrack)
       api.put(`tracks/${updatedTrack._id}`, updatedTrack).then(res => {
         var updatedTrack = res.data.data;
         console.log("updatedTrack", updatedTrack);

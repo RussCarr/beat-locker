@@ -21,7 +21,7 @@ var schema = new Schema({
   imgUrl: {
     type: String,
     // required: true,
-    default: 'http://placehold.it/200X200'
+    default: 'https://robohash.org/default.png'
 },
   
   bio: String,
