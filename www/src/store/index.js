@@ -178,7 +178,7 @@ export default new vuex.Store({
     },
 
     // API
-    getUserProjects({ commit, dispatch }, activeUser) {
+    getUserProjects({ commit, dispatch }, user) {
       api
         .get(`users/${user._id}/projects`)
         .then(res => {
