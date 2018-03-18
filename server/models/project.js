@@ -60,12 +60,25 @@ var schema = new Schema({
   },
   originalProjectId: {
     type: Schema.Types.ObjectId,
-    ref: "Project"
+    ref: "User",
+    required: true
   },
   originalProjectCreatorId: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+    type: String,
+    required: true
+  },
+  originalcreatedAt: {
+    type: Number
+    // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
+  },
+  // originalProjectId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Project"
+  // },
+  // originalProjectCreatorId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "User"
+  // }
 });
 
 module.exports = mongoose.model(schemaName, schema);

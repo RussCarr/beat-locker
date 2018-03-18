@@ -390,32 +390,59 @@ export default new vuex.Store({
       commit("setActiveProject", []);
       commit("setActiveTracks", []);
       api
-      .get(`/projects/${project._id}`)
-      .then(res => {
-        // var allUserProjects = res.data;
-        // console.log("UserProject", res.data);
-// console.log('STATE',this.state.activeProject,this.state.activeTracks)
-        // allUserProjects.sort((projA, projB) => {
-        //   return projB.createdAt - projA.createdAt;
-        // });
-        // var lastCreatedProject = allUserProjects[0];
-        var project = res.data
-        // console.log("Project ID", res.data);
-        commit("setActiveProject", project);
-        api(`projects/${project._id}/tracks`)
-          .then(res => {
-            var projectTracks = res.data;
-            // console.log("projectTracks", projectTracks);
-            commit("setActiveTracks", projectTracks);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+        .get(`/projects/${project._id}`)
+        .then(res => {
+          // var allUserProjects = res.data;
+          // console.log("UserProject", res.data);
+          // console.log('STATE',this.state.activeProject,this.state.activeTracks)
+          // allUserProjects.sort((projA, projB) => {
+          //   return projB.createdAt - projA.createdAt;
+          // });
+          // var lastCreatedProject = allUserProjects[0];
+          var project = res.data;
+          // console.log("Project ID", res.data);
+          commit("setActiveProject", project);
+          api(`projects/${project._id}/tracks`)
+            .then(res => {
+              var projectTracks = res.data;
+              // console.log("projectTracks", projectTracks);
+              commit("setActiveTracks", projectTracks);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
+    cloneProject({ commit, dispatch }, payload) {
+      console.log(payload)
+           var clonedProject = payload
+        console.log('clonedProject',clonedProject)
+        clonedProject.title = clonedProject.title + " Cloned"
+        clonedProject.forkCount = clonedProject.forkCount + 1
+        clonedProject.originalProjectId = clonedProject._id
+        clonedProject.originalProjectCreatorId = clonedProject.userId
+        clonedProject.originalCreatedAt = clonedProject.createdAt
+        clonedProject.userId = ""
+        clonedProject._id = ""
+        clonedProject.createdAt = ""
+        clonedProject.shared = false
+      api
+        .post(`/projects/`)
+        .then(res => {
+          console.log("Cloned DATA", res);
+          // var cloned = res.data;
+          ;
+
+          // dispatch("getLatestProject", newUser._id);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
     getLatestProject({ commit, dispatch }, userId) {
       api
         .get(`users/${userId}/projects`)

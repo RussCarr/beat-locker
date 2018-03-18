@@ -18,11 +18,14 @@ var schema = new Schema({
     required: true
     // minlength: 6
   },
-  imgUrl: String,
+  imgUrl: {
+    String,
+    default: "http://placehold.it/300x300"
+  },
   bio: String,
   age: Number,
   genres: String,
-  interests: String,
+  interests: String
 });
 
 schema.statics.generateHash = function(password) {
