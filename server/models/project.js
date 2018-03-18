@@ -5,13 +5,13 @@ var schemaName = "Project";
 var schema = new Schema({
   title: {
     type: String,
-    // required: true,
-    // default: "Untitled Project"
+    required: true,
+    default: "Untitled Project"
   },
   description: {
     type: String,
-    // required: true,
-    // default: "New Beat-Locker project"
+    required: true,
+    default: "New Beat-Locker project"
   },
   createdAt: {
     type: Number
@@ -20,65 +20,65 @@ var schema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    // required: true
+    required: true
   },
   trackIds: [String], // IDs of the Tracks that 'belong' to this Project
   barCount: {
     type: Number,
-    // required: true,
-    // default: 4
+    required: true,
+    default: 4
   },
   stepsPerBar: {
     type: Number,
-    // required: true,
-    // default: 4
+    required: true,
+    default: 4
   },
   bpmSetting: {
     type: Number,
-    // required: true,
-    // default: 120
+    required: true,
+    default: 120
   },
   shared: {
     type: Boolean,
-    // required: true,
-    // default: false
+    required: true,
+    default: false
   },
   forkCount: {
     type: Number,
-    // required: true,
-    // default: 0
+    required: true,
+    default: 0
   },
   playCount: {
     type: Number,
-    // required: true,
-    // default: 0
+    required: true,
+    default: 0
   },
   shareCount: {
     type: Number,
-    // required: true,
-    // default: 0
+    required: true,
+    default: 0
   },
   // originalProjectId: {
   //   type: Schema.Types.ObjectId,
   //   ref: "User",
   //   required: true
   // },
-  originalProjectCreatorId: {
-    type: String,
-    // required: true
-  },
-  originalcreatedAt: {
-    type: Number
-    // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
-  },
-  // originalProjectId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Project"
-  // },
   // originalProjectCreatorId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User"
-  // }
+  //   type: String,
+    // required: true
+  // },
+  // originalcreatedAt: {
+  //   type: Number
+    // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
+  // },
+  originalProjectId: {
+    type: Schema.Types.ObjectId,
+    ref: "Project"
+  },
+  originalProjectCreatorId: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 module.exports = mongoose.model(schemaName, schema);

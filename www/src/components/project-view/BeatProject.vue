@@ -176,7 +176,11 @@
         })
         var sampleNames = Object.keys(samples)
 
-        var players = new Tone.Players(samples).toMaster()
+        var players = new Tone.Players(samples, () => {
+          // These statements will run once the players' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
+          Tone.Transport.start() // Start ToneJS's core time-keeper
+          this.loop.start() // Start the loop play-back
+        }).toMaster() // Connect the players to the master audio output (i.e. the speakers)
 
         // Define sequence options:
         // 1. Create an array of integers with length equal to the length of the current track stepSequences
@@ -189,7 +193,7 @@
           for (var i = 0; i < this.beatTracks.length; i++) {
             var track = this.beatTracks[i]
             var stepSequence = track.stepSequence
-
+            
             // Get an instance of Tone.Player for the current track
             var player = players.get(sampleNames[i])
             // console.log('player', player)
@@ -210,10 +214,6 @@
         }, events, subdivision)
 
         Tone.Transport.bpm.value = this.project.bpmSetting // Set beats-per-minute
-        // console.log('bpm setting', this.project.bpmSetting, 'Tone.Transport.bpm.value', Tone.Transport.bpm.value)
-
-        Tone.Transport.start() // Start ToneJS's core time-keeper
-        this.loop.start() // Start the loop play-back
       },
       stop() {
         this.loop.stop()
