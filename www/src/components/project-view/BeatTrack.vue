@@ -26,9 +26,9 @@
       </div>
 
       <div class="ml-3">
-        <a href="#" class="delete-track text-light" @click.prevent="deleteTrack">
-          <i class="fas fa-trash-alt fa-lg"></i>
-        </a>
+        <button class="btn btn-sm btn-outline-light mr-2" @click="deleteTrack">
+            <i class="fas fa-trash-alt"></i> Remove track
+        </button>
       </div>
 
     </div>
