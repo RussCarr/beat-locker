@@ -12,10 +12,11 @@
               <i class="far fa-play-circle m-l-5"></i>
             </a>
             {{allSharedProject.title}}
+            <p class="createdBy">created by:</p>
+            <p class="createdUser">{{allSharedProject.userId}}</p>
           </div>
           <div class="col-3">
-
-            <a href="#" class="text-light mr-5" @click.prevent="">
+            <a href="#" class="text-light mr-5" @click.prevent="forkProject(allSharedProject,user)">
               <i class="fas fa-code-branch"></i>
 
             </a>
@@ -60,11 +61,16 @@
       }
     },
     props: [
-      'allSharedProject'
+      'allSharedProject',
+      'user'
     ],
     methods: {
-      instSelect() {
-        //
+      forkProject(allSharedProject,user) {
+        console.log('fork project',allSharedProject,user)
+        // var payload = []
+        // payload.push(allSharedProject)
+        // payload.push(user._id)
+        this.$store.dispatch('cloneProject',allSharedProject)
       }
     }
   }
@@ -73,6 +79,14 @@
 
 <style scoped>
   .sharedTracks {
+    color: white;
+  }
+  .createdBy{
+    font-size: 10px;
+    color: white;
+  }
+  .createdUser{
+    font-size: 10px;
     color: white;
   }
 </style>

@@ -4,82 +4,71 @@
       <div class="col">
         <div class="col-sm-10"></div>
         <div class="col-sm-2  d-flex">
-          <h6 @click="openSideBar" @OpenSideBar="openSideBar(this.user)" class="sideBarLayout edit-profile-cursor">
+          <h6 @click="launchEditUser" @LaunchEditUser="launchEditUser(this.user)" class="editUserLayout edit-profile-cursor">
             <i class="far fa-edit"></i>Edit Profile</h6>
         </div>
       </div>
     </div>
-    <div v-if="showSideBar" class="bar">
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-              <div class="modal-header ">
-                <h3>Profile Edit Form</h3>
-              </div>
-              <div class="modal-body">
-                <form action="#" @submit.prevent="submit">
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="username">Name: </label>
-                      <input type="text" id="username" class="form-control" v-model="user.name" placeholder="Name">
-                    </div>
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="email">Email: </label>
-                      <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="password">Password: </label>
-                      <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
-                    </div>
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="imgUrl">Image URL: </label>
-                      <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="age">Age: </label>
-                      <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
-                    </div>
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="genres">Genres: </label>
-                      <input type="text" id="genres" class="form-control" v-model="user.genres" placeholder="Your favorite genres">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="interests">Interests: </label>
-                      <input type="text" id="interests" class="form-control" rows="2" v-model="user.interests" placeholder="Interests">
-                    </div>
-                    <div class="form-group col-sm-6">
-                      <label class="ml-4" for="bio">Brief bio: </label>
-                      <textarea type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Who I am..."></textarea>
-                    </div>
-                  </div>
-                </form>
-
-              </div>
-
-
-
-
-              <div class="modal-footer">
-                <div name="footer">
-                  <button type="submit" class="btn btn-primary okButton px-4" @click.prevent="submit" @click="close">
-                    OK
-                  </button>
-                  <button class="btn btn-secondary px-4" @click="close">
-                    Close
-                  </button>
-                </div>
-              </div>
+    <div v-if="showEditUser" class="bar">
+      <div class="background">
+        <div class="editUser overflow-scroll">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4>Profile Edit Form</h4>
             </div>
           </div>
+          <form action="#" @submit.prevent="submit">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="username">Name: </label>
+                <input type="text" id="username" class="form-control" v-model="user.name" placeholder="Name">
+              </div>
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="email">Email: </label>
+                <input type="text" id="email" class="form-control" v-model="user.email" placeholder="my@address.com">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="password">Password: </label>
+                <input type="password" id="password" class="form-control" v-model="user.password" placeholder="********">
+              </div>
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="imgUrl">Image URL: </label>
+                <input type="text" id="imgUrl" class="form-control" v-model="user.imgUrl" placeholder="http://my/photo/somewhere.com">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="age">Age: </label>
+                <input type="number" id="age" class="form-control" v-model="user.age" placeholder="Age">
+              </div>
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="genres">Genres: </label>
+                <input type="text" id="genres" class="form-control" v-model="user.genres" placeholder="Your favorite genres">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="interests">Interests:</label>
+                <input type="text" id="interests" class="form-control" rows="2" v-model="user.interests" placeholder="Interests">
+              </div>
+              <div class="form-group col-sm-6">
+                <label class="ml-4" for="bio">Brief bio: </label>
+                <textarea type="text" id="bio" class="form-control" v-model="user.bio" placeholder="Who I am..."></textarea>
+              </div>
+            </div>
+          </form>
+          <div name="footer">
+            <button type="submit" class="btn btn-primary okButton px-4" @click.prevent="submit" @click="close">
+              OK
+            </button>
+            <button class="btn btn-secondary px-4" @click="close">
+              Close
+            </button>
+          </div>
         </div>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -91,7 +80,7 @@
 
     data() {
       return {
-        showSideBar: false,
+        showEditUser: false,
       }
     },
     computed: {
@@ -101,13 +90,23 @@
     },
     methods: {
       submit() {
-        this.$store.dispatch('editUser', this.user)
+        var updatedUser = {
+          _id: this.user._id,
+          name: this.user.name,
+          email: this.user.email,
+          imgUrl: this.user.imgUrl,
+          age: this.user.age,
+          genres: this.user.genres,
+          interests: this.user.interests,
+          bio: this.user.bio
+        }
+        this.$store.dispatch('editUser', updatedUser)
       },
       close() {
-        this.showSideBar = false
+        this.showEditUser = false
       },
-      openSideBar() {
-        this.showSideBar = true
+      launchEditUser() {
+        this.showEditUser = true
       },
     },
 
@@ -147,105 +146,40 @@
     cursor: pointer;
   }
 
-  .modal-mask {
+  .background {
+    background-color: rgba(0, 0, 0, .8);
     position: fixed;
-    z-index: 9998;
+    width: 100%;
+    height: 100vh;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .5);
-    display: table;
-    transition: opacity .3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .modal-wrapper {
-    display: table-cell;
-    vertical-align: middle;
-  }
-
-  .modal-container {
-    width: 800px;
-    margin: 0px auto;
+  .editUser {
+    width: 95%;
     background-color: rgba(206, 33, 53, 1.0);
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 1rem;
     border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-    transition: all .3s ease;
-    font-family: Helvetica, Arial, sans-serif;
-    Overflow-y: scroll
   }
 
-  .modal-header h3 {
-    margin-top: 0;
-    color: rgba(251, 251, 251, 1.0);
-    border-bottom-color: rgba(206, 33, 53, 1.0);
+  @media (min-width: 576px) {
+    div.editUser {
+      width: 50%;
+      }
   }
 
-  .modal-footer {
-    border-top-color: rgba(206, 33, 53, 1.0);
+  .overflow-scroll {
+    overflow-y: scroll;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    max-height: 90%;
+    max-width: 90%;
   }
 
-  .modal-body {
-    background-color: rgba(55, 37, 41, 1.0);
-    color: rgba(251, 251, 251, 1.0);
-  }
-
-  .modal-default-button {
-    float: right;
-  }
-
-  /*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
-  .modal-enter {
-    opacity: 0;
-  }
-
-  .modal-leave-active {
-    opacity: 0;
-  }
-
-  .modal-enter .modal-container,
-  .modal-leave-active .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-  }
-
-  .tabs-right {
-    border-left: 1px solid #ddd;
-  }
-
-  .tabs-right>li {
-    margin-left: -1px;
-  }
-
-  .tabs-right>li.active>a,
-  .tabs-right>li.active>a:hover,
-  .tabs-right>li.active>a:focus {
-    border-bottom: 1px solid #ddd;
-    border-left-color: transparent;
-  }
-
-  .tabs-right>li>a {
-    border-radius: 0 4px 4px 0;
-    margin-right: 0;
-  }
-
-  .tabs-left,
-  .tabs-right {
-    border-bottom: none;
-    padding-top: 2px;
-  }
-
-  sideBarLayout {
+  editUserLayout {
     border: 2px solid black;
   }
 </style>

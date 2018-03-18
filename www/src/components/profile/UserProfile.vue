@@ -6,22 +6,19 @@
           <navbar></navbar>
         </div>
       </div>
-
     </div>
-    <div class="col-sm-12">
-      <div class="row userProfile justify-content-between">
-        <div class="col-sm-5">
-          <userEditForm></userEditForm>
-        </div>
-        <div class="col-sm-6">
-
-        </div>
-        <div class="col-1">
-          <sidebar></sidebar>
-        </div>
+    <div class="row userProfile justify-content-between">
+      <div class="col-sm-5">
+        <!-- <userEditForm></userEditForm> -->
+      </div>
+      <div class="col-sm-5">
+      </div>
+      <div class="col-1">
+        <sidebar></sidebar>
       </div>
     </div>
-    <div class="col-sm-12">
+
+    <div class="col-sm-12 profile-top-margin">
       <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-3 centerFlex profile-bg-img profile-pad">
@@ -40,6 +37,7 @@
               <li>Interests: {{user.interests}}</li>
               <li>Genres: {{user.genres}}</li>
             </ul>
+            <userEditForm></userEditForm>
           </div>
         </div>
         <div class="col-sm-2"></div>
@@ -79,6 +77,11 @@
   .profile-img {
     width: 250px;
     height: 250px;
+    background-color: black;
+    outline-color: black;
+    outline-style: solid;
+    outline-width: 2px;
+
   }
 
   .profile-text {
@@ -108,6 +111,10 @@
 
   .profile-margin {
     margin: 2rem;
+  }
+
+  .profile-top-margin {
+    margin-top: 2rem;
   }
 
   .below-nav {

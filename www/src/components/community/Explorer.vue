@@ -27,12 +27,9 @@
         </div>
       </div>
       <div class="col-7 text-center">
-         
-                <p class="text-center">Sorted by {Catagory}</p>
-             
-    
-        <sharedProjects :allSharedProject='allSharedProject' class="mt-4" v-for="allSharedProject in allSharedProjects" :key='allSharedProject._id'></sharedProjects>
-
+        <p class="text-center">Sorted by {Catagory}{{user}}</p>
+        <sharedProjects :user='user' :allSharedProject='allSharedProject' class="mt-4" v-for="allSharedProject in allSharedProjects"
+          :key='allSharedProject._id'></sharedProjects>
       </div>
       <div class="col-0">
 
@@ -55,7 +52,7 @@
       navbar: Navbar,
       sidebar: SideBar,
       sharedProjects: SharedProjects,
-      
+
 
     },
     data() {
@@ -69,16 +66,17 @@
         // getPrivacy(communityData)
         // return communityData.privacy
         // getPrivacy()
-         var test = communityData.filter(project => {
-          return project.shared===true
-        }) 
+        var test = communityData.filter(project => {
+          return project.shared === true
+        })
         console.log('communityData1', test)
         // Object.keys(communityData).forEach(privacy => {
         //  for(var privacy in communityData)
         return test
-       
         // })
-
+      },
+      user() {
+        return this.$store.state.user
       }
     },
     methods: {

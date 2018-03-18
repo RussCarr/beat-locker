@@ -18,11 +18,16 @@ var schema = new Schema({
     required: true
     // minlength: 6
   },
-  imgUrl: String,
+  imgUrl: {
+    type: String,
+    // required: true,
+    default: 'https://robohash.org/${user.name}.png'
+},
+  
   bio: String,
   age: Number,
   genres: String,
-  interests: String,
+  interests: String
 });
 
 schema.statics.generateHash = function(password) {

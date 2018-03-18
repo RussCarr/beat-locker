@@ -47,29 +47,29 @@ export default new vuex.Store({
     },
 
     setActiveProject(state, project) {
-      this.state.activeProject = project;
+      state.activeProject = project;
     },
     setActiveTracks(state, tracks) {
-      this.state.activeTracks = tracks;
+      state.activeTracks = tracks;
     },
     addActiveTrack(state, track) {
-      this.state.activeTracks.push(track);
+      state.activeTracks.push(track);
     },
     removeActiveTrack(state, track) {
-      this.state.activeTracks.splice(this.state.activeTracks.indexOf(track), 1);
+      state.activeTracks.splice(state.activeTracks.indexOf(track), 1);
     },
     updateActiveTracks(state, data) {
-      this.state.activeTracks.find(
+      state.activeTracks.find(
         track => track._id === data.trackId
       ).stepSequence =
         data.stepSequence;
     },
     setUserProjects(state, userCreatedProject) {
-      this.state.userProjects = userCreatedProject;
+      state.userProjects = userCreatedProject;
     },
     setAllUserProjects(state, allUserProjects) {
       console.log("state", allUserProjects);
-      this.state.community = allUserProjects;
+      state.community = allUserProjects;
     }
   },
 
@@ -179,8 +179,11 @@ export default new vuex.Store({
 
     // API
     getUserProjects({ commit, dispatch }, user) {
+    //  var user = 
+    //   var userId = user._id ||
+    //   console.log('test')
       api
-        .get(`users/${user._id}/projects`)
+        .get(`users/${user}/projects`)
         .then(res => {
           var userCreatedProjects = res.data;
 
@@ -390,32 +393,60 @@ export default new vuex.Store({
       commit("setActiveProject", []);
       commit("setActiveTracks", []);
       api
-      .get(`/projects/${project._id}`)
+        .get(`/projects/${project._id}`)
+        .then(res => {
+          // var allUserProjects = res.data;
+          // console.log("UserProject", res.data);
+          // console.log('STATE',this.state.activeProject,this.state.activeTracks)
+          // allUserProjects.sort((projA, projB) => {
+          //   return projB.createdAt - projA.createdAt;
+          // });
+          // var lastCreatedProject = allUserProjects[0];
+          var project = res.data;
+          // console.log("Project ID", res.data);
+          commit("setActiveProject", project);
+          api(`projects/${project._id}/tracks`)
+            .then(res => {
+              var projectTracks = res.data;
+              // console.log("projectTracks", projectTracks);
+              commit("setActiveTracks", projectTracks);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    cloneProject({ commit, dispatch }, payload) {
+      console.log(payload)
+      // var cloned = res.data;
+      api
+      .post("projects")
       .then(res => {
-        // var allUserProjects = res.data;
-        // console.log("UserProject", res.data);
-// console.log('STATE',this.state.activeProject,this.state.activeTracks)
-        // allUserProjects.sort((projA, projB) => {
-        //   return projB.createdAt - projA.createdAt;
-        // });
-        // var lastCreatedProject = allUserProjects[0];
-        var project = res.data
-        // console.log("Project ID", res.data);
-        commit("setActiveProject", project);
-        api(`projects/${project._id}/tracks`)
-          .then(res => {
-            var projectTracks = res.data;
-            // console.log("projectTracks", projectTracks);
-            commit("setActiveTracks", projectTracks);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        console.log("Cloned DATA", res.data);
+        var clonedProject = payload
+        clonedProject.title = clonedProject.title + " Cloned"
+        clonedProject.forkCount = clonedProject.forkCount + 1
+        clonedProject.originalProjectId = clonedProject._id
+        clonedProject.originalProjectCreatorId = clonedProject.userId
+        clonedProject.originalCreatedAt = clonedProject.createdAt
+        clonedProject.userId = res.data.userId
+        clonedProject._id = res.data._id
+        clonedProject.createdAt = ""
+        clonedProject.shared = false
+        console.log('clonedProject',clonedProject)
+       dispatch('updateProject',clonedProject)
+          // console.log("Cloned Updated DATA", res);
+        
+        // dispatch("getLatestProject", newUser._id);
       })
       .catch(err => {
         console.log(err);
       });
     },
+
     getLatestProject({ commit, dispatch }, userId) {
       api
         .get(`users/${userId}/projects`)

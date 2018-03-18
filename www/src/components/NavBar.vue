@@ -11,11 +11,15 @@
       </div>
       <div class="col-sm-2 user">
         <div class="row">
-          <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
+          <div class="col-sm-12">
+            <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
+          </div>
         </div>
         <div class="row">
-          <button @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
-            <i class="fas fa-angle-double-left"></i> My Projects </button>
+          <div class="col-sm-12">
+            <button @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
+              <i class="fas fa-angle-double-left"></i> My Projects </button>
+          </div>
         </div>
       </div>
     </div>
@@ -81,7 +85,7 @@
       },
       getProjects(user) {
         console.log('navuser', user)
-        this.$store.dispatch('getUserProjects', user)
+        this.$store.dispatch('getUserProjects', user._id)
       }
     }
   }
@@ -106,7 +110,7 @@
   }
 
   .toggle-button {
-    color: red;
+    color: white;
   }
 
   .logo {
