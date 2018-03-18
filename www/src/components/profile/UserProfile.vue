@@ -11,7 +11,7 @@
     <div class="col-sm-12">
       <div class="row userProfile justify-content-between">
         <div class="col-sm-5">
-          <userEditForm></userEditForm>
+          <!-- <userEditForm></userEditForm> -->
         </div>
         <div class="col-sm-6">
 
@@ -40,6 +40,7 @@
               <li>Interests: {{user.interests}}</li>
               <li>Genres: {{user.genres}}</li>
             </ul>
+            <userEditForm></userEditForm>
           </div>
         </div>
         <div class="col-sm-2"></div>
