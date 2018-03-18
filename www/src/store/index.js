@@ -513,7 +513,6 @@ export default new vuex.Store({
         });
     },
     updateTrack({ commit, dispatch }, updatedTrack) {
-      // console.log('updatedTrack', updatedTrack)
       api.put(`tracks/${updatedTrack._id}`, updatedTrack).then(res => {
         var updatedTrack = res.data.data;
         console.log("updatedTrack", updatedTrack);

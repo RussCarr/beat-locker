@@ -4,21 +4,51 @@
     <div class="row my-4 text-left">
 
       <div class="col-4 pl-0">
-        <button class="save btn btn-sm btn-outline-light px-4 pb-2" @click="saveProject">save project</button>
+        <button class="save btn btn-sm btn-outline-light px-4 pb-2" @click="saveProject">
+          <i class="far fa-save"></i> Save project
+        </button>
       </div>
 
       <div class="col-8 pl-0">
-        <div v-if="!showTitleEdit">
-          <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
-          <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
-            <i class="fas fa-pencil-alt"></i>
-          </a>
+        
+        <div>
+          <div v-if="!showTitleEdit">
+            <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
+            <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+          </div>
+          <div v-if="showTitleEdit" class="d-flex align-content-center">
+            <input type="text" class="form-control w-50 d-inline-block" v-model="projectTitle">
+            <button class="save-project btn ml-2 px-4 text-white" @click="updateTitle">save</button>
+            <button class="cancel btn btn-secondary ml-2 px-4 text-white" @click="cancelTitleEdit">cancel</button>
+          </div>
         </div>
-        <div v-if="showTitleEdit" class="d-flex align-content-center">
-          <input type="text" class="form-control w-50 d-inline-block" v-model="projectTitle">
-          <button class="save-project btn ml-2 px-4 text-white" @click="updateTitle">save</button>
-          <button class="cancel btn btn-secondary ml-2 px-4 text-white" @click="cancelTitleEdit">cancel</button>
+
+        <div class="project-options d-flex text-white mt-2">
+          
+          <form class="form-inline">
+            <div class="form-group mr-3">
+              <label class="mr-2" for="steps-per-bar">steps per bar:</label>
+              <select class="steps-per-bar form-control py-0" id="steps-per-bar" v-model="stepsPerBar" @change="changeStepsPerBar">
+                <option>3</option>
+                <option selected>4</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="mr-2" for="bar-count">total bars:</label>
+              <select class="bar-count form-control py-0" id="bar-count" v-model="barCount" @change="changeBarCount">
+                <option>2</option>
+                <option>3</option>
+                <option selected>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select>
+            </div>
+          </form>
+
         </div>
+
       </div>
       
     </div>
@@ -35,7 +65,9 @@
     <div class="row">
 
       <div class="col-4 mt-4 pr-5">
-        <button class="btn btn-sm btn-outline-light mr-2" @click="createTrack">add track</button>
+        <button class="btn btn-sm btn-outline-light mr-2" @click="createTrack">
+          <i class="fas fa-plus-circle"></i> Add track
+        </button>
       </div>      
   
       <div class="bottom-controls col-8 pl-0 pr-4">
@@ -76,20 +108,48 @@
     },
     data() {
       return {
-        updatedTitle: "",
-        showTitleEdit: false,
         loop: {},
         isPlaying: false,
+        showTitleEdit: false,
+        updatedTitle: "",
+        updatedStepsPerBar: "",
+        updatedBarCount: "",
         bpmSetting: 120
       }
     },
     computed: {
+      project() {
+        return this.$store.state.activeProject
+      },
+      beatTracks() {
+        var tracks = this.$store.state.activeTracks
+        // Sort the tracks from first-created (at top) to last-created (at bottom)
+        return tracks.sort((trackA, trackB) => {
+          return trackA.createdAt - trackB.createdAt
+        })
+      },
       projectTitle: {
         get() {
           return this.$store.state.activeProject.title
         },
         set(value) {
           this.updatedTitle = value
+        }
+      },
+      stepsPerBar: {
+        get() {
+          return this.$store.state.activeProject.stepsPerBar
+        },
+        set(value) {
+          this.updatedStepsPerBar = value
+        }
+      },
+      barCount: {
+        get() {
+          return this.$store.state.activeProject.barCount
+        },
+        set(value) {
+          this.updatedBarCount = value
         }
       },
       bpmStoredSetting: {
@@ -99,16 +159,6 @@
         set(value) {
           this.bpmSetting = value
         }
-      },
-      beatTracks() {
-        var tracks = this.$store.state.activeTracks
-        // Sort the tracks from first-created (at top) to last-created (at bottom)
-        return tracks.sort((trackA, trackB) => {
-          return trackA.createdAt - trackB.createdAt
-        })
-      },
-      project() {
-        return this.$store.state.activeProject
       }
     },
     methods: {
@@ -170,6 +220,10 @@
         this.isPlaying = false
       },
       saveProject() {
+        if (this.isPlaying) {
+          this.loop.stop()
+          this.isPlaying = false
+        }
         var data = {
           project: this.project,
           tracks: this.beatTracks
@@ -208,8 +262,69 @@
         this.updatedTitle = this.$store.state.activeProject.title
         this.showTitleEdit = false
       },
+      changeStepsPerBar() {
+        if (this.isPlaying) {
+          this.loop.stop()
+          this.isPlaying = false
+        }
+
+        var updatedProject = {
+          '_id': this.project._id,
+          stepsPerBar: this.updatedStepsPerBar
+        }
+        this.$store.dispatch('updateProject', updatedProject)
+
+        var tracks = this.$store.state.activeTracks
+        tracks.forEach(track => {
+          var newStepSequence = track.stepSequence
+          if (track.stepsPerBar > this.updatedStepsPerBar) { // If changing from 4 bars at 4 steps-per-bar to 4 bars at 3 steps-per-bar...
+            newStepSequence = track.stepSequence.slice(0, 12) // ...remove steps 12-15 (i.e. the last four)
+          } else if (track.stepsPerBar < this.updatedStepsPerBar) { // If changing from 4 bars at 3 steps-per-bar to 4 bars at 4 steps-per-bar...
+            newStepSequence = track.stepSequence.concat([false, false, false, false]) // ...add steps 12-15 (i.e. four new steps)
+          }
+          var updatedTrack = {
+            '_id': track._id,
+            stepsPerBar: this.updatedStepsPerBar,
+            stepSequence: newStepSequence
+          }
+          this.$store.dispatch('updateTrack', updatedTrack)
+        })
+      },
+      changeBarCount() {
+        if (this.isPlaying) {
+          this.loop.stop()
+          this.isPlaying = false
+        }
+
+        var updatedProject = {
+          '_id': this.project._id,
+          barCount: this.updatedBarCount
+        }
+        this.$store.dispatch('updateProject', updatedProject)
+
+        var tracks = this.$store.state.activeTracks
+        tracks.forEach(track => {
+          var newStepSequence = track.stepSequence
+          if (track.barCount > this.updatedBarCount) { // If removing bars...
+            var removedSteps = (track.barCount - this.updatedBarCount) * track.stepsPerBar
+            newStepSequence = track.stepSequence.slice(0, track.stepSequence.length - removedSteps)
+          } else if (track.barCount < this.updatedBarCount) { // If adding bars...
+            var addedSteps = (this.updatedBarCount - track.barCount) * track.stepsPerBar
+            newStepSequence = track.stepSequence.concat(new Array(addedSteps).fill(false))
+          }
+          var updatedTrack = {
+            '_id': track._id,
+            barCount: this.updatedBarCount,
+            stepSequence: newStepSequence
+          }
+          this.$store.dispatch('updateTrack', updatedTrack)
+        })
+      },
       bpmChange() {
-        this.stop() // Stop play-back if the BPM setting changes
+        if (this.isPlaying) { // Stop play-back if the BPM setting changes
+          this.loop.stop()
+          this.isPlaying = false
+        }
         var value = Number(this.bpmSetting)
         var updatedProject = {
           '_id': this.project._id,
@@ -218,6 +333,10 @@
         this.$store.dispatch('updateProject', updatedProject)
       },
       createTrack() {
+        if (this.isPlaying) {
+          this.loop.stop()
+          this.isPlaying = false
+        }
         this.$store.dispatch('createTrack', this.project)
       },
       deleteTrack(track) {
@@ -233,17 +352,17 @@
 </script>
 
 <style>
-  .bottom-controls {
-    /* min-width: 100%;
-    padding-left: 37%; */
-  }
-
   .save-project {
     background-color: rgba(57, 123, 172, 1.0);
   }
 
   .save-project:hover {
     background-color: rgba(33, 92, 136, 1.0);
+  }
+
+  select.form-control.steps-per-bar,
+  select.form-control.bar-count {
+    height: 1.5rem !important;
   }
 
   .playStopButtons {
