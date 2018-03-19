@@ -16,11 +16,11 @@
       <div class="col-6">
         <h5 @click="showStats = showStats ? false : true" class="btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
-      <div class="col-1">
+      <div class="col-2">
         <!-- <playProject :project="project"></playProject>> -->
-        <button @click='loadProject(project)' class="btn btn-sm btn-info"><i class="fas fa-spinner"></i></button>
+        <button @click='loadProject(project)' class="btn btn-sm btn-info">load</button>
       </div>
-      <div class="col-1">
+      <div class="col-1 px-0">
         <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
