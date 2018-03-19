@@ -60,11 +60,11 @@ var schema = new Schema({
   },
   originalProjectId: {
     type: String,
-    required: true
+    // required: true
   },
   originalProjectCreatorId: {
     type: String,
-    required: true
+    // required: true
   },
   originalcreatedAt: {
     type: Number

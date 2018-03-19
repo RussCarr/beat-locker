@@ -550,6 +550,7 @@ export default new vuex.Store({
           console.log(err);
         });
     },
+
     saveProject({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
         api
@@ -558,59 +559,31 @@ export default new vuex.Store({
             var savedProject = res.data.data;
             console.log("saved project", savedProject);
             commit("setActiveProject", savedProject);
+            commit("setActiveTracks", []);
 
-            api
-              .put(`tracks/${data.tracks[0]._id}`, data.tracks[0])
-              .then(res => {
-                var updatedTrack = res.data.data;
-                console.log("updatedTrack", updatedTrack);
-                commit("setActiveTracks", []);
-                commit("pushActiveTrack", updatedTrack);
+            var tracks = data.tracks
+            var updatePromises = []
+            tracks.forEach((track, i) => {
+              updatePromises[i] = api.put(`tracks/${track._id}`, track)
+                .then(res => {
+                  var updatedTrack = res.data.data
+                  commit("pushActiveTrack", updatedTrack);
+                })                
+            })
 
-                api
-                  .put(`tracks/${data.tracks[1]._id}`, data.tracks[1])
-                  .then(res => {
-                    var updatedTrack = res.data.data;
-                    console.log("updatedTrack", updatedTrack);
-                    commit("pushActiveTrack", updatedTrack);
-
-                    api
-                      .put(`tracks/${data.tracks[2]._id}`, data.tracks[2])
-                      .then(res => {
-                        var updatedTrack = res.data.data;
-                        console.log("updatedTrack", updatedTrack);
-                        commit("pushActiveTrack", updatedTrack);
-
-                        api
-                          .put(`tracks/${data.tracks[3]._id}`, data.tracks[3])
-                          .then(res => {
-                            var updatedTrack = res.data.data;
-                            console.log("updatedTrack", updatedTrack);
-                            commit("pushActiveTrack", updatedTrack);
-
-                            resolve();
-                          })
-                          .catch(err => {
-                            console.log(err);
-                          });
-                      })
-                      .catch(err => {
-                        console.log(err);
-                      });
-                  })
-                  .catch(err => {
-                    console.log(err);
-                  });
-              })
-              .catch(err => {
-                console.log(err);
-              });
+            Promise.all(updatePromises).then(() => {
+              resolve();
+            })
+            .catch(err => {
+              console.log(err);
+            });
           })
           .catch(err => {
             console.log(err);
           });
       });
     },
+    
     updateProject({ commit, dispatch }, updatedProject) {
       api
         .put(`projects/${updatedProject._id}`, updatedProject)
