@@ -53,19 +53,18 @@
     components: {
       // playProject: PlayProject
     },
+    props: ['project'],
     data() {
       return {
         showStats: false,
         shared: this.project.shared,
         // btnDisable: false
-
       }
     },
     computed: {
       disable() {
         return this.$store.state.userProjects.length === 1
       },
-
     },
     watch: {
       shared: function (shared) {
@@ -86,17 +85,21 @@
         }
       }
     },
-    props: [
-      'project'
-    ],
     methods: {
       loadProject(project) {
-        this.$store.dispatch('loadProject', project)
+        // First, save the current project.
+        var data = {
+          project: this.$store.state.activeProject,
+          tracks: this.$store.state.activeTracks
+        }
+        this.$store.dispatch('saveProject', data).then(() => {
+          // Then, load the selected project.
+          this.$store.dispatch('loadProject', project)
+        })
       },
       showTrackStats() {
         this.showStats = true
       },
-
       deleteProject(project) {
         this.$store.dispatch('deleteProject', project)
       }
