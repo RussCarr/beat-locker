@@ -423,19 +423,21 @@ export default new vuex.Store({
         });
     },
     cloneProject({ commit, dispatch }, payload) {
-      // console.log("Hello Before", payload);
-      var clonedProject = JSON.parse(JSON.stringify(payload));
+      
+      console.log("Hello Before", payload);
       // var clonedProject = payload;
+      payload.forkCount = payload.forkCount +1;
+      api.put(`projects/${payload._id}`,payload)
+      var clonedProject = JSON.parse(JSON.stringify(payload));
       clonedProject.originalProjectId = clonedProject._id;
       clonedProject.originalCreatedAt = clonedProject.createdAt;
       clonedProject.originalProjectCreatorId = clonedProject.userId;
       clonedProject.title = clonedProject.title + " Cloned";
-      clonedProject.forkCount = clonedProject.forkCount + 1;
       clonedProject.shared = false;
       clonedProject.createdAt = Date.now();
       delete clonedProject._id;
       delete clonedProject.userId;
-      // console.log("hello after", clonedProject);
+      console.log("hello after", clonedProject);
       var updatedProject = {};
       var newTrackIds = [];
       api.post("projects", clonedProject).then(res => {
@@ -463,8 +465,8 @@ export default new vuex.Store({
           });
         }
       });
-
       clonedProject.tracksIds = newTrackIds;
+      
     },
 
     getLatestProject({ commit, dispatch }, userId) {
