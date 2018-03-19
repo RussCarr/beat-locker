@@ -13,7 +13,8 @@
             </a>
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
-            <p class="createdUser">{{sharedProject.userName}}</p>
+            <button @click="showProfile" class="createdUser">{{sharedProject.userName}} Name</button>
+
           </div>
           <div class="col-3">
             <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
@@ -35,8 +36,8 @@
         </div>
       </div>
     </div>
-  
-  <!-- <div class="col-1">
+
+    <!-- <div class="col-1">
 
 
     </div>
@@ -62,12 +63,15 @@
     },
     props: [
       'sharedProject'
-      
+
     ],
     methods: {
       forkProject(sharedProject) {
-        console.log('fork project',sharedProject)
-         this.$store.dispatch('cloneProject',sharedProject)
+        console.log('fork project', sharedProject)
+        this.$store.dispatch('cloneProject', sharedProject)
+      },
+      showProfile() {
+        this.$emit('showProfile')
       }
     }
   }
@@ -78,11 +82,13 @@
   .sharedTracks {
     color: white;
   }
-  .createdBy{
+
+  .createdBy {
     font-size: 10px;
     color: white;
   }
-  .createdUser{
+
+  .createdUser {
     font-size: 10px;
     color: white;
   }
