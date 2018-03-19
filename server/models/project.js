@@ -23,7 +23,6 @@ var schema = new Schema({
     ref: "User",
     required: true
   },
-  trackIds: [String], // IDs of the Tracks that 'belong' to this Project
   barCount: {
     type: Number,
     required: true,
@@ -70,13 +69,14 @@ var schema = new Schema({
   originalcreatedAt: {
     type: Number
     // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
-  }
+  },
+  trackIds: [String], // IDs of the Tracks that 'belong' to this Project
   // originalProjectId: {
-  // type: Schema.Types.ObjectId,
-  // ref: "User",
-  //   required: true
-  // },
-  // originalProjectId: {
+    // type: Schema.Types.ObjectId,
+    // ref: "User",
+    //   required: true
+    // },
+    // originalProjectId: {
   //   type: Schema.Types.ObjectId,
   //   ref: "Project"
   // },
