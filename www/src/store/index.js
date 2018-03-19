@@ -189,9 +189,6 @@ export default new vuex.Store({
 
     // API
     getUserProjects({ commit, dispatch }, user) {
-      //  var user =
-      //   var userId = user._id ||
-      //   console.log('test')
       api
         .get(`users/${user}/projects`)
         .then(res => {
@@ -399,19 +396,17 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    loadProjectFromSidebar({ commit, dispatch }, project) {
-      commit("setActiveProject", []);
+    loadProject({ commit, dispatch }, project) {
+      commit("setActiveProject", {});
       commit("setActiveTracks", []);
       api
         .get(`/projects/${project._id}`)
         .then(res => {
           var project = res.data;
-          // console.log("Project ID", res.data);
           commit("setActiveProject", project);
-          api(`projects/${project._id}/tracks`)
+          api.get(`projects/${project._id}/tracks`)
             .then(res => {
               var projectTracks = res.data;
-              // console.log("projectTracks", projectTracks);
               commit("setActiveTracks", projectTracks);
             })
             .catch(err => {

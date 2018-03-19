@@ -91,7 +91,7 @@
     ],
     methods: {
       loadProject(project) {
-        this.$store.dispatch('loadProjectFromSidebar', project)
+        this.$store.dispatch('loadProject', project)
       },
       showTrackStats() {
         this.showStats = true
