@@ -2,34 +2,60 @@
   <div class="beat-track container-fluid px-0">
 
     <div class="d-flex flex-row align-items-center justify-content-center">
+    <!-- <div class="row"> -->
 
-      <div class="track-controls">
-        <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
-      </div>
-      <div class="track-volume"> 
-        <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
-      </div>
-      <div>
-        <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
-        <div class="solo" :class="{ 'engaged': solo }"  @click="soloTrack">solo</div>
-      </div>
-
-      <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount">
-
-        <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in beatTrack.stepsPerBar">
-
-          <div class="step" @click="selectStep($event, (barIndex * beatTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
-          :class="{ 'selected': stepSequence[(barIndex * beatTrack.stepsPerBar) + stepIndexInBar] }"></div>
-
+      <!-- <div class="instrument-select col-2"> -->
+        <div class="d-flex justify-content-between" v-if="isNoteTrack">
+          <select class="note">
+            <option selected disabled>{{beatTrack.instrumentName.charAt(0)}}</option>
+            <option value="Ab">A-flat</option><option value="A">A</option><option value="A#">A-sharp</option>
+            <option value="Bb">B-flat</option><option value="B">B</option><option value="B#">B-sharp</option>
+            <option value="Cb">C-flat</option><option value="C">C</option><option value="C#">C-sharp</option>
+            <option value="Db">D-flat</option><option value="D">D</option><option value="D#">D-sharp</option>
+            <option value="Eb">E-flat</option><option value="E">E</option><option value="E#">E-sharp</option>
+            <option value="Fb">F-flat</option><option value="F">F</option><option value="F#">F-sharp</option>
+            <option value="Gb">G-flat</option><option value="G">G</option><option value="G#">G-sharp</option>
+          </select>
+          <select class="octave">
+            <option selected disabled>{{beatTrack.instrumentName.charAt(1)}}</option>
+            <option v-for="n in 3">{{n+2}}</option>
+          </select>
         </div>
+        <div class="" v-if="!isNoteTrack">
+          <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
+        </div>
+      <!-- </div> -->
 
-      </div>
+      <!-- <div class="volume-controls col-2"> -->
+        <div class="track-volume"> 
+          <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
+        </div>
+        <div>
+          <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
+          <div class="solo" :class="{ 'engaged': solo }"  @click="soloTrack">solo</div>
+        </div>
+      <!-- </div> -->
 
-      <div class="ml-3">
-        <button class="btn btn-sm btn-outline-light mr-2" @click="deleteTrack">
-            <i class="fas fa-trash-alt"></i> Remove track
-        </button>
-      </div>
+      <!-- <div class="track-steps col-6"> -->
+        <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount">
+  
+          <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in beatTrack.stepsPerBar">
+  
+            <div class="step" @click="selectStep($event, (barIndex * beatTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
+            :class="{ 'selected': stepSequence[(barIndex * beatTrack.stepsPerBar) + stepIndexInBar] }"></div>
+  
+          </div>
+  
+        </div>
+      <!-- </div> -->
+
+      <!-- <div class="delete-control col-2"> -->
+        <div class="ml-3">
+          <button class="btn btn-sm btn-outline-light mr-2" @click="deleteTrack">
+              <i class="fas fa-trash-alt"></i> Remove track
+          </button>
+        </div>
+      <!-- </div> -->
 
     </div>
 
@@ -56,6 +82,9 @@
       }
     },
     computed: {
+      isNoteTrack() {
+        return this.beatTrack.isNote
+      },
       projectTracks() {
         return this.$store.state.activeTracks
       }
