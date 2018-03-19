@@ -60,11 +60,11 @@ var schema = new Schema({
   },
   originalProjectId: {
     type: String
-    // required: true
+    required: true
   },
   originalProjectCreatorId: {
     type: String
-    // required: true
+    required: true
   },
   originalcreatedAt: {
     type: Number
@@ -80,10 +80,6 @@ var schema = new Schema({
   //   type: Schema.Types.ObjectId,
   //   ref: "Project"
   // },
-  // originalProjectCreatorId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User"
-  // }
 });
 
 module.exports = mongoose.model(schemaName, schema);
