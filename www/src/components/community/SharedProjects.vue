@@ -13,11 +13,11 @@
             </a>
             {{allSharedProject.title}}
             <p class="createdBy">created by:</p>
-            <p class="createdUser">{{allSharedProject.userId}}</p>
+            <p class="createdUser">{{allSharedProject.userName}}</p>
           </div>
           <div class="col-3">
             <a href="#" class="text-light mr-5" @click.prevent="forkProject(allSharedProject,user)">
-              <i class="fas fa-code-branch"></i>
+              <i class="fas fa-code-branch"></i> {{allSharedProject.forkCount}}
 
             </a>
             <a href="#" class="text-light" @click.prevent="">
