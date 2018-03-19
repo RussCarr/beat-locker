@@ -73,8 +73,15 @@
         this.$router.push('Help')
       },
       newProject() {
-        this.$store.dispatch('createProject', this.user._id)
-        this.$router.push('Home')
+        // First, save the current project.
+        var data = {
+          project: this.$store.state.activeProject,
+          tracks: this.$store.state.activeTracks
+        }
+        this.$store.dispatch('saveProject', data).then(() => {
+          // Then, create a new default project and display it.
+          this.$store.dispatch('createProject', this.user._id)
+        })
       },
       community() {
         this.$store.dispatch('getAllUserProjects')
