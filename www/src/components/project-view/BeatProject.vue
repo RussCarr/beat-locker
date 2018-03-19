@@ -1,12 +1,20 @@
 <template>
   <div class="text-center mt-2 mb-5">
 
-    <div class="row my-4 text-left">
+    <div class="project-header row my-4 text-left">
 
-      <div class="col-4 pl-0">
-        <button class="save btn btn-sm btn-outline-light px-4 pb-2" @click="saveProject">
-          <i class="far fa-save"></i> Save project
-        </button>
+      <div class="col-4 pl-0 d-flex flex-column justify-content-between">
+        <div>
+          <button class="save btn btn-sm btn-outline-light px-4 pb-2" @click="saveProject">
+            <i class="far fa-save"></i> Save project
+          </button>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-sm btn-outline-light mr-2" @click="createNoteTrack">
+            <i class="fas fa-plus-circle"></i> Add note track
+          </button>
+        </div>
       </div>
 
       <div class="col-8 pl-0">
@@ -122,11 +130,26 @@
         return this.$store.state.activeProject
       },
       beatTracks() {
+        // Get all the tracks
         var tracks = this.$store.state.activeTracks
-        // Sort the tracks from first-created (at top) to last-created (at bottom)
-        return tracks.sort((trackA, trackB) => {
+
+        var noteTracks = tracks.filter(track => track.isNote)
+        // Sort the note tracks from first-created (at top) to last-created (at bottom)
+        var sortedNoteTracks = noteTracks.sort((trackA, trackB) => {
           return trackA.createdAt - trackB.createdAt
         })
+        
+        var beatTracks = tracks.filter(track => !track.isNote)
+        // Sort the beat tracks from first-created (at top) to last-created (at bottom)
+        var sortedBeatTracks = beatTracks.sort((trackA, trackB) => {
+          return trackA.createdAt - trackB.createdAt
+        })
+
+        console.log('note tracks', noteTracks)
+        console.log('beat tracks', beatTracks)
+        console.log('sorted tracks', noteTracks.concat(beatTracks))
+
+        return noteTracks.concat(beatTracks)
       },
       projectTitle: {
         get() {
@@ -351,6 +374,13 @@
         }
         this.$store.dispatch('createBeatTrack', this.project)
       },
+      createNoteTrack() {
+        if (this.isPlaying) {
+          this.loop.stop()
+          this.isPlaying = false
+        }
+        this.$store.dispatch('createNoteTrack', this.project)
+      },
       deleteTrack(track) {
         var data = {
           project: this.project,
@@ -364,6 +394,10 @@
 </script>
 
 <style>
+  .project-header {
+    height: 8rem;
+  }
+
   .save-project {
     background-color: rgba(57, 123, 172, 1.0);
   }

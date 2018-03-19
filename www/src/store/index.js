@@ -52,6 +52,9 @@ export default new vuex.Store({
     setActiveTracks(state, tracks) {
       state.activeTracks = tracks;
     },
+    unshiftActiveTrack(state, track) {
+      state.activeTracks.unshift(track);
+    },
     pushActiveTrack(state, track) {
       state.activeTracks.push(track);
     },
@@ -239,7 +242,7 @@ export default new vuex.Store({
         });
     },
 
-    createTrack({ commit, dispatch }, project) {
+    createBeatTrack({ commit, dispatch }, project) {
       var defaultTrack = {
         createdAt: Date.now(),
         instrumentName: "clap-808",
@@ -259,6 +262,43 @@ export default new vuex.Store({
           var track = res.data;
           project.trackIds.push(track._id);
           commit("pushActiveTrack", track);
+
+          api
+            .put(`projects/${project._id}`, project)
+            .then(res => {
+              var updatedProject = res.data.data;
+              commit("setActiveProject", updatedProject);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    createNoteTrack({ commit, dispatch }, project) {
+      var defaultTrack = {
+        createdAt: Date.now(),
+        instrumentName: "C4", // The default note is middle C
+        isNote: true,
+        instrumentSamplePath: "", // No sample path for a generated-sound note
+        projectId: project._id,
+        userId: project.userId,
+        barCount: project.barCount,
+        stepsPerBar: project.stepsPerBar,
+        stepSequence: new Array(project.barCount * project.stepsPerBar).fill(
+          false
+        )
+      };
+
+      api
+        .post("tracks", defaultTrack)
+        .then(res => {
+          var track = res.data;
+          project.trackIds.unshift(track._id);
+          commit("unshiftActiveTrack", track);
 
           api
             .put(`projects/${project._id}`, project)
@@ -320,6 +360,7 @@ export default new vuex.Store({
           var defaultTrack = {
             createdAt: Date.now(),
             instrumentName: "clap-808",
+            isNote: false,
             instrumentSamplePath: "./../../assets/audio/clap-808.wav",
             projectId: defaultProject._id,
             userId: defaultProject.userId

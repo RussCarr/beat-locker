@@ -3,14 +3,14 @@ var Schema = mongoose.Schema;
 var schemaName = "Track";
 
 var schema = new Schema({
-  instrumentName: {
+  instrumentName: { // Name of drum sample OR note (as pitch-octave, e.g. "C4")
     type: String,
     required: true,
     default: "snare-big"
   },
+  isNote: Boolean, // True if this is a 'note' track, not a drum 'beat' track
   instrumentSamplePath: {
     type: String,
-    required: true,
     default: "./../../assets/audio/snare-big.wav"
   },
   barCount: {
