@@ -55,14 +55,16 @@ export default new vuex.Store({
     addActiveTrack(state, track) {
       state.activeTracks.push(track);
     },
-    removeActiveTrack(state, track) {
-      state.activeTracks.splice(state.activeTracks.indexOf(track), 1);
+    removeActiveTrack(state, trackId) {
+      var removed = state.activeTracks.find(track => track._id === trackId);
+      state.activeTracks.splice(state.activeTracks.indexOf(removed), 1);
+    },
+    updateActiveTrack(state, newVersion) {
+      var oldVersion = state.activeTracks.find(track => track._id === newVersion._id);
+      state.activeTracks.splice(state.activeTracks.indexOf(oldVersion), 1, newVersion);
     },
     updateActiveTracks(state, data) {
-      state.activeTracks.find(
-        track => track._id === data.trackId
-      ).stepSequence =
-        data.stepSequence;
+      state.activeTracks.find(track => track._id === data.trackId).stepSequence = data.stepSequence;
     },
     setUserProjects(state, userCreatedProject) {
       state.userProjects = userCreatedProject;
@@ -271,7 +273,7 @@ export default new vuex.Store({
       api
         .delete(`tracks/${data.deleting._id}`)
         .then(() => {
-          commit("removeActiveTrack", data.deleting);
+          commit("removeActiveTrack", data.deleting._id);
           api
             .get(`projects/${data.project._id}`)
             .then(res => {
@@ -660,17 +662,7 @@ export default new vuex.Store({
     updateTrack({ commit, dispatch }, updatedTrack) {
       api.put(`tracks/${updatedTrack._id}`, updatedTrack).then(res => {
         var updatedTrack = res.data.data;
-        console.log("updatedTrack", updatedTrack);
-
-        api
-          .get(`projects/${updatedTrack.projectId}/tracks`)
-          .then(res => {
-            var projectTracks = res.data;
-            commit("setActiveTracks", projectTracks);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        commit("updateActiveTrack", updatedTrack);
       });
     }
   }
