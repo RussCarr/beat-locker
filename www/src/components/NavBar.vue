@@ -31,7 +31,7 @@
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="!isHomeRoute" @click="home">
           Home
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="community">
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="allSharedProjects">
           Community
         </div>
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
@@ -83,7 +83,7 @@
           this.$store.dispatch('createProject', this.user._id)
         })
       },
-      community() {
+      allSharedProjects() {
         this.$store.dispatch('getAllUserProjects')
         this.$router.push({ path: '/Explorer' })
       },

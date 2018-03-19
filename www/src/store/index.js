@@ -32,7 +32,7 @@ export default new vuex.Store({
     activeProject: {},
     activeTracks: [],
     userProjects: [],
-    community: []
+    allProjects: []
   },
 
   mutations: {
@@ -83,7 +83,10 @@ export default new vuex.Store({
     },
     setAllUserProjects(state, allUserProjects) {
       console.log("state", allUserProjects);
-      state.community = allUserProjects;
+      state.allProjects = allUserProjects;
+    },
+    addUserProject(state,userProject) {
+      state.userProjects.push(userProject)
     }
   },
 
@@ -445,7 +448,8 @@ export default new vuex.Store({
         .then(res => {
           var project = res.data;
           commit("setActiveProject", project);
-          api.get(`projects/${project._id}/tracks`)
+          api
+            .get(`projects/${project._id}/tracks`)
             .then(res => {
               var projectTracks = res.data;
               commit("setActiveTracks", projectTracks);
@@ -459,16 +463,16 @@ export default new vuex.Store({
         });
     },
     cloneProject({ commit, dispatch }, payload) {
-      
       console.log("Hello Before", payload);
-      // var clonedProject = payload;
-      payload.forkCount = payload.forkCount +1;
-      api.put(`projects/${payload._id}`,payload)
+           payload.forkCount = payload.forkCount + 1;
+      api.put(`projects/${payload._id}`, payload).catch(err => {
+        console.log(err);
+      });
       var clonedProject = JSON.parse(JSON.stringify(payload));
       clonedProject.originalProjectId = clonedProject._id;
       clonedProject.originalCreatedAt = clonedProject.createdAt;
       clonedProject.originalProjectCreatorId = clonedProject.userId;
-      clonedProject.title = clonedProject.title + " Cloned";
+      clonedProject.title = clonedProject.title + " Forked";
       clonedProject.shared = false;
       clonedProject.createdAt = Date.now();
       delete clonedProject._id;
@@ -476,33 +480,47 @@ export default new vuex.Store({
       console.log("hello after", clonedProject);
       var updatedProject = {};
       var newTrackIds = [];
-      api.post("projects", clonedProject).then(res => {
-        // console.log("Cloned DATA", res.data);
-        var updatedProject = res.data;
-        var tracks = updatedProject.trackIds;
-        for (var i = 0; i < tracks.length; i++) {
-          var track = tracks[i];
-          // console.log("track", track);
-          api.get(`/tracks/${track}`).then(res => {
-            // console.log("cloned Track", res.data);
-            var clonedTracks = res.data;
-            delete clonedTracks._id;
-            clonedTracks.userId = updatedProject.userId;
-            clonedTracks.projectId = updatedProject._id;
-            // console.log("ExistingTracks", newTracks);
-            api.post("tracks", clonedTracks).then(res => {
-              // console.log("after post", res.data);
-              // console.log('Final Product 1',clonedProject)
-              delete clonedProject.trackIds;
-              // console.log('Final Product 2',clonedProject)
-              newTrackIds.push(res.data._id);
-              // console.log("ready to post to project", newTrackIds);
-            });
+      var newTracks = [];
+      api
+        .post("projects", clonedProject)
+        .then(res => {
+          var updatedProject = res.data;
+          var tracks = updatedProject.trackIds;
+          for (var i = 0; i < tracks.length; i++) {
+            var track = tracks[i];
+            api
+              .get(`/tracks/${track}`)
+              .then(res => {
+                var clonedTrack = res.data;
+                delete clonedTrack._id;
+                clonedTrack.userId = updatedProject.userId;
+                clonedTrack.projectId = updatedProject._id;
+                api
+                  .post("tracks", clonedTrack)
+                  .then(res => {
+                    delete clonedProject.trackIds;
+                    newTrackIds.push(res.data._id);
+                    newTracks.push(res.data);
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+          clonedProject.tracksIds = newTrackIds;
+          commit("setActiveProject", clonedProject);
+          commit("setActiveTracks", newTracks);
+          commit('addUserProject',clonedProject)
+          router.push({
+            name: "Home"
           });
-        }
-      });
-      clonedProject.tracksIds = newTrackIds;
-      
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     getLatestProject({ commit, dispatch }, userId) {
