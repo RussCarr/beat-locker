@@ -65,8 +65,8 @@
     <div class="row">
 
       <div class="col-4 mt-4 pr-5">
-        <button class="btn btn-sm btn-outline-light mr-2" @click="createTrack">
-          <i class="fas fa-plus-circle"></i> Add track
+        <button class="btn btn-sm btn-outline-light mr-2" @click="createBeatTrack">
+          <i class="fas fa-plus-circle"></i> Add beat track
         </button>
       </div>      
   
@@ -182,6 +182,12 @@
           this.loop.start() // Start the loop play-back
         }).toMaster() // Connect the players to the master audio output (i.e. the speakers)
 
+        // Experimental note-synth: PROOF OF CONCEPT
+        // const synth = new Tone.Synth()
+        // synth.toMaster()
+        // var note = "C4"
+        // var toneStepSequence = [false, true, false, false, false, true, false, false, false, true, false, false, false, false, false, false]
+
         // Define sequence options:
         // 1. Create an array of integers with length equal to the length of the current track stepSequences
         var events = new Array(this.beatTracks[0].stepSequence.length).fill(0).map((_, i) => i)
@@ -190,6 +196,12 @@
 
         // Create the beat sequence
         this.loop = new Tone.Sequence((time, index) => {
+
+          // Experimental note play: PROOF OF CONCEPT
+          // if (toneStepSequence[index]) {
+          //   synth.triggerAttackRelease(note, "16n", time)
+          // }
+
           for (var i = 0; i < this.beatTracks.length; i++) {
             var track = this.beatTracks[i]
             var stepSequence = track.stepSequence
@@ -332,12 +344,12 @@
         }
         this.$store.dispatch('updateProject', updatedProject)
       },
-      createTrack() {
+      createBeatTrack() {
         if (this.isPlaying) {
           this.loop.stop()
           this.isPlaying = false
         }
-        this.$store.dispatch('createTrack', this.project)
+        this.$store.dispatch('createBeatTrack', this.project)
       },
       deleteTrack(track) {
         var data = {
