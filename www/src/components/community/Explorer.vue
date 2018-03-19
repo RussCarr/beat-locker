@@ -34,8 +34,8 @@
       </div>
       <div class="col-7 text-center">
         <p class="text-center">Sorted by {{catagory}}</p>
-        <sharedProjects :user='user' :allSharedProject='allSharedProject' class="mt-4" v-for="allSharedProject in allSharedProjects"
-          :key='allSharedProject._id'></sharedProjects>
+        <sharedProjects :sharedProject='sharedProject' class="mt-4" v-for="sharedProject in allSharedProjects"
+          :key='sharedProject._id'></sharedProjects>
       </div>
       <div class="col-0">
 
@@ -74,14 +74,14 @@
   },
   computed: {
     allSharedProjects() {
-      var communityData = this.$store.state.community;
-      var test = communityData.filter(project => {
+      var allProjects = this.$store.state.allProjects;
+      var allSharedProjects = allProjects.filter(project => {
         return project.shared === true
       })
-      test.sort(function(a, b){return b.forkCount - a.forkCount})
+      allSharedProjects.sort(function(a, b){return b.forkCount - a.forkCount})
       
-      console.log('communityData1', test)
-        return test  
+      // console.log('allSharedProjectsData1', test)
+        return allSharedProjects
       
           // return test
       // if (catagory = "Top 10 Newly Created") {

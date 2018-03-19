@@ -11,13 +11,13 @@
             <a href="#" class="text-light" @click.prevent="">
               <i class="far fa-play-circle m-l-5"></i>
             </a>
-            {{allSharedProject.title}}
+            {{sharedProject.title}}
             <p class="createdBy">created by:</p>
-            <p class="createdUser">{{allSharedProject.userName}}</p>
+            <p class="createdUser">{{sharedProject.userName}}</p>
           </div>
           <div class="col-3">
-            <a href="#" class="text-light mr-5" @click.prevent="forkProject(allSharedProject,user)">
-              <i class="fas fa-code-branch"></i> {{allSharedProject.forkCount}}
+            <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
+              <i class="fas fa-code-branch"></i> {{sharedProject.forkCount}}
 
             </a>
             <a href="#" class="text-light" @click.prevent="">
@@ -61,16 +61,13 @@
       }
     },
     props: [
-      'allSharedProject',
-      'user'
+      'sharedProject'
+      
     ],
     methods: {
-      forkProject(allSharedProject,user) {
-        console.log('fork project',allSharedProject,user)
-        // var payload = []
-        // payload.push(allSharedProject)
-        // payload.push(user._id)
-        this.$store.dispatch('cloneProject',allSharedProject)
+      forkProject(sharedProject) {
+        console.log('fork project',sharedProject)
+         this.$store.dispatch('cloneProject',sharedProject)
       }
     }
   }
