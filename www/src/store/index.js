@@ -422,70 +422,147 @@ export default new vuex.Store({
     },
     cloneProject({ commit, dispatch }, payload) {
       console.log("Hello Before", payload);
-      debugger;
       var clonedProject = payload;
-      // var originalProjectId = ""
-      // var originalCreatedAt = ""
-      // var originalProjectCreatorId = ""
-      clonedProject.originalProjectId = "";
-      clonedProject.originalCreatedAt = "";
-      clonedProject.originalProjectCreatorId = "";
-      // orginal created info
       clonedProject.originalProjectId = clonedProject._id;
       clonedProject.originalCreatedAt = clonedProject.createdAt;
       clonedProject.originalProjectCreatorId = clonedProject.userId;
-      //orginal stuff changed
       clonedProject.title = clonedProject.title + " Cloned";
       clonedProject.forkCount = clonedProject.forkCount + 1;
       clonedProject.shared = false;
       clonedProject.createdAt = Date.now();
-      // deleted stuff
       delete clonedProject._id;
-      // delete clonedProject.createdAt
       delete clonedProject.userId;
       console.log("hello after", clonedProject);
-      // clonedProject.userId = ""
-      // var cloned = res.data;
-      api
-        .post("projects", clonedProject)
-        .then(res => {
-          console.log("Cloned DATA", res.data);
-          var clonedProject = payload;
-          clonedProject.title = clonedProject.title + " Cloned";
-          clonedProject.forkCount = clonedProject.forkCount + 1;
-          clonedProject.originalProjectId = clonedProject._id;
-          clonedProject.originalProjectCreatorId = clonedProject.userId;
-          clonedProject.originalCreatedAt = clonedProject.createdAt;
-          clonedProject.userId = res.data.userId;
-          clonedProject._id = res.data._id;
-          clonedProject.createdAt = "";
-          clonedProject.shared = false;
-          // console.log('clonedProject',clonedProject)
-          // api.put(`projects/${clonedProject._id}`, clonedProject)
-          // .then(res => {
-          //   var updatedProject = res.data.data;
-          //   console.log(updatedProject);
-          //   commit("setActiveProject", updatedProject);
-          // })
-          //  for (const trackIds in updatedProject) {
-          //    if (updatedProject.hasOwnProperty(trackIds)) {
-          //      const element = updatedProject[trackIds];
-          //      api.post('tracks')
-          //      .then(res => {
-          //        console.log('cloned Track',res.data)
-          //      })
-          //    }
-          //  }
-          //  dispatch('updateProject',clonedProject)
-          // console.log("Cloned Updated DATA", res);
-
-          // dispatch("getLatestProject", newUser._id);
-        })
-        .catch(err => {
-          console.log(err);
+      var updatedProject = {};
+      // var clonedTrack = ;
+      var trackUpdate = [];
+      var newTrackIds = [];
+      var newTracks = [];
+      api.post("projects", clonedProject)
+      .then(res => {
+                console.log("Cloned DATA", res.data);
+        var updatedProject = res.data;
+        var tracks = updatedProject.trackIds;
+        for (var i = 0; i < tracks.length; i++) {
+          var track = tracks[i];
+          console.log("track", track);
+          api.get(`/tracks/${track}`)
+          .then(res => {
+            console.log("cloned Track", res.data);
+           
+            var clonedTracks = res.data;
+            delete clonedTracks._id;
+            
+            clonedTracks.userId = updatedProject.userId;
+            clonedTracks.projectId = updatedProject._id;
+            // newTracks.push(clonedTracks);
+            console.log("ExistingTracks", newTracks);
+          // });
+          // for (let i = 0; i < newTracks.length; i++) {
+          //   const newTrack = newTracks[i];
+          api.post("tracks", clonedTracks)
+          .then(res => {
+            console.log("after post", res.data);
+            // var newTrackId = res.data;
+            console.log('Final Product 1',clonedProject)
+            delete clonedProject.trackIds;
+            console.log('Final Product 2',clonedProject)
+            newTrackIds.push(res.data._id);
+            console.log("ready to post to project", newTrackIds);
+          });
         });
+      }
+    });
+    
+    clonedProject.tracksIds = newTrackIds
     },
+    
+  
 
+      // updatedProject.trackIds = trackUpdate;
+      // console.log("new Ids", updatedProject);
+      // api
+      // .put(`/projects/${updatedProject._id}`, updatedProject)
+      // .then(res => {
+      //   //  dispatch('updateProject',clonedProject)
+      //   //     console.log("Cloned Updated DATA", res);
+
+    //   dispatch("getLatestProject", newUser._id);
+
+    // .catch(err => {
+    //   console.log(err);
+    // });
+    // },
+
+    //   cloneProject({ commit, dispatch }, payload) {
+    //     console.log("Hello Before", payload);
+    //     var clonedProject = payload;
+    //     clonedProject.originalProjectId = clonedProject._id;
+    //     clonedProject.originalCreatedAt = clonedProject.createdAt;
+    //     clonedProject.originalProjectCreatorId = clonedProject.userId;
+    //     clonedProject.title = clonedProject.title + " Cloned";
+    //     clonedProject.forkCount = clonedProject.forkCount + 1;
+    //     clonedProject.shared = false;
+    //     clonedProject.createdAt = Date.now();
+    //     // deleted stuff
+    //     delete clonedProject._id;
+    //     // delete clonedProject.createdAt
+    //     delete clonedProject.userId;
+    //     console.log("hello after", clonedProject);
+    //     // clonedProject.userId = ""
+    //     // var cloned = res.data;
+    //     debugger;
+    //     api
+    //     .post("projects", clonedProject)
+    //   .then(res => {
+    //     console.log("Cloned DATA", res.data);
+    //     updatedProject = res.data;
+    //     var tracks = updatedProject.trackIds;
+    //     for (var i = 0; i < tracks.length; i++) {
+    //       var track = tracks[i];
+    //       console.log("track", track);
+    //       // for (proTrackIds in updatedProject) {
+    //         //       trackArr.push() = updatedProject[proTrackIds]
+    //         // if (updatedProject.hasOwnProperty(trackIds)) {
+    //           //   const element = updatedProject[trackIds];}
+    //           var updatedProject = {};
+    //           var clonedTrack = {};
+    //           var trackUpdate = [];
+    //           var newTrack = {};
+
+    //           api
+    //           .get(`tracks/${track}`)
+    //           // console.log("track see", track)
+    //           .then(res => {
+    //             console.log("cloned Track", res.data);
+    //             clonedTrack = res.data;
+    //           });
+    //           delete clonedTrack._id;
+    //           clonedTrack.userId = updatedProject.userId;
+
+    //           api.post("tracks", clonedTrack).then(res => {
+    //             console.log("after post", res.data);
+    //             newTrack = res.data;
+    //           });
+    //           trackUpdate.push(newTrack);
+    //           console.log("ready to post to project", trackUpdate);
+    //         }
+    //         updatedProject.trackIds = trackUpdate;
+    //         console.log("new Ids", updatedProject);
+    //         api
+    //         .put(`/projects/${updatedProject._id}`, updatedProject)
+    //         .then(res => {
+    //           //  dispatch('updateProject',clonedProject)
+    //           //     console.log("Cloned Updated DATA", res);
+    //         });
+
+    //     //   dispatch("getLatestProject", newUser._id);
+
+    //   })
+    //   .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     getLatestProject({ commit, dispatch }, userId) {
       api
         .get(`users/${userId}/projects`)

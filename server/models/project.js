@@ -23,7 +23,6 @@ var schema = new Schema({
     ref: "User",
     required: true
   },
-  trackIds: [String], // IDs of the Tracks that 'belong' to this Project
   barCount: {
     type: Number,
     required: true,
@@ -59,26 +58,28 @@ var schema = new Schema({
     required: true,
     default: 0
   },
-  // originalProjectId: {
-  //   type: String
-    // required: true
-  // },
-  // originalProjectCreatorId: {
-  //   type: String
-    // required: true
-  // },
-  // originalcreatedAt: {
-  //   type: Number
-    // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
-  // },
   originalProjectId: {
-    type: Schema.Types.ObjectId,
-    ref: "Project"
+    type: String
+    required: true
   },
   originalProjectCreatorId: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+    type: String
+    required: true
+  },
+  originalcreatedAt: {
+    type: Number
+    // default: Date.now() // <-- Do this on front end. Otherwise you don't actually get the current time.
+  },
+  trackIds: [String], // IDs of the Tracks that 'belong' to this Project
+  // originalProjectId: {
+    // type: Schema.Types.ObjectId,
+    // ref: "User",
+    //   required: true
+    // },
+    // originalProjectId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Project"
+  // },
 });
 
 module.exports = mongoose.model(schemaName, schema);
