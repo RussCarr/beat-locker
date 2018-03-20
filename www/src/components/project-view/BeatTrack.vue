@@ -3,8 +3,8 @@
 
     <div class="row">
 
-      <div class="instrument-select col-2">
-        <div class="d-flex justify-content-between" v-if="isNoteTrack">
+      <div class="instrument-select col-2 pt-4">
+        <div class="d-flex justify-content-around" v-if="isNoteTrack">
           <select class="note">
             <option selected disabled>{{beatTrack.instrumentName.charAt(0)}}</option>
             <option value="Ab">A-flat</option><option value="A">A</option><option value="A#">A-sharp</option>
@@ -27,7 +27,7 @@
 
       <div class="col-10 row">
 
-        <div class="volume-controls col-3 ml-1 row">
+        <div class="volume-controls col-3 ml-1 pt-4 row">
           <div class="track-volume col-8 px-0"> 
             <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
           </div>
@@ -52,7 +52,7 @@
           </div>
         </div>
 
-        <div class="delete-control col-1">
+        <div class="delete-control col-1 pt-4">
           <div class="">
             <button class="btn btn-sm btn-outline-light" @click="deleteTrack">
                 <i class="fas fa-trash-alt"></i>

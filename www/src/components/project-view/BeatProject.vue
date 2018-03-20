@@ -5,7 +5,7 @@
 
       <div class="col-4 pl-0 d-flex flex-column justify-content-between">
         <div>
-          <button class="save btn btn-sm btn-outline-light px-4 pb-2" @click="saveProject">
+          <button class="save btn btn-sm btn-outline-light px-4 pb-2 ml-5" @click="saveProject">
             <i class="far fa-save"></i> Save project
           </button>
         </div>
@@ -17,9 +17,9 @@
         </div>
       </div>
 
-      <div class="col-8 pl-0">
+      <div class="col-8 pl-4">
         
-        <div>
+        <div class="ml-2">
           <div v-if="!showTitleEdit">
             <span class="project-title h5 text-light">Name: {{projectTitle}}</span>
             <a href="#" class="title-edit-toggle text-light ml-3" @click="showTitleEdit = true">
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <div class="project-options d-flex text-white mt-2">
+        <div class="project-options d-flex text-white mt-2 ml-2">
           
           <form class="form-inline">
             <div class="form-group mr-3">
@@ -78,7 +78,7 @@
         </button>
       </div>      
   
-      <div class="bottom-controls col-8 pl-0 pr-4">
+      <div class="bottom-controls col-7 pl-4 pr-4">
         <div class="controls mt-4">
           <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
             <button class="playStopButtons">
