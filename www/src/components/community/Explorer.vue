@@ -39,7 +39,7 @@
         <div class="mt-4 row">
 
           <div v-if="showProfile" class="text-center viewProfile">
-            <viewUserProfile :sharedProjects='sharedProjects'></viewUserProfile>
+            <viewUserProfile :allSharedProjects='allSharedProjects'></viewUserProfile>
 
             <!-- <h3>User Profile</h3>
             <hr>

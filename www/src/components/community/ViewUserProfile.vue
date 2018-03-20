@@ -27,7 +27,7 @@
       <div class="row">
         <p class="h4">My Shared Tracks</p>
         <div class="col-sm-12"></div>
-       <viewUserProjects :sharedProjects='sharedProjects'></viewUserProjects>
+        <viewUserProjects v-for="userSharedProject in userSharedProjects" :key="userSharedProject._id" :userSharedProject='userSharedProject'></viewUserProjects>
       </div>
 
       <div class="col-sm-2"></div>
@@ -43,12 +43,21 @@
   export default {
     name: 'ViewUserProfile',
     components: {
-viewUserProjects:ViewUserProjects
+      viewUserProjects: ViewUserProjects
     },
-    props: ['sharedProjects'],
+    props: ['allSharedProjects'],
     computed: {
       user() {
         return this.$store.state.user
+      },
+   
+      userSharedProjects(category) {
+        var allUserProjects = this.$store.state.allProjects;
+        var userSharedProjects = allUserProjects.filter(project => {
+          return project.shared === true && project.userId === this.user._id
+        })
+        userSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
+        return userSharedProjects
       }
     }
   }
