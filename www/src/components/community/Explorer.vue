@@ -27,8 +27,7 @@
               <option>Top 10 Newly shared</option>
               <option>Top 10 of 2018</option>
             </select>
-
-
+            
           </div>
         </div>
       </div>
@@ -36,14 +35,15 @@
         <p class="text-center">Sorted by {{catagory}}</p>
         <sharedProjects :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" class="mt-4" v-for="sharedProject in allSharedProjects" :key='sharedProject._id'></sharedProjects>
       </div>
-
+      
       <div class=" col-3">
         
         <div class="mt-4 row">
-
+          
           <div v-if="showProfile" class="text-center viewProfile">
-
-            <h3>User Profile</h3>
+            <viewUserProfile :sharedProjects='sharedProjects'></viewUserProfile>
+            
+            <!-- <h3>User Profile</h3>
             <hr>
             <p>user Name</p>
             <p>User Bio</p>
@@ -52,7 +52,7 @@
             <p>< Track</p>
             <p>< Track</p>
             <p>< Track</p>
-            <p>< Track</p>
+            <p>< Track</p> -->
           </div>
         </div>
       </div>
@@ -67,13 +67,14 @@
   import Navbar from '../Navbar'
   import SideBar from '../SideBar'
   import SharedProjects from './SharedProjects'
- 
+  import ViewUserProfile from './ViewUserProfile'
   export default {
     name: 'Explorer',
     components: {
       navbar: Navbar,
       sidebar: SideBar,
       sharedProjects: SharedProjects,
+      viewUserProfile: ViewUserProfile,
      
 
 
@@ -138,6 +139,7 @@
   .viewProfile {
     border: 3px solid white;
     width: 400px;
+    height: 100%;
   }
   hr{
    border-color: white;
