@@ -434,7 +434,7 @@
 
   .bpm-slider {
     -webkit-appearance: none;
-    appearance: rgba(206, 33, 53, 1.0);
+    appearance: none;
     width: 100%;
     height: 6px;
     background: #fff;
