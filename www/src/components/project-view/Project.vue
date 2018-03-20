@@ -1,20 +1,6 @@
-<template>
-  <div class="container-fluid project">
-    <div class="col">
-      <div class="row">
-        <beatProject></beatProject>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-3"></div>
-          <!-- <div class="col-6 mt-4">
-            <slider></slider>
-          </div> -->
-          <!-- <div class="col-2"></div> -->
-        </div>
-      </div>
-      <!-- <sidebar></sidebar> -->
-    </div>
+<template>  
+  <div>
+    <beatProject></beatProject>
   </div>
 </template>
 

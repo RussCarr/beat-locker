@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center mt-2 mb-5">
+  <div class="container-fluid text-center mt-2 mb-5">
 
     <div class="project-header row my-4 text-left">
 
