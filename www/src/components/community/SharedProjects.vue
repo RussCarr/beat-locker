@@ -34,13 +34,16 @@
           </div>
           <div v-if="shareBox" class="shareButton">
             <p>
-              <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com" target="_blank">
+              <a class="share-icon" href="https://www.facebook.com/sharer/sharer.php?u=https://joe-r-davis.github.io/clone2/" target="_blank">
                 <i class="fab fa-facebook"></i>
               </a>
             </p>
 
             <p>
-              <i class="fab fa-twitter"></i>
+                <a class="share-icon" href="https://twitter.com/intent/tweet?url=https://joe-r-davis.github.io/clone2/&text=TEXT&via=YOURTWITTERACCOUNTNAME" target="_blank"><i class="fab fa-twitter"></i></a>
+            </p>
+            <p>
+                <a class="share-icon" href="https://nodemailer.com/about/" target="_blank"><i class="fas fa-envelope"></i></a>
             </p>
             <!-- <p>SMS:Twilio</p>
             <p>Email:mailgun</p> -->
@@ -162,6 +165,14 @@
 </script>
 
 <style scoped>
+  a.share-icon {
+    color: white
+  }
+
+  a.share-icon:hover{
+    color: rgba(206, 33, 53, 1.0)
+  }
+
   .sharedTracks {
     color: white;
   }
