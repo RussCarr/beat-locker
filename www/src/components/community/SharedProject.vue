@@ -19,8 +19,10 @@
             
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
-            <button @click="showProfile" class="createdUser">{{sharedProject.userName}} Name</button>
-
+            <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
+            <a href="#" class="text-light mr-5"  @click.prevent="showProfile">
+                {{user.name}}
+              </a>
           </div>
           <div class="col-1">
             <a href="#" class="text-light mr-5"  @click.prevent="forkProject(sharedProject)">
@@ -49,7 +51,7 @@
   import Tone from 'tone'
   import samplePaths from './../project-view/samplePaths.js'
   export default {
-    name: 'SharedProjects',
+    name: 'SharedProject',
     components: {
     },
     data() {
@@ -59,19 +61,19 @@
         shareBox: false
       }
     },
-    computed: {
-      
-      
-    },
     props: [
       'sharedProject',
       'playingProjectId',
-      'sharedProject'
-
+      
     ],
     computed: {
       beatTracks() {
         return this.$store.state.previewTracks
+      },
+      user() {
+        var projectUsers = this.$store.state.activeProjectUsers
+        console.log('Project users',projectUsers)
+        return projectUsers.find(user => user._id === this.sharedProject.userId)
       }
     },
     methods: {

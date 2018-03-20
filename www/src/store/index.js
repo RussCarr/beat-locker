@@ -33,7 +33,8 @@ export default new vuex.Store({
     activeTracks: [],
     previewTracks: [],
     userProjects: [],
-    allProjects: []
+    allProjects: [],
+    activeProjectUsers: [],
   },
 
   mutations: {
@@ -93,6 +94,9 @@ export default new vuex.Store({
     },
     addUserProject(state,userProject) {
       state.userProjects.push(userProject)
+    },
+    activeProjectUsers(state,users) {
+      state.activeProjectUsers = users
     }
   },
 
@@ -212,17 +216,24 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    getAllUserProjects({ commit, dispatch }) {
-      api
+    getAllProjects({ commit, dispatch }) { 
+      return new Promise((resolve, reject) =>{
+
+        api
         .get(`projects`)
         .then(res => {
-          commit("setAllUserProjects", res.data);
-        })
+					commit("setAllUserProjects", res.data);
+					resolve()
+				})
+				// .then(() =>{
+				// 	resolve()
+				// }) 
         .catch(err => {
-          console.log(err);
+					console.log(err);
         });
-    },
-    deleteProject({ commit, dispatch }, project) {
+      })
+      },
+      deleteProject({ commit, dispatch }, project) {
       var project_Id = project._id;
       commit("setActiveProject", []);
       commit("setActiveTracks", []);
@@ -479,7 +490,8 @@ export default new vuex.Store({
       clonedProject.originalCreatedAt = clonedProject.createdAt;
       clonedProject.originalProjectCreatorId = clonedProject.userId;
       clonedProject.title = clonedProject.title + " Forked";
-      clonedProject.shared = false;
+			clonedProject.forkCount = 0;
+			clonedProject.shared = false;
       clonedProject.createdAt = Date.now();
       delete clonedProject._id;
       delete clonedProject.userId;
@@ -629,6 +641,29 @@ export default new vuex.Store({
           console.log(err);
         });
       })
-    }
+    },
+    getUsersById({commit, dispatch},userIds) {
+      return new Promise((resolve, reject) => {
+        var activeProjectUsers=[]
+
+        var fetchPromises = []
+        userIds.forEach((userId, i) => {
+          fetchPromises[i] = api.get(`users/${userId}`)
+          .then(res => {
+						var fetchedUser = res.data
+						console.log('fetchedUsers',fetchedUser)
+						activeProjectUsers.push(fetchedUser)
+          })
+        })
+				
+        Promise.all(fetchPromises).then(() => {
+					commit('activeProjectUsers', activeProjectUsers)
+					resolve();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      })
+    },
   }
 });
