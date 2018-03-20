@@ -33,7 +33,6 @@
               <li>Name: {{user.name}}</li>
               <li>Age: {{user.age}}</li>
               <li>Bio: {{user.bio}}</li>
-              <li>Music Style: {{user.style}}</li>
               <li>Interests: {{user.interests}}</li>
               <li>Genres: {{user.genres}}</li>
             </ul>
