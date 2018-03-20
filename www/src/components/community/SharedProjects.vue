@@ -9,34 +9,41 @@
 
           <div class="col-6">
 
-            <a href="#" :class="{ 'text-light': playingProjectId === '', 'text-muted': playingProjectId !== '' }"
-            @click.prevent="playProject" v-show="!isPlaying">
+            <a href="#" :class="{ 'text-light': playingProjectId === '', 'text-muted': playingProjectId !== '' }" @click.prevent="playProject"
+              v-show="!isPlaying">
               <i class="far fa-play-circle m-l-5"></i>
             </a>
             <a href="#" class="text-light" @click.prevent="stopProject" v-show="isPlaying">
               <i class="far fa-stop-circle m-l-5"></i>
             </a>
-            
+
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
             <button @click="showProfile" class="createdUser">{{sharedProject.userName}} Name</button>
 
           </div>
           <div class="col-1">
-            <a href="#" class="text-light mr-5"  @click.prevent="forkProject(sharedProject)">
+            <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
               <i class="fas fa-code-branch"></i> {{sharedProject.forkCount}}
             </a>
           </div>
           <div class="col-1">
-            <a href="#" class="text-light"  @click.prevent="shareBox= shareBox ? false : true">
+            <a href="#" class="text-light" @click.prevent="shareBox= shareBox ? false : true">
               <i class="fas fa-share"></i>
             </a>
           </div>
           <div v-if="shareBox" class="shareButton">
-            <p>Facebook</p>
-            <p>SMS:Twilio</p>
-            <p>Twitter</p>
-            <p>Email:mailgun</p>
+            <p>
+              <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com" target="_blank">
+                <i class="fab fa-facebook"></i>
+              </a>
+            </p>
+
+            <p>
+              <i class="fab fa-twitter"></i>
+            </p>
+            <!-- <p>SMS:Twilio</p>
+            <p>Email:mailgun</p> -->
 
           </div>
         </div>
@@ -60,8 +67,8 @@
       }
     },
     computed: {
-      
-      
+
+
     },
     props: [
       'sharedProject',
@@ -121,7 +128,7 @@
             for (var i = 0; i < this.beatTracks.length; i++) {
               var track = this.beatTracks[i]
               var stepSequence = track.stepSequence
-              
+
               // Get an instance of Tone.Player for the current track
               var player = players.get(sampleNames[i])
               // console.log('player', player)
@@ -142,7 +149,7 @@
           }, events, subdivision)
 
           Tone.Transport.bpm.value = this.sharedProject.bpmSetting // Set beats-per-minute
-          })
+        })
       },
       stopProject() {
         this.loop.stop()
