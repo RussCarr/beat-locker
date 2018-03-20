@@ -15,14 +15,10 @@
             </a>
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
-<<<<<<< HEAD:www/src/components/community/SharedProject.vue
             <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
             <a href="#" class="text-light mr-5"  @click.prevent="showProfile">
                 {{user.name}}
               </a>
-=======
-            <button @click="showProfile" class="createdUser">{{sharedProject.userName}} Name</button>
->>>>>>> f99cdf58f42e22d0a75faa2040ebb4ede3d88d43:www/src/components/community/SharedProjects.vue
           </div>
           <div class="col-1">
             <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
@@ -77,13 +73,6 @@
         shareBox: false
       }
     },
-<<<<<<< HEAD:www/src/components/community/SharedProject.vue
-=======
-    computed: {
-
-
-    },
->>>>>>> f99cdf58f42e22d0a75faa2040ebb4ede3d88d43:www/src/components/community/SharedProjects.vue
     props: [
       'sharedProject',
       'playingProjectId',
