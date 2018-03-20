@@ -35,7 +35,7 @@
       <div class="col-7 text-center">
         <p class="text-center">Sorted by {{catagory}}</p>
         <sharedProjects :sharedProject='sharedProject' class="mt-4" v-for="sharedProject in allSharedProjects"
-          :key='sharedProject._id'></sharedProjects>
+          :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId"></sharedProjects>
       </div>
       <div class="col-0">
 
@@ -57,12 +57,11 @@
     components: {
       navbar: Navbar,
       sidebar: SideBar,
-      sharedProjects: SharedProjects,
-    
-
+      sharedProjects: SharedProjects
     },
   data() {
     return {
+      playingProjectId: "",
       catagory: "Top 10 Forked"
       // options: [
       //   { text: 'Top 10 Newly Created', value: 'Top 10 Newly Created' },
@@ -100,6 +99,9 @@
     }
   },
   methods: {
+    setPlayingProject(projectId) {
+      this.playingProjectId = projectId
+    },
     instSelect() {
       //
     }

@@ -31,6 +31,7 @@ export default new vuex.Store({
     },
     activeProject: {},
     activeTracks: [],
+    previewTracks: [],
     userProjects: [],
     allProjects: []
   },
@@ -52,11 +53,17 @@ export default new vuex.Store({
     setActiveTracks(state, tracks) {
       state.activeTracks = tracks;
     },
+    setPreviewTracks(state, tracks) {
+      state.previewTracks = tracks;
+    },
     unshiftActiveTrack(state, track) {
       state.activeTracks.unshift(track);
     },
     pushActiveTrack(state, track) {
       state.activeTracks.push(track);
+    },
+    pushPreviewTrack(state, track) {
+      state.previewTracks.push(track);
     },
     removeActiveTrack(state, trackId) {
       var removed = state.activeTracks.find(track => track._id === trackId);
@@ -82,7 +89,6 @@ export default new vuex.Store({
       state.userProjects = userCreatedProject;
     },
     setAllUserProjects(state, allUserProjects) {
-      console.log("state", allUserProjects);
       state.allProjects = allUserProjects;
     },
     addUserProject(state,userProject) {
@@ -601,6 +607,28 @@ export default new vuex.Store({
         var updatedTrack = res.data.data;
         commit("updateActiveTrack", updatedTrack);
       });
+    },
+
+    setPreviewTracks({commit, dispatch}, trackIds) {
+      return new Promise((resolve, reject) => {
+        commit('setPreviewTracks', [])
+
+        var fetchPromises = []
+        trackIds.forEach((trackId, i) => {
+          fetchPromises[i] = api.get(`tracks/${trackId}`)
+          .then(res => {
+            var fetchedTrack = res.data
+            commit('pushPreviewTrack', fetchedTrack)
+          })
+        })
+
+        Promise.all(fetchPromises).then(() => {
+          resolve();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      })
     }
   }
 });
