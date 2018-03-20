@@ -6,11 +6,11 @@
       <div class="col-10">
         <div class="row">
           <div class="col-6">
-            <a href="#" :class="{ 'text-light': playingProjectId === '', 'text-muted': playingProjectId !== '' }" @click.prevent="playProject"
+            <a href="#" :class="{ 'play-button': playingProjectId === '', 'text-muted': playingProjectId !== '' }" @click.prevent="playProject"
               v-show="!isPlaying">
               <i class="far fa-play-circle m-l-5"></i>
             </a>
-            <a href="#" class="text-light" @click.prevent="stopProject" v-show="isPlaying">
+            <a href="#" class="play-button" @click.prevent="stopProject" v-show="isPlaying">
               <i class="far fa-stop-circle m-l-5"></i>
             </a>
             {{sharedProject.title}}
@@ -189,6 +189,14 @@
   .createdUser {
     font-size: 10px;
     color: white;
+  }
+
+  .play-button {
+    color: white;
+  }
+
+  .play-button:hover {
+    color: rgba(206, 33, 53, 1.0);
   }
 
   .shareButton {
