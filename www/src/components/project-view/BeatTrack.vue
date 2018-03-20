@@ -4,7 +4,7 @@
     <div class="row">
 
       <div class="instrument-select col-2 pt-4">
-        <div class="d-flex justify-content-around" v-if="isNoteTrack">
+        <div class="d-flex justify-content-around" v-if="isNoteTrack" v-model="note">
           <select class="note">
             <option selected disabled>{{beatTrack.instrumentName.charAt(0)}}</option>
             <option value="Ab">A-flat</option><option value="A">A</option><option value="A#">A-sharp</option>
@@ -15,7 +15,7 @@
             <option value="Fb">F-flat</option><option value="F">F</option><option value="F#">F-sharp</option>
             <option value="Gb">G-flat</option><option value="G">G</option><option value="G#">G-sharp</option>
           </select>
-          <select class="octave">
+          <select class="octave" v-model="octave">
             <option selected disabled>{{beatTrack.instrumentName.charAt(1)}}</option>
             <option v-for="n in 3">{{n+2}}</option>
           </select>
@@ -83,7 +83,9 @@
         stepSequence: this.beatTrack.stepSequence,
         faderSetting: this.beatTrack.faderSetting,
         muted: false,
-        solo: false
+        solo: false,
+        note: "",
+        octave: ""
       }
     },
     computed: {
