@@ -16,50 +16,43 @@
             <button @click="showProfile" class="createdUser">{{sharedProject.userName}} Name</button>
 
           </div>
-          <div class="col-3">
-            <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
+          <div class="col-1">
+            <a href="#" class="text-light mr-5"  @click.prevent="forkProject(sharedProject)">
               <i class="fas fa-code-branch"></i> {{sharedProject.forkCount}}
-
             </a>
-            <a href="#" class="text-light" @click.prevent="">
+          </div>
+          <div class="col-1">
+            <a href="#" class="text-light"  @click.prevent="shareBox= shareBox ? false : true">
               <i class="fas fa-share"></i>
-
-              <!-- <select>
-                <option>Facebook</option>
-                <option>SMS:Twilio</option>
-                <option>Twitter</option>
-                <option>Email:mailgun</option>
-              </select> -->
-
             </a>
+          </div>
+          <div v-if="shareBox" class="shareButton">
+            <p>Facebook</p>
+            <p>SMS:Twilio</p>
+            <p>Twitter</p>
+            <p>Email:mailgun</p>
+
           </div>
         </div>
       </div>
     </div>
-
-    <!-- <div class="col-1">
-
-
-    </div>
-    <div class="col-1">
-
-
-    </div>
- -->
-
   </div>
 </template>
 
 <script>
 
   export default {
-    name: 'SharedTracks',
+    name: 'SharedProjects',
     components: {
     },
     data() {
       return {
-
+        shareBox: false
       }
+    },
+    computed: {
+      
+      
     },
     props: [
       'sharedProject'
@@ -72,8 +65,8 @@
       },
       showProfile() {
         this.$emit('showProfile')
-      }
-    }
+      },
+  }
   }
 
 </script>
@@ -91,5 +84,16 @@
   .createdUser {
     font-size: 10px;
     color: white;
+  }
+
+  .shareButton {
+    border: 2px solid white;
+    width: 100px;
+    /* height: 80px; */
+  }
+
+  p {
+    margin: -1px;
+
   }
 </style>
