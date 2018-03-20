@@ -3,7 +3,7 @@
     <navbar></navbar>
     <sidebar></sidebar>
     <div class="row">
-      <div class="col-3">
+      <div class="col-2">
         <div class="col-12 mt-3">
           Search tracks...
           <form>
@@ -25,26 +25,43 @@
               <option>Top 10 Forked</option>
               <option>Top 10 Shared</option>
               <option>Top 10 Newly shared</option>
-              <option>Top 10 of 2017</option>
+              <option>Top 10 of 2018</option>
             </select>
 
 
           </div>
         </div>
       </div>
-      <div class="col-7 text-center">
+      <div class="col-4 mt-3 text-center">
         <p class="text-center">Sorted by {{catagory}}</p>
-        <sharedProjects :sharedProject='sharedProject' class="mt-4" v-for="sharedProject in allSharedProjects"
-          :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId"></sharedProjects>
+        <sharedProjects class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true"
+          v-for="sharedProject in allSharedProjects" :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId">
+        </sharedProjects>
       </div>
-      <div class="col-0">
 
-      </div>
-      <div class="col-0">
+      <div class=" col-3">
+        
+        <div class="mt-4 row">
 
+          <div v-if="showProfile" class="text-center viewProfile">
+
+            <h3>User Profile</h3>
+            <hr>
+            <p>user Name</p>
+            <p>User Bio</p>
+            <hr>
+            <p>Projects Shared</p>
+            <p> Track</p>
+            <p> Track</p>
+            <p> Track</p>
+            <p> Track</p>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- <div class="col-">
 
+    </div> -->
   </div>
 </template>
 
@@ -59,53 +76,55 @@
       sidebar: SideBar,
       sharedProjects: SharedProjects
     },
-  data() {
-    return {
-      playingProjectId: "",
-      catagory: "Top 10 Forked"
-      // options: [
-      //   { text: 'Top 10 Newly Created', value: 'Top 10 Newly Created' },
-      //   { text: 'Top 10 Forked', value: 'Top 10 Forked' },
-      //   { text: 'Top 10 Shared', value: 'Top 10 Shared' },
-      //   { text: 'Top 10 of 2018', value: 'Top 10 of 2018' }
-      // ]
-    }
-  },
-  computed: {
-    allSharedProjects() {
-      var allProjects = this.$store.state.allProjects;
-      var allSharedProjects = allProjects.filter(project => {
-        return project.shared === true
-      })
-      allSharedProjects.sort(function(a, b){return b.forkCount - a.forkCount})
-      
-      // console.log('allSharedProjectsData1', test)
-        return allSharedProjects
-      
-          // return test
-      // if (catagory = "Top 10 Newly Created") {
-      // } else if (catagory = "Top 10 Forked") {
-      //   return test
-      // } else if(catagory = "Top 10 of 2018") {
-      //   return test
-      // } else if(catagory = "Top 10 Shared") {
-      //   return test
-      // } else {
-      //   return test
-      // }
+    data() {
+      return {
+        playingProjectId: "",
+        catagory: "Top 10 Forked",
+        showProfile: false
+        // options: [
+        //   { text: 'Top 10 Newly Created', value: 'Top 10 Newly Created' },
+        //   { text: 'Top 10 Forked', value: 'Top 10 Forked' },
+        //   { text: 'Top 10 Shared', value: 'Top 10 Shared' },
+        //   { text: 'Top 10 of 2018', value: 'Top 10 of 2018' }
+        // ]
+      }
     },
-    user() {
-      return this.$store.state.user
-    }
-  },
-  methods: {
-    setPlayingProject(projectId) {
-      this.playingProjectId = projectId
+    computed: {
+      allSharedProjects(catagory) {
+        var allProjects = this.$store.state.allProjects;
+        var allSharedProjects = allProjects.filter(project => {
+          return project.shared === true
+        })
+        // allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
+        // console.log('allSharedProjectsData1', test)
+        if (catagory = "Top 10 Newly Created") {
+          allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
+          return allSharedProjects
+        } else if (catagory = "Top 10 Forked") {
+          allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
+          return allSharedProjects
+        } else if (catagory = "Top 10 of 2018") {
+          allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
+          return allSharedProjects
+        } else if (catagory = "Top 10 Shared") {
+          allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
+          return allSharedProjects
+        } else {
+          return allSharedProjects
+        }
+      },
+      user() {
+        return this.$store.state.user
+      },
     },
-    instSelect() {
-      //
+    methods: {
+      setPlayingProject(projectId) {
+        this.playingProjectId = projectId
+      },
+      instSelect() {
+        //
+      }
     }
-  }
   }
 
 </script>
@@ -113,5 +132,13 @@
 <style scoped>
   .explorer {
     color: white;
+  }
+
+  .viewProfile {
+    border: 3px solid white;
+    width: 400px;
+  }
+  hr{
+   border-color: white;
   }
 </style>
