@@ -43,7 +43,7 @@ router.get("/api/users/:userId/projects", (req, res, next) => {
 
 // Update a Project by ID
 router.put("/api/projects/:projectId", (req, res, next) => {
-  console.log('here is the req',req)
+  console.log("here is the req", req);
   project
     .findByIdAndUpdate(req.params.projectId, req.body, { new: true })
     .then(project => {
@@ -80,6 +80,16 @@ router.delete("/api/projects/:projectId", (req, res, next) => {
 //         })
 //         .catch(next)
 // })
+
+//SEARCH PROJECTS BY PROJECT TITLE FRAGMENT
+router.get("/api/projects/search/:title", (req, res, next) => {
+  project
+    .find({ title: new RegExp("(" + req.params.title + ")", "i") })
+    .then(projects => {
+      return res.send(projects);
+    })
+    .catch(next);
+});
 
 // FOR TESTING ONLY: Get all projects
 router.get("/api/projects", (req, res, next) => {

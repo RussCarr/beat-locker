@@ -6,11 +6,11 @@
       <div class="col-2">
         <div class="col-12 mt-3">
           Search tracks...
-          <form>
-            <input action="#" type="text" v-model="search" placeholder="Search..." name="search" @submit.prevent="submit">
+          <!-- <form> -->
+            <input type="text" v-model="search" placeholder="Search..." name="search">
             <!-- RESETS THE PAGE SO COMMENTED OUT FOR NOW -->
-            <!-- <button type="submit">Submit</button> --> 
-          </form>
+            <button type="button" @click="getSearchResults">Submit</button> 
+          <!-- </form> -->
         </div>
         <div class="col-12 mt-3">
           Sort by...
@@ -24,10 +24,9 @@
 
           </div>
         </div>
-        <!-- <div class="col-12 mt-3" v-for="sharedProject in filteredSharedProjects"> -->
-        <!-- <div class="col-12 mt-3" v-for="sharedProject in sharedProjects">
-          {{sharedProject.title}}
-        </div> -->
+        <div class="col-12 mt-3" v-for="searchResult in searchResults">
+          {{searchResult.title}}
+        </div>
       </div>
       <div class="col-4 mt-3 text-center">
         <p class="text-center">Sorted by {{category}}</p>
@@ -95,6 +94,10 @@
       }
     },
     computed: {
+      searchResults() {
+        return this.$store.state.searchResults
+      },
+
       // allSharedProjects(category) {
       //   var allProjects = this.$store.state.allProjects;
       //   var allSharedProjects = allProjects.filter(project => {
@@ -170,10 +173,13 @@
           this.sharedProjectUsers = this.$store.state.activeProjectUsers
         })
       },
-      filteredSharedProjects() {
-        return this.allSharedProjects.filter((sharedProject) => {
-          return sharedProject.title.match(this.search)
-        })
+      getSearchResults() {
+        var query = this.search
+        this.$store.dispatch('searchByProjectTitle', query)
+
+        // return this.allSharedProjects.filter((sharedProject) => {
+        //   return sharedProject.title.match(this.search)
+        // })
       },
       
     }
