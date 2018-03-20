@@ -1,19 +1,9 @@
 <template>
   <div class="home">
     <navbar></navbar>
-    <div class="row">
-      <div class="col">
-        <div class="col-11">
-          <project></project>
-        </div>
-      </div>
-      <div class="col-1">
-        <sidebar></sidebar>
-      </div>
-    </div>
-    <div class="row">
-      <bottom class="footerBottom"></bottom>
-    </div>
+    <project></project>
+    <sidebar></sidebar>
+    <bottom class="footerBottom"></bottom>
   </div>
 </template>
 
@@ -68,4 +58,5 @@
     width: 100%;
 
   }
+
 </style>

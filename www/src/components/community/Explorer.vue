@@ -21,6 +21,7 @@
               <option>Top 10 Newly shared</option>
               <option>Top 10 of 2018</option>
             </select>
+
           </div>
         </div>
         <div class="col-12 mt-3" v-for="sharedProject in filteredSharedProjects">
@@ -29,18 +30,19 @@
       </div>
       <div class="col-4 mt-3 text-center">
         <p class="text-center">Sorted by {{category}}</p>
-        <sharedProjects class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true"
-          v-for="sharedProject in allSharedProjects" :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId">
+        <sharedProjects class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in allSharedProjects"
+          :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId">
         </sharedProjects>
       </div>
 
       <div class=" col-3">
-        
+
         <div class="mt-4 row">
 
           <div v-if="showProfile" class="text-center viewProfile">
+            <viewUserProfile :sharedProjects='sharedProjects'></viewUserProfile>
 
-            <h3>User Profile</h3>
+            <!-- <h3>User Profile</h3>
             <hr>
             <p>user Name</p>
             <p>User Bio</p>
@@ -50,26 +52,30 @@
             <p> Track</p>
             <p> Track</p>
             <p> Track</p>
+          -->
           </div>
-        </div>
+         </div>
       </div>
     </div>
-    <!-- <div class="col-">
+</div>
 
-    </div> -->
-  </div>
 </template>
 
 <script>
   import Navbar from '../Navbar'
   import SideBar from '../SideBar'
   import SharedProjects from './SharedProjects'
+  import ViewUserProfile from './ViewUserProfile'
   export default {
     name: 'Explorer',
     components: {
       navbar: Navbar,
       sidebar: SideBar,
-      sharedProjects: SharedProjects
+      sharedProjects: SharedProjects,
+      viewUserProfile: ViewUserProfile,
+
+
+
     },
     data() {
       return {
@@ -110,7 +116,7 @@
           return allSharedProjects
         }
       },
-      filteredSharedProjects(){
+      filteredSharedProjects() {
         return this.allSharedProjects.filter((sharedProject) => {
           return sharedProject.title.match(this.search)
         })
@@ -139,8 +145,10 @@
   .viewProfile {
     border: 3px solid white;
     width: 400px;
+    height: 100%;
   }
-  hr{
-   border-color: white;
+
+  hr {
+    border-color: white;
   }
 </style>

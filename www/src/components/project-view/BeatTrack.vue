@@ -1,11 +1,10 @@
 <template>
   <div class="beat-track container-fluid px-0">
 
-    <div class="d-flex flex-row align-items-center justify-content-center">
-    <!-- <div class="row"> -->
+    <div class="row">
 
-      <!-- <div class="instrument-select col-2"> -->
-        <div class="d-flex justify-content-between" v-if="isNoteTrack">
+      <div class="instrument-select col-2 pt-4">
+        <div class="d-flex justify-content-around" v-if="isNoteTrack">
           <select class="note">
             <option selected disabled>{{beatTrack.instrumentName.charAt(0)}}</option>
             <option value="Ab">A-flat</option><option value="A">A</option><option value="A#">A-sharp</option>
@@ -24,38 +23,44 @@
         <div class="" v-if="!isNoteTrack">
           <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
         </div>
-      <!-- </div> -->
+      </div>
 
-      <!-- <div class="volume-controls col-2"> -->
-        <div class="track-volume"> 
-          <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
-        </div>
-        <div>
-          <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
-          <div class="solo" :class="{ 'engaged': solo }"  @click="soloTrack">solo</div>
-        </div>
-      <!-- </div> -->
+      <div class="col-10 row">
 
-      <!-- <div class="track-steps col-6"> -->
-        <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount">
-  
-          <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in beatTrack.stepsPerBar">
-  
-            <div class="step" @click="selectStep($event, (barIndex * beatTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
-            :class="{ 'selected': stepSequence[(barIndex * beatTrack.stepsPerBar) + stepIndexInBar] }"></div>
-  
+        <div class="volume-controls col-3 ml-1 pt-4 row">
+          <div class="track-volume col-8 px-0"> 
+            <volumeSlider v-on:faderChange="faderChange" :setting="faderSetting"></volumeSlider>
           </div>
-  
+          <div class="col-4 px-0">
+            <div class="mute" :class="{ 'engaged': muted }"  @click="muteTrack">mute</div>
+            <div class="solo" :class="{ 'engaged': solo }"  @click="soloTrack">solo</div>
+          </div>
         </div>
-      <!-- </div> -->
 
-      <!-- <div class="delete-control col-2"> -->
-        <div class="ml-3">
-          <button class="btn btn-sm btn-outline-light mr-2" @click="deleteTrack">
-              <i class="fas fa-trash-alt"></i> Remove track
-          </button>
+        <div class="track-steps col-8 d-flex flex-row px-0">
+          <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount"
+          :style="{ width: (100 / beatTrack.barCount) + '%' }">
+    
+            <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in beatTrack.stepsPerBar"
+            :style="{ width: (100 / beatTrack.stepsPerBar) + '%' }">
+    
+              <div class="step" @click="selectStep($event, (barIndex * beatTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
+              :class="{ 'selected': stepSequence[(barIndex * beatTrack.stepsPerBar) + stepIndexInBar] }"></div>
+    
+            </div>
+    
+          </div>
         </div>
-      <!-- </div> -->
+
+        <div class="delete-control col-1 pt-4">
+          <div class="">
+            <button class="btn btn-sm btn-outline-light" @click="deleteTrack">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
 
     </div>
 
@@ -148,6 +153,19 @@
 </script>
 
 <style>
+  .btn {
+    font-size: 0.75rem;
+  }
+
+  .beat-track {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .instrument-select {
+    font-size: 0.65rem;
+  }
+
   .bar-wrapper {
     background-color: rgba(251, 251, 251, 1.0);
     margin: 0.05rem;
@@ -155,7 +173,6 @@
 
   .track-volume {
     min-width: 10%;
-    max-width: 50px;
   }
 
   .solo {
@@ -196,7 +213,6 @@
   }
 
   .step {
-    width: 30px;
     height: 80px;
     background-color: white;
   }
@@ -207,8 +223,6 @@
 
   .scrolling-wrapper {
     overflow-x: scroll;
-    /* overflow-y: hidden; */
-    /* white-space: nowrap; */
   }
 
 </style>
