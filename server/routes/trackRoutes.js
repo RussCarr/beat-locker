@@ -17,7 +17,6 @@ router.post("/api/tracks", (req, res, next) => {
 
 // Get a Track by ID
 router.get("/api/tracks/:trackId", (req, res, next) => {
-  console.log("track see")
   track
     .findById(req.params.trackId)
     .then(track => {

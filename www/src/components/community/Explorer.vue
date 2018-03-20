@@ -7,21 +7,14 @@
         <div class="col-12 mt-3">
           Search tracks...
           <form>
-            <input type="text" placeholder="Search..." name="search">
-            <button type="submit">Submit</button>
+            <input action="#" type="text" v-model="search" placeholder="Search..." name="search" @submit.prevent="submit">
+            <!-- <button type="submit">Submit</button> -->
           </form>
         </div>
         <div class="col-12 mt-3">
           Sort by...
-
           <div class="col-12 mt-3">
-            <!-- <select v-model="selected">
-              <option v-for="option in options" v-bind:value="option.value">
-                {{ option.text }}
-              </option>
-            </select> -->
-            <select v-model="catagory">
-              <!-- <option disabled value="">Please select one</option> -->
+            <select v-model="category">
               <option>Top 10 Forked</option>
               <option>Top 10 Shared</option>
               <option>Top 10 Newly shared</option>
@@ -30,10 +23,15 @@
             
           </div>
         </div>
+        <div class="col-12 mt-3" v-for="sharedProject in filteredSharedProjects">
+          {{sharedProject.title}}
+        </div>
       </div>
       <div class="col-4 mt-3 text-center">
-        <p class="text-center">Sorted by {{catagory}}</p>
-        <sharedProjects :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" class="mt-4" v-for="sharedProject in allSharedProjects" :key='sharedProject._id'></sharedProjects>
+        <p class="text-center">Sorted by {{category}}</p>
+        <sharedProjects class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true"
+          v-for="sharedProject in allSharedProjects" :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId">
+        </sharedProjects>
       </div>
       
       <div class=" col-3">
@@ -49,10 +47,10 @@
             <p>User Bio</p>
             <hr>
             <p>Projects Shared</p>
-            <p>< Track</p>
-            <p>< Track</p>
-            <p>< Track</p>
-            <p>< Track</p> -->
+            <p> Track</p>
+            <p> Track</p>
+            <p> Track</p>
+            <p> Track</p>
           </div>
         </div>
       </div>
@@ -81,8 +79,11 @@
     },
     data() {
       return {
-        catagory: "Top 10 Forked",
-        showProfile: false
+        playingProjectId: "",
+        category: "Top 10 Forked",
+        showProfile: false,
+        sharedProjects: '',
+        search: ''
         // options: [
         //   { text: 'Top 10 Newly Created', value: 'Top 10 Newly Created' },
         //   { text: 'Top 10 Forked', value: 'Top 10 Forked' },
@@ -92,37 +93,42 @@
       }
     },
     computed: {
-      allSharedProjects(catagory) {
+      allSharedProjects(category) {
         var allProjects = this.$store.state.allProjects;
         var allSharedProjects = allProjects.filter(project => {
           return project.shared === true
         })
         // allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
-
         // console.log('allSharedProjectsData1', test)
-
-        if (catagory = "Top 10 Newly Created") {
+        if (category = "Top 10 Newly Created") {
           allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
           return allSharedProjects
-        } else if (catagory = "Top 10 Forked") {
+        } else if (category = "Top 10 Forked") {
           allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
           return allSharedProjects
-        } else if (catagory = "Top 10 of 2018") {
+        } else if (category = "Top 10 of 2018") {
           allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
           return allSharedProjects
-        } else if (catagory = "Top 10 Shared") {
+        } else if (category = "Top 10 Shared") {
           allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
           return allSharedProjects
         } else {
           return allSharedProjects
         }
       },
+      filteredSharedProjects(){
+        return this.allSharedProjects.filter((sharedProject) => {
+          return sharedProject.title.match(this.search)
+        })
+      },
       user() {
         return this.$store.state.user
       },
-
     },
     methods: {
+      setPlayingProject(projectId) {
+        this.playingProjectId = projectId
+      },
       instSelect() {
         //
       }
