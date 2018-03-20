@@ -7,7 +7,8 @@
         </div>
       </div>
       <div class="col-sm-1 user">
-        <img class="user-image" @click='userProfile' v-model="user.imgUrl" id="imgUrl" :src="user.imgUrl">
+        <!-- <img class="user-image" @click='userProfile' v-model="user.imgUrl" id="imgUrl" :src="user.imgUrl"> -->
+        <img class="user-image" @click='userProfile' v-model="user.imgUrl" id="imgUrl" :src="imgUrl">
       </div>
       <div class="col-sm-2 user">
         <div class="row">
@@ -60,6 +61,13 @@
       },
       user() {
         return this.$store.state.user
+      },
+      imgUrl() {
+        var imgUrl = this.user.imgUrl
+        if (!imgUrl) {
+          imgUrl = "https://robohash.org/" + this.user.name + ".png"
+        }
+        return imgUrl
       }
     },
     methods: {
