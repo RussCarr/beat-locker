@@ -8,7 +8,8 @@
           Search tracks...
           <form>
             <input action="#" type="text" v-model="search" placeholder="Search..." name="search" @submit.prevent="submit">
-            <!-- <button type="submit">Submit</button> -->
+            <!-- RESETS THE PAGE SO COMMENTED OUT FOR NOW -->
+            <!-- <button type="submit">Submit</button> --> 
           </form>
         </div>
         <div class="col-12 mt-3">
