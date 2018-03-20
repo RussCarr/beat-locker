@@ -2,13 +2,10 @@
   <div class="sharedTracks">
     <div class="row">
       <div class="col-2">
-
       </div>
       <div class="col-10">
         <div class="row">
-
           <div class="col-6">
-
             <a href="#" :class="{ 'text-light': playingProjectId === '', 'text-muted': playingProjectId !== '' }" @click.prevent="playProject"
               v-show="!isPlaying">
               <i class="far fa-play-circle m-l-5"></i>
@@ -16,11 +13,9 @@
             <a href="#" class="text-light" @click.prevent="stopProject" v-show="isPlaying">
               <i class="far fa-stop-circle m-l-5"></i>
             </a>
-
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
             <button @click="showProfile" class="createdUser">{{sharedProject.userName}} Name</button>
-
           </div>
           <div class="col-1">
             <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
@@ -38,16 +33,22 @@
                 <i class="fab fa-facebook"></i>
               </a>
             </p>
-
             <p>
-                <a class="share-icon" href="https://twitter.com/intent/tweet?url=https://joe-r-davis.github.io/clone2/&text=TEXT&via=YOURTWITTERACCOUNTNAME" target="_blank"><i class="fab fa-twitter"></i></a>
+              <a class="share-icon" href="https://twitter.com/intent/tweet?url=https://joe-r-davis.github.io/clone2/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
+                target="_blank">
+                <i class="fab fa-twitter"></i>
+              </a>
             </p>
             <p>
-                <a class="share-icon" href="https://nodemailer.com/about/" target="_blank"><i class="fas fa-envelope"></i></a>
+              <a class="share-icon" href="https://nodemailer.com/about/" target="_blank">
+                <i class="fas fa-envelope"></i>
+              </a>
             </p>
-            <!-- <p>SMS:Twilio</p>
-            <p>Email:mailgun</p> -->
-
+            <p>
+              <a class="share-icon" href="https://www.twilio.com/" target="_blank">
+                <i class="fas fa-mobile"></i>
+              </a>
+            </p>
           </div>
         </div>
       </div>
@@ -169,7 +170,7 @@
     color: white
   }
 
-  a.share-icon:hover{
+  a.share-icon:hover {
     color: rgba(206, 33, 53, 1.0)
   }
 
