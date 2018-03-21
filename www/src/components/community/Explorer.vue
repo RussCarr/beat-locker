@@ -15,7 +15,7 @@
         <div class="col-12 mt-3">
           Sort by...
           <div class="col-12 mt-3">
-            <select v-model="category" @change="applyFilter">
+            <select v-model="category" >
               <option>Top 10 Forked</option>
               <option>Top 10 Shared</option>
               <option>Top 10 Newly shared</option>
@@ -93,7 +93,13 @@
         // ]
       }
     },
+    watch:{
+      category: function (val){
+        this.applyFilter(val)
+      }
+    },
     computed: {
+            
       searchResults() {
         return this.$store.state.searchResults
       },
