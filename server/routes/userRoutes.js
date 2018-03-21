@@ -1,6 +1,6 @@
 var user = require("../models/user");
 var project = require("../models/project");
-var tracks = require("../models/track");
+var track = require("../models/track");
 var router = require("express").Router();
 
 //GET USER BY ID
@@ -65,9 +65,9 @@ function deleteuser(req, res, next) {
       console.log("Deleted user projects");
     })
     .catch(next);
-  tracks.deleteMany({ userId: req.params.userId })
+  track.deleteMany({ userId: req.params.userId })
     .then(() => {
-      console.log("Deleted user trackss");
+      console.log("Deleted user tracks");
     })
     .catch(next);
 }
