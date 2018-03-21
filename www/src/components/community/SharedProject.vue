@@ -84,17 +84,16 @@
       },
       user() {
         var projectUsers = this.$store.state.activeProjectUsers
-        console.log('Project users',projectUsers)
         return projectUsers.find(user => user._id === this.sharedProject.userId)
       }
     },
     methods: {
       forkProject(sharedProject) {
-        console.log('fork project', sharedProject)
         this.$store.dispatch('cloneProject', sharedProject)
       },
       showProfile() {
         this.$emit('showProfile')
+        this.$store.dispatch('setPreviewProject', this.sharedProject)
       },
       playProject() {
         if (this.playingProjectId !== "") { // If another project is already playing...

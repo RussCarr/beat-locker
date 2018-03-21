@@ -6,7 +6,7 @@ import axios from "axios";
 import router from "../router";
 
 var production = !window.location.host.includes("localhost");
-var baseUrl = production ? '//beatlocker.herokuapp.com/' : "//localhost:3000/";
+var baseUrl = production ? "//beatlocker.herokuapp.com/" : "//localhost:3000/";
 
 var api = axios.create({
   baseURL: baseUrl + "api/",
@@ -35,7 +35,8 @@ export default new vuex.Store({
     userProjects: [],
     allProjects: [],
     activeProjectUsers: [],
-    searchResults: []
+    searchResults: [],
+    projectPreview: []
   },
 
   mutations: {
@@ -104,6 +105,9 @@ export default new vuex.Store({
     },
     addSearchResults(state, searchResults) {
       state.searchResults = state.searchResults.concat(searchResults);
+    },
+    setPreviewProject(state, sharedProject) {
+      state.projectPreview = sharedProject;
     }
   },
 
@@ -722,6 +726,9 @@ export default new vuex.Store({
         .catch(err => {
           console.log(err);
         });
+    },
+    setPreviewProject({ commit, dispatch }, sharedProject) {
+         commit("setPreviewProject", sharedProject);
     }
   }
 });

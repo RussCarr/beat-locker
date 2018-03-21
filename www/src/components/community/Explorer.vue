@@ -40,7 +40,7 @@
         <div class="mt-4 row">
 
           <div v-if="showProfile" class="text-center viewProfile">
-            <viewUserProfile :allSharedProjects='allSharedProjects'></viewUserProfile>
+            <viewUserProfile></viewUserProfile>
 
             <!-- <h3>User Profile</h3>
             <hr>
@@ -155,22 +155,22 @@
       setPlayingProject(projectId) {
         this.playingProjectId = projectId
       },
-      applyFilter() {
+      applyFilter(category) {
         var allProjects = this.$store.state.allProjects;
         var allSharedProjects = allProjects.filter(project => {
           return project.shared === true
         })
         
-        if (this.category = "Top 10 Newly Created") {
+        if (category = "Top 10 Newly Created") {
           allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
           
-        } else if (this.category = "Top 10 Forked") {
+        } else if (category = "Top 10 Forked") {
           allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
           
-        } else if (this.category = "Top 10 of 2018") {
+        } else if (category = "Top 10 of 2018") {
           allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
          
-        } else if (this.category = "Top 10 Shared") {
+        } else if (category = "Top 10 Shared") {
           allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
         }
         this.sharedProjects = allSharedProjects
