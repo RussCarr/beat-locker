@@ -176,10 +176,6 @@
       getSearchResults() {
         var query = this.search
         this.$store.dispatch('searchProjects', query)
-
-        // return this.allSharedProjects.filter((sharedProject) => {
-        //   return sharedProject.title.match(this.search)
-        // })
       },
       
     }
