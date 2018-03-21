@@ -1,7 +1,7 @@
 var router = require("express").Router();
 var user = require("../models/user");
 var project = require("../models/project");
-var tracks = require("../models/track");
+var tracks = require("../models/tracks");
 
 // // Create a Project
 router.post("/api/projects", (req, res, next) => {
