@@ -92,7 +92,7 @@
         })
       },
       allSharedProjects() {
-        this.$store.dispatch('getAllUserProjects')
+        // this.$store.dispatch('getAllProjects')
         this.$router.push({ path: '/Explorer' })
       },
       home() {

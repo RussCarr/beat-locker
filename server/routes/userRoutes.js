@@ -82,4 +82,14 @@ function editUser(req, res, next) {
   .catch(next);
 }
 
+//SEARCH PROJECTS BY PROJECT TITLE FRAGMENT
+router.get("/api/users/search/:username", (req, res, next) => {
+  project
+    .find({ name: new RegExp("(" + req.params.username + ")", "i") })
+    .then(users => {
+      return res.send(users);
+    })
+    .catch(next);
+});
+
 module.exports = { router };

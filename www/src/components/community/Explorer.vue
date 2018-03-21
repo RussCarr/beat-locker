@@ -6,15 +6,16 @@
       <div class="col-2">
         <div class="col-12 mt-3">
           Search tracks...
-          <form>
-            <input action="#" type="text" v-model="search" placeholder="Search..." name="search" @submit.prevent="submit">
-            <!-- <button type="submit">Submit</button> -->
-          </form>
+          <!-- <form> -->
+            <input type="text" v-model="search" placeholder="Search..." name="search">
+            <!-- RESETS THE PAGE SO COMMENTED OUT FOR NOW -->
+            <button type="button" @click="getSearchResults">Submit</button> 
+          <!-- </form> -->
         </div>
         <div class="col-12 mt-3">
           Sort by...
           <div class="col-12 mt-3">
-            <select v-model="category">
+            <select v-model="category" @change="applyFilter">
               <option>Top 10 Forked</option>
               <option>Top 10 Shared</option>
               <option>Top 10 Newly shared</option>
@@ -23,15 +24,15 @@
 
           </div>
         </div>
-        <div class="col-12 mt-3" v-for="sharedProject in filteredSharedProjects">
-          {{sharedProject.title}}
+        <div class="col-12 mt-3" v-for="searchResult in searchResults">
+          {{searchResult.title}}
         </div>
       </div>
       <div class="col-4 mt-3 text-center">
         <p class="text-center">Sorted by {{category}}</p>
-        <sharedProjects class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in allSharedProjects"
+        <sharedProject class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in sharedProjects"
           :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId">
-        </sharedProjects>
+        </sharedProject>
       </div>
 
       <div class=" col-3">
@@ -39,7 +40,7 @@
         <div class="mt-4 row">
 
           <div v-if="showProfile" class="text-center viewProfile">
-            <viewUserProfile :sharedProjects='sharedProjects'></viewUserProfile>
+            <viewUserProfile :allSharedProjects='allSharedProjects'></viewUserProfile>
 
             <!-- <h3>User Profile</h3>
             <hr>
@@ -63,14 +64,14 @@
 <script>
   import Navbar from '../Navbar'
   import SideBar from '../SideBar'
-  import SharedProjects from './SharedProjects'
+  import SharedProject from './SharedProject'
   import ViewUserProfile from './ViewUserProfile'
   export default {
     name: 'Explorer',
     components: {
       navbar: Navbar,
       sidebar: SideBar,
-      sharedProjects: SharedProjects,
+      sharedProject: SharedProject,
       viewUserProfile: ViewUserProfile,
 
 
@@ -81,7 +82,8 @@
         playingProjectId: "",
         category: "Top 10 Forked",
         showProfile: false,
-        sharedProjects: '',
+        sharedProjects: [],
+        sharedProjectUsers: [],
         search: ''
         // options: [
         //   { text: 'Top 10 Newly Created', value: 'Top 10 Newly Created' },
@@ -92,45 +94,94 @@
       }
     },
     computed: {
-      allSharedProjects(category) {
-        var allProjects = this.$store.state.allProjects;
-        var allSharedProjects = allProjects.filter(project => {
-          return project.shared === true
-        })
-        // allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
-        // console.log('allSharedProjectsData1', test)
-        if (category = "Top 10 Newly Created") {
-          allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
-          return allSharedProjects
-        } else if (category = "Top 10 Forked") {
-          allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
-          return allSharedProjects
-        } else if (category = "Top 10 of 2018") {
-          allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
-          return allSharedProjects
-        } else if (category = "Top 10 Shared") {
-          allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
-          return allSharedProjects
-        } else {
-          return allSharedProjects
-        }
+      searchResults() {
+        return this.$store.state.searchResults
       },
-      filteredSharedProjects() {
-        return this.allSharedProjects.filter((sharedProject) => {
-          return sharedProject.title.match(this.search)
-        })
-      },
+
+      // allSharedProjects(category) {
+      //   var allProjects = this.$store.state.allProjects;
+      //   var allSharedProjects = allProjects.filter(project => {
+      //     return project.shared === true
+      //   })
+      //   // allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
+      //   // console.log('allSharedProjectsData1', test)
+      //   if (category = "Top 10 Newly Created") {
+      //     allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
+          
+      //   } else if (category = "Top 10 Forked") {
+      //     allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
+          
+      //   } else if (category = "Top 10 of 2018") {
+      //     allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
+         
+      //   } else if (category = "Top 10 Shared") {
+      //     allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
+      //   }
+      //   var userIds = allSharedProjects.map(project => project.userId)
+      //   this.$store.dispatch('getUsersById',userIds).then(() => {
+      //     return allSharedProjects
+      //   })
+      // },
+      // filteredSharedProjects() {
+      //   return this.allSharedProjects.filter((sharedProject) => {
+      //     return sharedProject.title.match(this.search)
+      //   })
+      // },
       user() {
         return this.$store.state.user
       },
+    },
+    mounted() {
+      this.$store.dispatch('getAllProjects').then(() => {
+        var allProjects = this.$store.state.allProjects;
+          var allSharedProjects = allProjects.filter(project => {
+            return project.shared === true
+          })
+             
+          this.sharedProjects = allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount }).slice(0,10)
+          var userIds = allSharedProjects.map(project => project.userId)
+          this.$store.dispatch('getUsersById',userIds).then(() => {
+            this.sharedProjectUsers = this.$store.state.activeProjectUsers
+          })
+      })
     },
     methods: {
       setPlayingProject(projectId) {
         this.playingProjectId = projectId
       },
-      instSelect() {
-        //
-      }
+      applyFilter() {
+        var allProjects = this.$store.state.allProjects;
+        var allSharedProjects = allProjects.filter(project => {
+          return project.shared === true
+        })
+        
+        if (this.category = "Top 10 Newly Created") {
+          allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
+          
+        } else if (this.category = "Top 10 Forked") {
+          allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
+          
+        } else if (this.category = "Top 10 of 2018") {
+          allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
+         
+        } else if (this.category = "Top 10 Shared") {
+          allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
+        }
+        this.sharedProjects = allSharedProjects
+        var userIds = allSharedProjects.map(project => project.userId)
+        this.$store.dispatch('getUsersById',userIds).then(() => {
+          this.sharedProjectUsers = this.$store.state.activeProjectUsers
+        })
+      },
+      getSearchResults() {
+        var query = this.search
+        this.$store.dispatch('searchByProjectTitle', query)
+
+        // return this.allSharedProjects.filter((sharedProject) => {
+        //   return sharedProject.title.match(this.search)
+        // })
+      },
+      
     }
   }
 

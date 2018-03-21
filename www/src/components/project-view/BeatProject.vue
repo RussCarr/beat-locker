@@ -417,6 +417,13 @@
     color: white;
   }
 
+  .playStopButtons:hover {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: rgba(206, 33, 53, 1.0);
+  }
+
   .playStopButtons:focus {
     outline: 0;
   }

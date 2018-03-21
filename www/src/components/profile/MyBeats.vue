@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="col-6">
-        <h5 @click="showStats = showStats ? false : true" class="btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
+        <h5 @click="showStats = showStats ? false : true" class="project-title btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
       <div class="col-2">
         <!-- <playProject :project="project"></playProject>> -->
@@ -108,6 +108,11 @@
 </script>
 
 <style>
+ .project-title:hover{
+   cursor: pointer;
+ }
+ 
+ 
   .mybeats {
     display: flex;
   }

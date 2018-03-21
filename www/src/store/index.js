@@ -33,7 +33,9 @@ export default new vuex.Store({
     activeTracks: [],
     previewTracks: [],
     userProjects: [],
-    allProjects: []
+    allProjects: [],
+    activeProjectUsers: [],
+    searchResults: []
   },
 
   mutations: {
@@ -91,8 +93,17 @@ export default new vuex.Store({
     setAllUserProjects(state, allUserProjects) {
       state.allProjects = allUserProjects;
     },
-    addUserProject(state,userProject) {
-      state.userProjects.push(userProject)
+    addUserProject(state, userProject) {
+      state.userProjects.push(userProject);
+    },
+    activeProjectUsers(state, users) {
+      state.activeProjectUsers = users;
+    },
+    setSearchResults(state, searchResults) {
+      state.searchResults = searchResults;
+    },
+    addSearchResults(state, searchResults) {
+      state.searchResults = state.searchResults.concat(searchResults);
     }
   },
 
@@ -212,15 +223,21 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    getAllUserProjects({ commit, dispatch }) {
-      api
-        .get(`projects`)
-        .then(res => {
-          commit("setAllUserProjects", res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    getAllProjects({ commit, dispatch }) {
+      return new Promise((resolve, reject) => {
+        api
+          .get(`projects`)
+          .then(res => {
+            commit("setAllUserProjects", res.data);
+            resolve();
+          })
+          // .then(() =>{
+          // 	resolve()
+          // })
+          .catch(err => {
+            console.log(err);
+          });
+      });
     },
     deleteProject({ commit, dispatch }, project) {
       var project_Id = project._id;
@@ -470,7 +487,7 @@ export default new vuex.Store({
     },
     cloneProject({ commit, dispatch }, payload) {
       console.log("Hello Before", payload);
-           payload.forkCount = payload.forkCount + 1;
+      payload.forkCount = payload.forkCount + 1;
       api.put(`projects/${payload._id}`, payload).catch(err => {
         console.log(err);
       });
@@ -479,6 +496,7 @@ export default new vuex.Store({
       clonedProject.originalCreatedAt = clonedProject.createdAt;
       clonedProject.originalProjectCreatorId = clonedProject.userId;
       clonedProject.title = clonedProject.title + " Forked";
+      clonedProject.forkCount = 0;
       clonedProject.shared = false;
       clonedProject.createdAt = Date.now();
       delete clonedProject._id;
@@ -519,7 +537,7 @@ export default new vuex.Store({
           clonedProject.tracksIds = newTrackIds;
           commit("setActiveProject", clonedProject);
           commit("setActiveTracks", newTracks);
-          commit('addUserProject',clonedProject)
+          commit("addUserProject", clonedProject);
           router.push({
             name: "Home"
           });
@@ -567,29 +585,31 @@ export default new vuex.Store({
             commit("setActiveProject", savedProject);
             commit("setActiveTracks", []);
 
-            var tracks = data.tracks
-            var updatePromises = []
+            var tracks = data.tracks;
+            var updatePromises = [];
             tracks.forEach((track, i) => {
-              updatePromises[i] = api.put(`tracks/${track._id}`, track)
+              updatePromises[i] = api
+                .put(`tracks/${track._id}`, track)
                 .then(res => {
-                  var updatedTrack = res.data.data
+                  var updatedTrack = res.data.data;
                   commit("pushActiveTrack", updatedTrack);
-                })                
-            })
-
-            Promise.all(updatePromises).then(() => {
-              resolve();
-            })
-            .catch(err => {
-              console.log(err);
+                });
             });
+
+            Promise.all(updatePromises)
+              .then(() => {
+                resolve();
+              })
+              .catch(err => {
+                console.log(err);
+              });
           })
           .catch(err => {
             console.log(err);
           });
       });
     },
-    
+
     updateProject({ commit, dispatch }, updatedProject) {
       api
         .put(`projects/${updatedProject._id}`, updatedProject)
@@ -609,26 +629,69 @@ export default new vuex.Store({
       });
     },
 
-    setPreviewTracks({commit, dispatch}, trackIds) {
+    setPreviewTracks({ commit, dispatch }, trackIds) {
       return new Promise((resolve, reject) => {
-        commit('setPreviewTracks', [])
+        commit("setPreviewTracks", []);
 
-        var fetchPromises = []
+        var fetchPromises = [];
         trackIds.forEach((trackId, i) => {
-          fetchPromises[i] = api.get(`tracks/${trackId}`)
-          .then(res => {
-            var fetchedTrack = res.data
-            commit('pushPreviewTrack', fetchedTrack)
-          })
-        })
-
-        Promise.all(fetchPromises).then(() => {
-          resolve();
-        })
-        .catch(err => {
-          console.log(err);
+          fetchPromises[i] = api.get(`tracks/${trackId}`).then(res => {
+            var fetchedTrack = res.data;
+            commit("pushPreviewTrack", fetchedTrack);
+          });
         });
+
+        Promise.all(fetchPromises)
+          .then(() => {
+            resolve();
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+    },
+    getUsersById({ commit, dispatch }, userIds) {
+      return new Promise((resolve, reject) => {
+        var activeProjectUsers = [];
+
+        var fetchPromises = [];
+        userIds.forEach((userId, i) => {
+          fetchPromises[i] = api.get(`users/${userId}`).then(res => {
+            var fetchedUser = res.data;
+            console.log("fetchedUsers", fetchedUser);
+            activeProjectUsers.push(fetchedUser);
+          });
+        });
+
+        Promise.all(fetchPromises)
+          .then(() => {
+            commit("activeProjectUsers", activeProjectUsers);
+            resolve();
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+    },
+    searchByProjectTitle({ commit, dispatch }, query) {
+      commit("setSearchResults", [])
+      api.get(`projects/search/${query}`).then(res => {
+        var searchResults = res.data;
+        console.log("searchResults", searchResults)
+        commit("addSearchResults", searchResults)
       })
+      .catch(err => {
+        console.log(err);
+      });
+      // api.get(`users/search/${query}`).then(res => {
+      //   var searchResults = res.data;
+      //   console.log("searchResults", searchResults)
+      //   commit("addSearchResults", searchResults)
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
+
     }
   }
 });
