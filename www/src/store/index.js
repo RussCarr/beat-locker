@@ -673,25 +673,37 @@ export default new vuex.Store({
           });
       });
     },
-    searchByProjectTitle({ commit, dispatch }, query) {
+    
+    searchProjects({ commit, dispatch }, query) {
+      // Clear previous search results, if any
       commit("setSearchResults", [])
-      api.get(`projects/search/${query}`).then(res => {
+      var newResults = []
+
+      // Search by project title. (Can be a fragment)
+      api.get(`projects/search/title/${query}`).then(res => {
         var searchResults = res.data;
-        console.log("searchResults", searchResults)
-        commit("addSearchResults", searchResults)
+        newResults = newResults.concat(searchResults)
+
+        // Search by project owner's username. (Can be a fragment)
+        api.get(`projects/search/username/${query}`).then(res => {
+          var searchResults = res.data;
+          newResults = newResults.concat(searchResults)
+
+          // Remove any duplicates from the results
+          newResults = newResults.reduce((resultA, resultB) => {
+            var resultIds = resultA.map(each => each._id)
+            if (!resultIds.includes(resultB._id)) {
+              return resultA.concat(resultB)
+            }
+            return resultA
+          }, [])
+
+          commit("setSearchResults", newResults)
+        })
       })
       .catch(err => {
         console.log(err);
       });
-      // api.get(`users/search/${query}`).then(res => {
-      //   var searchResults = res.data;
-      //   console.log("searchResults", searchResults)
-      //   commit("addSearchResults", searchResults)
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
-
     }
   }
 });

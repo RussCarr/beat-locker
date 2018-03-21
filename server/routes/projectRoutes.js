@@ -1,4 +1,5 @@
 var router = require("express").Router();
+var user = require("../models/user");
 var project = require("../models/project");
 var track = require("../models/track");
 
@@ -81,14 +82,32 @@ router.delete("/api/projects/:projectId", (req, res, next) => {
 //         .catch(next)
 // })
 
-//SEARCH PROJECTS BY PROJECT TITLE FRAGMENT
-router.get("/api/projects/search/:title", (req, res, next) => {
+//Search project by title (full title or fragment)
+router.get("/api/projects/search/title/:title", (req, res, next) => {
   project
-    .find({ title: new RegExp("(" + req.params.title + ")", "i") })
+    .find({ title: new RegExp("(" + req.params.title + ")", "i") }) // Use a regex to allow search-by-fragment
     .then(projects => {
       return res.send(projects);
     })
     .catch(next);
+});
+
+//Search project by owner's username (full username or fragment)
+router.get("/api/projects/search/username/:username", (req, res, next) => {
+  // First get the user(s) with the given username
+  user.find({ name: new RegExp("(" + req.params.username + ")", "i") }) // Use a regex to allow search-by-fragment
+  .then(users => {
+    // Create an array of user ID(s) for found user(s)
+    var userIds = users.map(user => user._id)
+    
+    // Use the user IDs array to get projects owned by the corresponding users
+    project.find({ userId: {$in: userIds} }) // Note: $in is Mongo/Mongoose syntax allowing to do a query for userId in an array of userIds
+    .then(projects => {
+      res.send(projects)
+    })
+    .catch(next);
+  })
+  .catch(next);
 });
 
 // FOR TESTING ONLY: Get all projects
