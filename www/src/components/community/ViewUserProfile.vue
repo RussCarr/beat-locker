@@ -27,7 +27,7 @@
       <div class="row">
         <p class="h4">My Shared Tracks</p>
         <div class="col-sm-12"></div>
-        <viewUserProjects v-for="userSharedProject in userSharedProjects" :key="userSharedProject._id" :userSharedProject='userSharedProject'></viewUserProjects>
+    <viewUserProjects v-for="userSharedProject in userSharedProjects" :key="userSharedProject._id" :userSharedProject='userSharedProject'></viewUserProjects>
       </div>
 
       <div class="col-sm-2"></div>

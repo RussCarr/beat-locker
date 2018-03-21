@@ -12,7 +12,7 @@ var projectRoutes = require("./routes/projectRoutes")
 var trackRoutes = require("./routes/trackRoutes")
 
 
-var whitelist = ['http://localhost:8080'];
+var whitelist = ['http://localhost:8080', 'https://beatlocker.herokuapp.com/'];
 var corsOptions = {
     origin: function(origin, callback) {
         var originIsWhiteListed = whitelist.indexOf(origin) !== -1;

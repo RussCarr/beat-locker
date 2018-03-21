@@ -6,7 +6,7 @@ import axios from "axios";
 import router from "../router";
 
 var production = !window.location.host.includes("localhost");
-var baseUrl = "//localhost:3000/";
+var baseUrl = production ? '//beatlocker.herokuapp.com/' : "//localhost:3000/";
 
 var api = axios.create({
   baseURL: baseUrl + "api/",
