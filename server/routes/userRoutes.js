@@ -1,6 +1,6 @@
 var user = require("../models/user");
 var project = require("../models/project");
-var tracks = require("../models/tracks");
+var tracks = require("../models/track");
 var router = require("express").Router();
 
 //GET USER BY ID

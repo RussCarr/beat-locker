@@ -1,5 +1,5 @@
 var router = require("express").Router();
-var tracks = require("../models/tracks");
+var tracks = require("../models/track");
 
 // Create a Track
 router.post("/api/tracks", (req, res, next) => {
