@@ -1,7 +1,7 @@
 var router = require("express").Router();
 var user = require("../models/user");
 var project = require("../models/project");
-var track = require("../models/track");
+var tracks = require("../models/track");
 
 // // Create a Project
 router.post("/api/projects", (req, res, next) => {
@@ -61,7 +61,7 @@ router.delete("/api/projects/:projectId", (req, res, next) => {
       res.send({ message: "Successfully deleted project" });
     })
     .catch(next);
-  track
+  tracks
     .deleteMany({ projectId: req.params.projectId })
     .then(() => {
       console.log("Deleted project tracks");
