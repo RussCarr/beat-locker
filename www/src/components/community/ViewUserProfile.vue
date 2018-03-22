@@ -45,9 +45,9 @@
     components: {
       viewUserProjects: ViewUserProjects
     },
+    props: ['userSharedProject'],
     computed: {
       user() {
-        debugger
         var projectUsers = this.$store.state.activeProjectUsers
         return projectUsers.find(user => user._id === this.$store.state.projectPreview.userId)
       },

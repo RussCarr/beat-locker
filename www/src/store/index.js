@@ -36,7 +36,8 @@ export default new vuex.Store({
     allProjects: [],
     activeProjectUsers: [],
     searchResults: [],
-    projectPreview: []
+    projectPreview: [],
+    playingProjectId: ""
   },
 
   mutations: {
@@ -49,7 +50,6 @@ export default new vuex.Store({
         message: error.message
       };
     },
-
     setActiveProject(state, project) {
       state.activeProject = project;
     },
@@ -108,6 +108,9 @@ export default new vuex.Store({
     },
     setPreviewProject(state, sharedProject) {
       state.projectPreview = sharedProject;
+    },
+    setPlayingProjectId(state, projectId) {
+      state.playingProjectId = projectId;
     }
   },
 
@@ -675,7 +678,7 @@ export default new vuex.Store({
         userIds.forEach((userId, i) => {
           fetchPromises[i] = api.get(`users/${userId}`).then(res => {
             var fetchedUser = res.data;
-            console.log("fetchedUsers", fetchedUser);
+            // console.log("fetchedUsers", fetchedUser);
             activeProjectUsers.push(fetchedUser);
           });
         });
@@ -742,6 +745,9 @@ export default new vuex.Store({
     },
     setPreviewProject({ commit, dispatch }, sharedProject) {
       commit("setPreviewProject", sharedProject);
+    },
+    setPlayingProjectId({commit, dispatch}, projectId) {
+      commit("setPlayingProjectId", projectId);
     }
   }
 });

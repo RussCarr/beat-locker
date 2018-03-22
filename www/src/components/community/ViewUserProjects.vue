@@ -3,14 +3,13 @@
     <div class="row">
      <div class="col-1">
         <div class="">
-            <button @click='loadProject(project)' class="btn btn-sm btn-info"><i class="fas fa-play"></i></button>
+          <playProject :project="userSharedProject" :largeButtons="false"></playProject>
         </div>
       </div>
       <div class="col-9">
         <h5 @click="showStats = showStats ? false : true" class="project-title btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{userSharedProject.title}}</h5>
       </div>
       <div class="col-1">
-        <!-- <playProject :project="project"></playProject>> -->
         <a href="#" class="text-light mr-5"  @click.prevent="forkProject(userSharedProject)">
             <i class="fas fa-code-branch"></i> 
           </a>
@@ -39,22 +38,18 @@
   </div>
 </template>
 
-<script>
-  
-  // import PlayProject from './PlayProject'
+<script>  
+  import PlayProject from './../PlayProject'
   export default {
     name: 'ViewUserProjects',
     components: {
-      // playProject: PlayProject
-         },
+      playProject: PlayProject
+    },
     props: ['userSharedProject'],
     data() {
       return {
-     showStats:false
+        showStats: false
       }
-    },
-    computed: {
-       
     },
     methods: {
       loadProject(project) {
@@ -74,7 +69,7 @@
       forkProject(sharedProject) {
         console.log('fork project', sharedProject)
         this.$store.dispatch('cloneProject', sharedProject)
-      },
+      }
     }
   }
 </script>
