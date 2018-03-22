@@ -18,7 +18,7 @@
             <select v-model="category" >
               <option>Top 10 Forked</option>
               <option>Top 10 Shared</option>
-              <option>Top 10 Newly shared</option>
+              <option>Top 10 Newly Shared</option>
               <option>Top 10 of 2018</option>
             </select>
 
@@ -41,18 +41,6 @@
 
           <div v-if="showProfile" class="text-center viewProfile">
             <viewUserProfile></viewUserProfile>
-
-            <!-- <h3>User Profile</h3>
-            <hr>
-            <p>user Name</p>
-            <p>User Bio</p>
-            <hr>
-            <p>Projects Shared</p>
-            <p> Track</p>
-            <p> Track</p>
-            <p> Track</p>
-            <p> Track</p>
-          -->
           </div>
          </div>
       </div>
@@ -85,12 +73,7 @@
         sharedProjects: [],
         sharedProjectUsers: [],
         search: ''
-        // options: [
-        //   { text: 'Top 10 Newly Created', value: 'Top 10 Newly Created' },
-        //   { text: 'Top 10 Forked', value: 'Top 10 Forked' },
-        //   { text: 'Top 10 Shared', value: 'Top 10 Shared' },
-        //   { text: 'Top 10 of 2018', value: 'Top 10 of 2018' }
-        // ]
+      
       }
     },
     watch:{
@@ -103,36 +86,6 @@
       searchResults() {
         return this.$store.state.searchResults
       },
-
-      // allSharedProjects(category) {
-      //   var allProjects = this.$store.state.allProjects;
-      //   var allSharedProjects = allProjects.filter(project => {
-      //     return project.shared === true
-      //   })
-      //   // allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
-      //   // console.log('allSharedProjectsData1', test)
-      //   if (category = "Top 10 Newly Created") {
-      //     allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
-          
-      //   } else if (category = "Top 10 Forked") {
-      //     allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
-          
-      //   } else if (category = "Top 10 of 2018") {
-      //     allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
-         
-      //   } else if (category = "Top 10 Shared") {
-      //     allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
-      //   }
-      //   var userIds = allSharedProjects.map(project => project.userId)
-      //   this.$store.dispatch('getUsersById',userIds).then(() => {
-      //     return allSharedProjects
-      //   })
-      // },
-      // filteredSharedProjects() {
-      //   return this.allSharedProjects.filter((sharedProject) => {
-      //     return sharedProject.title.match(this.search)
-      //   })
-      // },
       user() {
         return this.$store.state.user
       },
@@ -161,7 +114,7 @@
           return project.shared === true
         })
         
-        if (category = "Top 10 Newly Created") {
+        if (category = "Top 10 Newly Shared") {
           allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
           
         } else if (category = "Top 10 Forked") {

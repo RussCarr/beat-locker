@@ -489,6 +489,18 @@ export default new vuex.Store({
           console.log(err);
         });
     },
+    updateShareCount({ commit, dispatch }, payload) {
+      console.log('Shared Project Shared',payload)
+      payload.shareCount = payload.shareCount + 1;
+      console.log('Shared Project Shared2',payload)
+      api.put(`projects/${payload._id}`, payload)
+      .then(() => {
+      dispatch('getAllProjects')
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    },
     cloneProject({ commit, dispatch }, payload) {
       console.log("Hello Before", payload);
       payload.forkCount = payload.forkCount + 1;
@@ -502,6 +514,7 @@ export default new vuex.Store({
       clonedProject.title = clonedProject.title + " Forked";
       clonedProject.forkCount = 0;
       clonedProject.shared = false;
+      clonedProject.shareCount = 0;
       clonedProject.createdAt = Date.now();
       delete clonedProject._id;
       delete clonedProject.userId;
@@ -728,7 +741,7 @@ export default new vuex.Store({
         });
     },
     setPreviewProject({ commit, dispatch }, sharedProject) {
-         commit("setPreviewProject", sharedProject);
+      commit("setPreviewProject", sharedProject);
     }
   }
 });

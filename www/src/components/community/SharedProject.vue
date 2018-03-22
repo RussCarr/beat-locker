@@ -16,39 +16,42 @@
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
             <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
-            <a href="#" class="text-light mr-5"  @click.prevent="showProfile">
-                {{user.name}}
-              </a>
-          </div>
-          <div class="col-1">
-            <a href="#" class="text-light mr-5" @click.prevent="forkProject(sharedProject)">
-              <i class="fas fa-code-branch"></i> {{sharedProject.forkCount}}
+            <a href="#" class="text-light mr-5" @click.prevent="showProfile">
+              {{user.name}}
             </a>
           </div>
           <div class="col-1">
+              <p>{{sharedProject.forkCount}}</p>
+            <a href="#" class="text-light mr-5" @click.prevent="forkProject">
+              <i class="fas fa-code-branch"></i> 
+            </a>
+          </div>
+          <div class="col-1">
+              <p>{{sharedProject.shareCount}}</p>
             <a href="#" class="text-light" @click.prevent="shareBox= shareBox ? false : true">
               <i class="fas fa-share"></i>
             </a>
           </div>
           <div v-if="shareBox" class="shareButton">
             <p>
-              <a class="share-icon" href="https://www.facebook.com/sharer/sharer.php?u=https://joe-r-davis.github.io/clone2/" target="_blank">
-                <i class="fab fa-facebook"></i>
+              <a class="share-icon" @click='updateShareCount' href="https://www.facebook.com/sharer/sharer.php?u=https://joe-r-davis.github.io/clone2/"
+                target="https://beatlocker.herokuapp.com/">
+                <i class="fab fa-facebook"></i> 
               </a>
             </p>
             <p>
-              <a class="share-icon" href="https://twitter.com/intent/tweet?url=https://joe-r-davis.github.io/clone2/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
-                target="_blank">
+              <a class="share-icon" @click='updateShareCount' href="https://twitter.com/intent/tweet?url=https://joe-r-davis.github.io/clone2/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
+                target="https://beatlocker.herokuapp.com/">
                 <i class="fab fa-twitter"></i>
               </a>
             </p>
             <p>
-              <a class="share-icon" href="https://nodemailer.com/about/" target="_blank">
+              <a class="share-icon" @click='updateShareCount' href="https://nodemailer.com/about/" target="https://beatlocker.herokuapp.com/">
                 <i class="fas fa-envelope"></i>
               </a>
             </p>
             <p>
-              <a class="share-icon" href="https://www.twilio.com/" target="_blank">
+              <a class="share-icon" @click='updateShareCount' href="https://www.twilio.com/" target="https://beatlocker.herokuapp.com/">
                 <i class="fas fa-mobile"></i>
               </a>
             </p>
@@ -76,7 +79,7 @@
     props: [
       'sharedProject',
       'playingProjectId',
-      
+
     ],
     computed: {
       beatTracks() {
@@ -88,8 +91,11 @@
       }
     },
     methods: {
-      forkProject(sharedProject) {
-        this.$store.dispatch('cloneProject', sharedProject)
+      updateShareCount() {
+        this.$store.dispatch('updateShareCount', this.sharedProject)
+      },
+      forkProject() {
+        this.$store.dispatch('cloneProject', this.sharedProject)
       },
       showProfile() {
         this.$emit('showProfile')
