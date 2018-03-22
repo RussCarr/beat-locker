@@ -1,58 +1,62 @@
 <template>
   <div class="playProject">
-    <a href="#" class="play text-light" v-if="!isPlaying" @click.prevent="play">
-      <button class="playStopButtons">
-        <i class="far fa-play-circle "></i>
-      </button>
+
+    <a href="#" :class="{ 'play-button': playingProjectId === '', 'text-muted': playingProjectId !== '' }" @click.prevent="play"
+      v-show="!isPlaying">
+      <i class="far fa-play-circle m-l-5" :class="{ 'fa-3x': largeButtons === true }"></i>
     </a>
-    <a href="#" class="stop text-light" v-if="isPlaying" @click.prevent="stop">
-      <button class="playStopButtons">
-        <i class="far fa-stop-circle "></i>
-      </button>
+    <a href="#" class="play-button" @click.prevent="stop" v-show="isPlaying">
+      <i class="far fa-stop-circle m-l-5" :class="{ 'fa-3x': largeButtons === true }"></i>
     </a>
+    
   </div>
 </template>
 
 <script>
   import Tone from 'tone'
-  // import BeatTrack from '../project-view/BeatTrack'
   import samplePaths from './samplePaths.js'
   export default {
     name: 'PlayProject',
-    components: {
-      // beatTrack: BeatTrack
-
-    },
     data() {
       return {
         loop: {},
         isPlaying: false,
       }
     },
-    props: ['project'],
-    mounted() {
-      this.$store.dispatch('getProjectTracks', this.project.trackIds)
-    },
+    props: [
+      // The Project to be played must be passed in as a prop.
+      'project',
+      // A bool should be passed in as a prop that (if TRUE) will make the play/stop buttons big
+      'largeButtons'
+    ],
     computed: {
-      beatTracks() {
-        var tracks = this.$store.state.activeTracks
-        // Sort the tracks from first-created (at top) to last-created (at bottom)
-        return tracks.sort((trackA, trackB) => {
-          return trackA.createdAt - trackB.createdAt
-        })
+      stepTracks() {
+        return this.$store.state.previewTracks
       },
+      playingProjectId() {
+        // The ID of any Project that is currently playing (or "", if none is playing)
+        return this.$store.state.playingProjectId
+      },
+      otherProjectIsPlaying() {
+        return this.playingProjectId !== ""
+      }
     },
     methods: {
       play() {
+        if (this.otherProjectIsPlaying) { // If another project is already playing...
+          return // ...don't allow user to play this one.
+        }
 
-        this.$store.dispatch('getProjectTracks', this.project.trackIds).then(() => {
+        // Get an array of the tracks that belong to this project and make it available as 'previewTracks' in the Vuex store...
+        this.$store.dispatch('setPreviewTracks', this.project.trackIds).then(() => { // ...then continue.
           this.isPlaying = true
+          this.$store.dispatch('setPlayingProjectId', this.project._id) // Inform the parent component (and via it, the other SharedProjects) that a project is now playing
 
           // Note: For audio files, you MUST 'require' a literal string-value to get Webpack to recognize the resource as a file path and locate it!!!!
           var requiredSamples = samplePaths
 
           var samples = {}
-          this.beatTracks.forEach(track => {
+          this.stepTracks.forEach(track => {
             var name = track.instrumentName
             var resource = requiredSamples[name]
             samples[name] = resource
@@ -65,23 +69,21 @@
             this.loop.start() // Start the loop play-back
           }).toMaster() // Connect the players to the master audio output (i.e. the speakers)
 
-
           // Define sequence options:
           // 1. Create an array of integers with length equal to the length of the current track stepSequences
-          var events = new Array(this.beatTracks[0].stepSequence.length).fill(0).map((_, i) => i)
+          var events = new Array(this.stepTracks[0].stepSequence.length).fill(0).map((_, i) => i)
           // 2. Define the subdivision timing between which events are placed: 16th-note
           var subdivision = '16n'
 
           // Create the beat sequence
           this.loop = new Tone.Sequence((time, index) => {
 
-            for (var i = 0; i < this.beatTracks.length; i++) {
-              var track = this.beatTracks[i]
+            for (var i = 0; i < this.stepTracks.length; i++) {
+              var track = this.stepTracks[i]
               var stepSequence = track.stepSequence
 
               // Get an instance of Tone.Player for the current track
               var player = players.get(sampleNames[i])
-              // console.log('player', player)
 
               if (stepSequence[index] === true) {
                 var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion (customized)
@@ -105,6 +107,7 @@
       },
       stop() {
         this.loop.stop()
+        this.$store.dispatch('setPlayingProjectId', "") // Clear out the notification that a SharedProject is currently playing
         this.isPlaying = false
       },
 
@@ -114,4 +117,12 @@
 </script>
 
 <style>
+  .play-button {
+    color: white;
+  }
+
+  .play-button:hover {
+    color: rgba(206, 33, 53, 1.0);
+  }
+
 </style>

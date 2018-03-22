@@ -3,8 +3,7 @@
     <div class="row">
      <div class="col-1">
         <div class="">
-          <playProject :project="userSharedProject"></playProject>
-            <!-- <button @click='loadProject(project)' class="btn btn-sm btn-info"><project</i></button> -->
+          <playProject :project="userSharedProject" :playingProjectId="playingProjectId" v-on:playing="setPlayingProject"></playProject>
         </div>
       </div>
       <div class="col-9">
@@ -50,11 +49,9 @@
     props: ['userSharedProject'],
     data() {
       return {
-     showStats:false
+        showStats: false,
+        playingProjectId: ""
       }
-    },
-    computed: {
-       
     },
     methods: {
       loadProject(project) {
@@ -75,6 +72,9 @@
         console.log('fork project', sharedProject)
         this.$store.dispatch('cloneProject', sharedProject)
       },
+      setPlayingProject(projectId) {
+        this.playingProjectId = projectId
+      }
     }
   }
 </script>
