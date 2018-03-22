@@ -728,7 +728,29 @@ export default new vuex.Store({
         });
     },
     setPreviewProject({ commit, dispatch }, sharedProject) {
-         commit("setPreviewProject", sharedProject);
+      commit("setPreviewProject", sharedProject);
+    },
+    getProjectTracks({ commit, dispatch }, trackIds) {
+      return new Promise((resolve, reject) => {
+        var clear = []
+        commit('setPreviewtracks',clear)
+        var promises = [];
+        for (var i = 0; i < trackIds.length; i++) {
+          var track = trackIds[i];
+          promises[i] = api
+            .get(`/tracks/${track}`)
+            .then(res => {
+              var previewTrack = res.data;
+              commit("pushPreviewTrack", previewTrack);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+        Promise.all(promises).then(()=>{
+            resolve();
+        })
+      });
     }
   }
 });
