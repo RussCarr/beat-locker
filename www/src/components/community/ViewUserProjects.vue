@@ -3,7 +3,7 @@
     <div class="row">
      <div class="col-1">
         <div class="">
-          <playProject :project="userSharedProject" :playingProjectId="playingProjectId" v-on:playing="setPlayingProject"></playProject>
+          <playProject :project="userSharedProject" :largeButtons="false"></playProject>
         </div>
       </div>
       <div class="col-9">
@@ -38,19 +38,17 @@
   </div>
 </template>
 
-<script>
-  
+<script>  
   import PlayProject from './../PlayProject'
   export default {
     name: 'ViewUserProjects',
     components: {
       playProject: PlayProject
-         },
+    },
     props: ['userSharedProject'],
     data() {
       return {
-        showStats: false,
-        playingProjectId: ""
+        showStats: false
       }
     },
     methods: {
@@ -71,9 +69,6 @@
       forkProject(sharedProject) {
         console.log('fork project', sharedProject)
         this.$store.dispatch('cloneProject', sharedProject)
-      },
-      setPlayingProject(projectId) {
-        this.playingProjectId = projectId
       }
     }
   }
