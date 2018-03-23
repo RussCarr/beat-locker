@@ -30,8 +30,8 @@
         </div>
         <div class="col-4 mt-3 text-center">
           <p class="text-center">Sorted by {{category}}</p>
-          <sharedProject class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in sharedProjects"
-            :key='sharedProject._id' v-on:playing="setPlayingProject" :playingProjectId="playingProjectId">
+          <sharedProject class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true"
+            v-for="sharedProject in sharedProjects" :key='sharedProject._id'>
           </sharedProject>
         </div>
   
@@ -61,19 +61,14 @@
         sidebar: SideBar,
         sharedProject: SharedProject,
         viewUserProfile: ViewUserProfile,
-  
-  
-  
       },
       data() {
         return {
-          playingProjectId: "",
           category: "Top 10 Forked",
           showProfile: false,
           sharedProjects: [],
           sharedProjectUsers: [],
           search: ''
-        
         }
       },
       watch:{
@@ -81,12 +76,10 @@
           this.applyFilter(val)
         }
       },
-      computed: {
-              
+      computed: {      
         searchResults() {
           return this.$store.state.searchResults
         },
-  
         user() {
           return this.$store.state.user
         },
@@ -96,8 +89,7 @@
           var allProjects = this.$store.state.allProjects;
             var allSharedProjects = allProjects.filter(project => {
               return project.shared === true
-            })
-               
+            })   
             this.sharedProjects = allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount }).slice(0,10)
             var userIds = allSharedProjects.map(project => project.userId)
             this.$store.dispatch('getUsersById',userIds).then(() => {
@@ -136,11 +128,9 @@
         getSearchResults() {
           var query = this.search
           this.$store.dispatch('searchProjects', query)
-        },
-        
+        }  
       }
     }
-  
   </script>
   
   <style scoped>
