@@ -8,12 +8,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-3">
-        <img :src="user.imgUrl" class="img" alt="Responsive image">
-      </div>
-      <div class="col-sm-7 ml-3">
-        <p>Music Style:</p>
-        <p>{{user.style}}</p>
+      <div class="col-sm-12">
+        <img :src="user.imgUrl" class="img text-center" alt="Responsive image">
       </div>
       <div class="row">
         <div class="col-sm-12 mx-1">
