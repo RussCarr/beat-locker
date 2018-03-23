@@ -107,16 +107,17 @@
             return project.shared === true
           })
           
-          if (category = "Top 10 Newly Shared") {
+          if (category == "Top 10 Newly Shared") {
             allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
             
-          } else if (category = "Top 10 Forked") {
+          } else if (category == "Top 10 Forked") {
             allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
             
-          } else if (category = "Top 10 of 2018") {
-            allSharedProjects.sort(function (a, b) { return b.forkCount && b.shareCount - a.forkCount && a.shareCount })
-           
-          } else if (category = "Top 10 Shared") {
+          } else if (category == "Top 10 of 2018") {
+            allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount || b.shareCount - a.shareCount })
+          
+            //  console.log('sort method', allSharedProjects.sort(function (a, b) { return b[forkCount] - a[forkCount] || b[shareCount] - a[shareCount] }))
+          } else if (category == "Top 10 Shared") {
             allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
           }
           this.sharedProjects = allSharedProjects

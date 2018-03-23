@@ -28,13 +28,13 @@
           </div>
           <div v-if="shareBox" class="shareButton">
             <p>
-              <a class="share-icon" @click='updateShareCount' href="https://www.facebook.com/sharer/sharer.php?u=https://joe-r-davis.github.io/clone2/"
+              <a class="share-icon" @click='updateShareCount' href="https://www.facebook.com/sharer/sharer.php?u=https://beatlocker.herokuapp.com"
                 target="https://beatlocker.herokuapp.com/">
                 <i class="fab fa-facebook"></i> 
               </a>
             </p>
             <p>
-              <a class="share-icon" @click='updateShareCount' href="https://twitter.com/intent/tweet?url=https://joe-r-davis.github.io/clone2/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
+              <a class="share-icon" @click='updateShareCount' href="https://twitter.com/intent/tweet?url=https://beatlocker.herokuapp.com/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
                 target="https://beatlocker.herokuapp.com/">
                 <i class="fab fa-twitter"></i>
               </a>
