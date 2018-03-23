@@ -44,7 +44,6 @@ router.get("/api/users/:userId/projects", (req, res, next) => {
 
 // Update a Project by ID
 router.put("/api/projects/:projectId", (req, res, next) => {
-  console.log("here is the req", req);
   project
     .findByIdAndUpdate(req.params.projectId, req.body, { new: true })
     .then(project => {

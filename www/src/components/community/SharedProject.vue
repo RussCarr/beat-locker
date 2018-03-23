@@ -6,7 +6,7 @@
       <div class="col-10">
         <div class="row">
           <div class="col-6">
-              <playProject :project="sharedProject" :largeButtons="false"></playProject>
+              <player :project="sharedProject" :largeButtons="false"></player>
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
             <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
@@ -60,11 +60,11 @@
 
 <script>
     import Tone from 'tone'
-    import PlayProject from './../PlayProject'
+    import Player from './../Player'
     export default {
       name: 'SharedProject',
       components: {
-        playProject: PlayProject
+        player: Player
     },
     data() {
       return {

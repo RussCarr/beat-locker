@@ -3,7 +3,7 @@
     <div class="row">
      <div class="col-1">
         <div class="">
-          <playProject :project="userSharedProject" :largeButtons="false"></playProject>
+          <player :project="userSharedProject" :largeButtons="false"></player>
         </div>
       </div>
       <div class="col-9">
@@ -39,11 +39,11 @@
 </template>
 
 <script>  
-  import PlayProject from './../PlayProject'
+  import Player from './../Player'
   export default {
     name: 'ViewUserProjects',
     components: {
-      playProject: PlayProject
+      player: Player
     },
     props: ['userSharedProject'],
     data() {

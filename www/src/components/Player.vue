@@ -1,5 +1,5 @@
 <template>
-  <div class="playProject">
+  <div class="player">
 
     <a href="#" :class="{ 'play-button': playingProjectId === '', 'text-muted': playingProjectId !== '' }" @click.prevent="play"
       v-show="!isPlaying">
@@ -16,7 +16,7 @@
   import Tone from 'tone'
   import samplePaths from './samplePaths.js'
   export default {
-    name: 'PlayProject',
+    name: 'Player',
     data() {
       return {
         loop: {},
@@ -69,6 +69,12 @@
             this.loop.start() // Start the loop play-back
           }).toMaster() // Connect the players to the master audio output (i.e. the speakers)
 
+// Experimental note-synth: PROOF OF CONCEPT
+// const synth = new Tone.Synth()
+// synth.toMaster()
+// var note = "C4"
+// var toneStepSequence = [false, true, false, false, false, true, false, false, false, true, false, false, false, false, false, false]
+
           // Define sequence options:
           // 1. Create an array of integers with length equal to the length of the current track stepSequences
           var events = new Array(this.stepTracks[0].stepSequence.length).fill(0).map((_, i) => i)
@@ -77,6 +83,11 @@
 
           // Create the beat sequence
           this.loop = new Tone.Sequence((time, index) => {
+
+// Experimental note play: PROOF OF CONCEPT
+// if (toneStepSequence[index]) {
+//   synth.triggerAttackRelease(note, "16n", time)
+// }
 
             for (var i = 0; i < this.stepTracks.length; i++) {
               var track = this.stepTracks[i]

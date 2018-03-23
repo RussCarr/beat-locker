@@ -572,7 +572,7 @@ export default new vuex.Store({
         .get(`users/${userId}/projects`)
         .then(res => {
           var allUserProjects = res.data;
-          console.log("allUserProjects", allUserProjects);
+          // console.log("allUserProjects", allUserProjects);
 
           allUserProjects.sort((projA, projB) => {
             return projB.createdAt - projA.createdAt;
@@ -583,7 +583,7 @@ export default new vuex.Store({
           api(`projects/${lastCreatedProject._id}/tracks`)
             .then(res => {
               var projectTracks = res.data;
-              console.log("projectTracks", projectTracks);
+              // console.log("projectTracks", projectTracks);
               commit("setActiveTracks", projectTracks);
             })
             .catch(err => {

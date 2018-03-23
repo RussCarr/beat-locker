@@ -114,7 +114,7 @@
         }
       },
       instrumentChange(instrument) {
-        this.$emit('stopPlayback') // Stop play-back if the instrument-choice has changed
+        // this.$emit('stopPlayback') // Stop play-back if the instrument-choice has changed
         var updatedTrack = {
           '_id': this.beatTrack._id,
           instrumentName: instrument.name,

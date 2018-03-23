@@ -17,7 +17,7 @@
         <h5 @click="showStats = showStats ? false : true" class="project-title btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
       <div class="col-2">
-        <!-- <playProject :project="project"></playProject>> -->
+        <!-- <player :project="project"></player>> -->
         <button @click='loadProject(project)' class="btn btn-sm btn-info">load</button>
       </div>
       <div class="col-1 px-0">
@@ -47,11 +47,11 @@
 </template>
 
 <script>
-  // import PlayProject from './PlayProject'
+  // import Player from './Player'
   export default {
     name: 'Mybeats',
     components: {
-      // playProject: PlayProject
+      // player: Player
     },
     props: ['project'],
     data() {
