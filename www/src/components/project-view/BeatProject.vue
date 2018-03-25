@@ -83,7 +83,7 @@
       <div class="bottom-controls col-7 pl-4 pr-4">
         <div class="controls mt-4">
 
-          <player :project="project" :largeButtons="true"></player>
+          <player :project="project" :largeButtons="true" :stopPlayer="stopPlayer" v-on:resetStopPlayer="stopPlayer = false"></player>
 
         </div>
   
@@ -122,7 +122,8 @@
         updatedTitle: "",
         updatedStepsPerBar: "",
         updatedBarCount: "",
-        bpmSetting: 120
+        bpmSetting: 120,
+        stopPlayer: false
       }
     },
     computed: {
@@ -182,10 +183,16 @@
         set(value) {
           this.bpmSetting = value
         }
+      },
+      projectIsPlaying() {
+        return this.$store.state.playingProjectId !== ""
       }
     },
     methods: {
       saveProject() {
+        if (this.projectIsPlaying) {
+          this.stopPlayer = true
+        }
         // if (this.isPlaying) {
         //   this.loop.stop()
         //   this.isPlaying = false
@@ -229,6 +236,9 @@
         this.showTitleEdit = false
       },
       changeStepsPerBar() {
+        if (this.projectIsPlaying) {
+          this.stopPlayer = true
+        }
         // if (this.isPlaying) {
         //   this.loop.stop()
         //   this.isPlaying = false
@@ -257,6 +267,9 @@
         })
       },
       changeBarCount() {
+        if (this.projectIsPlaying) {
+          this.stopPlayer = true
+        }
         // if (this.isPlaying) {
         //   this.loop.stop()
         //   this.isPlaying = false
@@ -287,6 +300,9 @@
         })
       },
       bpmChange() {
+        if (this.projectIsPlaying) {
+          this.stopPlayer = true
+        }
         // if (this.isPlaying) { // Stop play-back if the BPM setting changes
         //   this.loop.stop()
         //   this.isPlaying = false
@@ -299,6 +315,9 @@
         this.$store.dispatch('updateProject', updatedProject)
       },
       createBeatTrack() {
+        if (this.projectIsPlaying) {
+          this.stopPlayer = true
+        }
         // if (this.isPlaying) {
         //   this.loop.stop()
         //   this.isPlaying = false
@@ -306,6 +325,9 @@
         this.$store.dispatch('createBeatTrack', this.project)
       },
       createNoteTrack() {
+        if (this.projectIsPlaying) {
+          this.stopPlayer = true
+        }
         // if (this.isPlaying) {
         //   this.loop.stop()
         //   this.isPlaying = false

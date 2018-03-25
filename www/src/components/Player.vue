@@ -26,9 +26,19 @@
     props: [
       // The Project to be played must be passed in as a prop.
       'project',
-      // A bool should be passed in as a prop that (if TRUE) will make the play/stop buttons big
-      'largeButtons'
+      // A bool can be passed in as a prop that (if TRUE) will make the play/stop buttons big
+      'largeButtons',
+      // A bool that the parent can use to 'tell' the Player to stop playback
+      'stopPlayer'
     ],
+    watch: {
+      // Respond to a stop 'command' from the parent component
+      stopPlayer(value) {
+        if (value === true) {
+          this.stop()
+        }
+      }
+    },
     computed: {
       stepTracks() {
         return this.$store.state.previewTracks
@@ -43,6 +53,11 @@
     },
     methods: {
       play() {
+        // Reset 'stopPlayer' value on parent component
+        if (this.stopPlayer === true) {
+          this.$emit('resetStopPlayer')
+        }
+
         if (this.otherProjectIsPlaying) { // If another project is already playing...
           return // ...don't allow user to play this one.
         }
