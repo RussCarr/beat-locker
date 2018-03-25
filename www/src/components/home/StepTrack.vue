@@ -6,7 +6,7 @@
       <div class="instrument-select col-2 pt-4">
         <div class="d-flex justify-content-around" v-if="isNoteTrack" v-model="note">
           <select class="note">
-            <option selected disabled>{{beatTrack.instrumentName.charAt(0)}}</option>
+            <option selected disabled>{{stepTrack.instrumentName.charAt(0)}}</option>
             <option value="Ab">A-flat</option><option value="A">A</option><option value="A#">A-sharp</option>
             <option value="Bb">B-flat</option><option value="B">B</option><option value="B#">B-sharp</option>
             <option value="Cb">C-flat</option><option value="C">C</option><option value="C#">C-sharp</option>
@@ -16,12 +16,12 @@
             <option value="Gb">G-flat</option><option value="G">G</option><option value="G#">G-sharp</option>
           </select>
           <select class="octave" v-model="octave">
-            <option selected disabled>{{beatTrack.instrumentName.charAt(1)}}</option>
+            <option selected disabled>{{stepTrack.instrumentName.charAt(1)}}</option>
             <option v-for="n in 3">{{n+2}}</option>
           </select>
         </div>
         <div class="" v-if="!isNoteTrack">
-          <instrumentDrop :defaultValue="beatTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
+          <instrumentDrop :defaultValue="stepTrack.instrumentName" v-on:inputChange="instrumentChange"></instrumentDrop>
         </div>
       </div>
 
@@ -38,14 +38,14 @@
         </div>
 
         <div class="track-steps col-8 d-flex flex-row px-0">
-          <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in beatTrack.barCount"
-          :style="{ width: (100 / beatTrack.barCount) + '%' }">
+          <div class="bar-wrapper d-flex flex-row border border-dark" v-for="bar, barIndex in stepTrack.barCount"
+          :style="{ width: (100 / stepTrack.barCount) + '%' }">
     
-            <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in beatTrack.stepsPerBar"
-            :style="{ width: (100 / beatTrack.stepsPerBar) + '%' }">
+            <div class="step-wrapper border border-dark" v-for="step, stepIndexInBar in stepTrack.stepsPerBar"
+            :style="{ width: (100 / stepTrack.stepsPerBar) + '%' }">
     
-              <div class="step" @click="selectStep($event, (barIndex * beatTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
-              :class="{ 'selected': stepSequence[(barIndex * beatTrack.stepsPerBar) + stepIndexInBar] }"></div>
+              <div class="step" @click="selectStep($event, (barIndex * stepTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
+              :class="{ 'selected': stepSequence[(barIndex * stepTrack.stepsPerBar) + stepIndexInBar] }"></div>
     
             </div>
     
@@ -77,11 +77,11 @@
       instrumentDrop: InstrumentDrop,
       volumeSlider: VolumeSlider
     },
-    props: ['beatTrack'],
+    props: ['stepTrack'],
     data() {
       return {
-        stepSequence: this.beatTrack.stepSequence,
-        faderSetting: this.beatTrack.faderSetting,
+        stepSequence: this.stepTrack.stepSequence,
+        faderSetting: this.stepTrack.faderSetting,
         muted: false,
         solo: false,
         note: "",
@@ -90,7 +90,7 @@
     },
     computed: {
       isNoteTrack() {
-        return this.beatTrack.isNote
+        return this.stepTrack.isNote
       },
       projectTracks() {
         return this.$store.state.activeTracks
@@ -101,7 +101,7 @@
         // Note: 'Idx' locates the stepSequence index that needs to be toggled
         this.stepSequence[Idx] = this.stepSequence[Idx] ? false : true
         this.$store.dispatch('updateActiveTracks', {
-          trackId: this.beatTrack._id,
+          trackId: this.stepTrack._id,
           stepSequence: this.stepSequence
         })
         this.$emit('stepSequenceChange')
@@ -116,7 +116,7 @@
       instrumentChange(instrument) {
         this.$emit('stopPlayback') // Stop play-back if the instrument-choice has changed
         var updatedTrack = {
-          '_id': this.beatTrack._id,
+          '_id': this.stepTrack._id,
           instrumentName: instrument.name,
           instrumentSamplePath: instrument.samplePath,
           stepSequence: this.stepSequence
@@ -126,7 +126,7 @@
       faderChange(value) {
         this.faderSetting = value
         var updatedTrack = {
-          '_id': this.beatTrack._id,
+          '_id': this.stepTrack._id,
           faderSetting: value,
           stepSequence: this.stepSequence
         }
@@ -141,13 +141,13 @@
       },
       soloTrack() {
         // Do not allow solo to be engaged if any other track is currently 'solo'
-        if (!this.projectTracks.find(track => track._id !== this.beatTrack._id && track.solo)) {
+        if (!this.projectTracks.find(track => track._id !== this.stepTrack._id && track.solo)) {
           this.solo = this.solo ? false : true
           this.$emit('soloTrack')
         }
       },
       deleteTrack() {
-        this.$emit('deleteTrack', this.beatTrack)
+        this.$emit('deleteTrack', this.stepTrack)
       }
     }
   }

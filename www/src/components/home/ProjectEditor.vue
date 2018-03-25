@@ -64,8 +64,8 @@
     <div class="project pl-2">
 
       <div class="board p-1">
-        <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
-          v-on:soloTrack="toggleSolo(beatTrack)" v-on:stopPlayback="stopPlayer = true" v-on:deleteTrack="deleteTrack(beatTrack)"></beatTrack>
+        <step-track v-for="stepTrack in stepTracks" :key="stepTrack._id" :stepTrack="stepTrack" v-on:muteTrack="toggleMute(stepTrack)"
+          v-on:soloTrack="toggleSolo(stepTrack)" v-on:stopPlayback="stopPlayer = true" v-on:deleteTrack="deleteTrack(stepTrack)"></step-track>
       </div>
 
     </div>
@@ -81,7 +81,7 @@
       <div class="bottom-controls col-7 pl-4 pr-4">
         <div class="controls mt-4">
 
-          <player :project="project" :tracksFromParent="beatTracks" :largeButtons="true" :stopPlayer="stopPlayer" v-on:resetStopPlayer="stopPlayer = false"></player>
+          <player :project="project" :tracksFromParent="stepTracks" :largeButtons="true" :stopPlayer="stopPlayer" v-on:resetStopPlayer="stopPlayer = false"></player>
 
         </div>
   
@@ -92,8 +92,7 @@
         
       </div>
 
-    </div>
-    
+    </div>    
 
   </div>
 </template>
@@ -101,12 +100,12 @@
 <script>
   import Tone from 'tone'
   import Player from './../Player'
-  import BeatTrack from './BeatTrack'
+  import StepTrack from './StepTrack'
   export default {
-    name: 'BeatProject',
+    name: 'ProjectEditor',
     components: {
-      beatTrack: BeatTrack,
-      player: Player
+      'step-track': StepTrack,
+      'player': Player
     },
     data() {
       return {
@@ -122,7 +121,7 @@
       project() {
         return this.$store.state.activeProject
       },
-      beatTracks() {
+      stepTracks() {
         // Get all the tracks
         var tracks = this.$store.state.activeTracks
 
@@ -183,7 +182,7 @@
         }
         var data = {
           project: this.project,
-          tracks: this.beatTracks
+          tracks: this.stepTracks
         }
         this.$store.dispatch('saveProject', data)
       },
@@ -193,16 +192,16 @@
       toggleSolo(track) {
         if (track.solo) { // If removing 'solo' from a track...
           track.solo = false
-          this.beatTracks.forEach(beatTrack => {
-            if (beatTrack._id !== track._id) {
-              beatTrack.muted = false // ... unmute all other tracks
+          this.stepTracks.forEach(stepTrack => {
+            if (stepTrack._id !== track._id) {
+              stepTrack.muted = false // ... unmute all other tracks
             }
           })
         } else { // If engaging 'solo' on a track...
           track.solo = true
-          this.beatTracks.forEach(beatTrack => {
-            if (beatTrack._id !== track._id) {
-              beatTrack.muted = true // ... mute all other tracks
+          this.stepTracks.forEach(stepTrack => {
+            if (stepTrack._id !== track._id) {
+              stepTrack.muted = true // ... mute all other tracks
             }
           })
         }
@@ -313,7 +312,7 @@
   body{
     background-color: #372529;
   }
-  
+
   .project-header {
     height: 8rem;
   }

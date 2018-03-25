@@ -21,7 +21,6 @@
       'page-footer': PageFooter,
     }
   }
-
 </script>
 
 <style scoped>
