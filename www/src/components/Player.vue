@@ -29,7 +29,9 @@
       // A bool can be passed in as a prop that (if TRUE) will make the play/stop buttons big
       'largeButtons',
       // A bool that the parent can use to 'tell' the Player to stop playback
-      'stopPlayer'
+      'stopPlayer',
+      // An array of tracks that can be passed in from the parent
+      'tracksFromParent'
     ],
     watch: {
       // Respond to a stop 'command' from the parent component
@@ -41,7 +43,11 @@
     },
     computed: {
       stepTracks() {
-        return this.$store.state.previewTracks
+        if (this.tracksFromParent) {
+          return this.tracksFromParent
+        } else {
+          return this.$store.state.previewTracks
+        }
       },
       playingProjectId() {
         // The ID of any Project that is currently playing (or "", if none is playing)
