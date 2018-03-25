@@ -310,6 +310,10 @@
 </script>
 
 <style>
+  body{
+    background-color: #372529;
+  }
+  
   .project-header {
     height: 8rem;
   }
