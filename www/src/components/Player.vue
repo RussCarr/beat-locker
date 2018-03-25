@@ -43,10 +43,10 @@
     },
     computed: {
       stepTracks() {
-        if (this.tracksFromParent) {
-          return this.tracksFromParent
+        if (this.tracksFromParent) { // If the parent component needs to specify which tracks to play...
+          return this.tracksFromParent // ... let it do so.
         } else {
-          return this.$store.state.previewTracks
+          return this.$store.state.previewTracks // Otherwise, get the tracks from Vuex state.
         }
       },
       playingProjectId() {

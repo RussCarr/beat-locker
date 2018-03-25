@@ -66,8 +66,6 @@
       <div class="board p-1">
         <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
           v-on:soloTrack="toggleSolo(beatTrack)" v-on:stopPlayback="stopPlayer = true" v-on:deleteTrack="deleteTrack(beatTrack)"></beatTrack>
-        <!-- <beatTrack v-for="beatTrack in beatTracks" :key="beatTrack._id" :beatTrack="beatTrack" v-on:muteTrack="toggleMute(beatTrack)"
-          v-on:soloTrack="toggleSolo(beatTrack)" v-on:deleteTrack="deleteTrack(beatTrack)"></beatTrack> -->
       </div>
 
     </div>
@@ -101,12 +99,6 @@
 </template>
 
 <script>
-
-  // 1. Need to be able to trigger 'stop' method on Player FROM the parent component (e.g. for when editor controls change for saveProject,
-  // changeStepsPerBar, etc.)
-  // 2. Need to have the option to pass tracks IN to the Player as a prop, and Player needs to be able to either load tracks from a prop OR
-  // from its own set-and-get previewTracks setup if none ARE passed in... Because for BeatProject, the activeTracks from state need to be used.
-
   import Tone from 'tone'
   import Player from './../Player'
   import BeatTrack from './BeatTrack'
@@ -145,10 +137,6 @@
         var sortedBeatTracks = beatTracks.sort((trackA, trackB) => {
           return trackA.createdAt - trackB.createdAt
         })
-
-        // console.log('note tracks', noteTracks)
-        // console.log('beat tracks', beatTracks)
-        // console.log('sorted tracks', noteTracks.concat(beatTracks))
 
         return noteTracks.concat(beatTracks)
       },
@@ -193,10 +181,6 @@
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        // if (this.isPlaying) {
-        //   this.loop.stop()
-        //   this.isPlaying = false
-        // }
         var data = {
           project: this.project,
           tracks: this.beatTracks
@@ -239,10 +223,6 @@
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        // if (this.isPlaying) {
-        //   this.loop.stop()
-        //   this.isPlaying = false
-        // }
 
         var updatedProject = {
           '_id': this.project._id,
@@ -270,10 +250,6 @@
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        // if (this.isPlaying) {
-        //   this.loop.stop()
-        //   this.isPlaying = false
-        // }
 
         var updatedProject = {
           '_id': this.project._id,
@@ -303,10 +279,6 @@
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        // if (this.isPlaying) { // Stop play-back if the BPM setting changes
-        //   this.loop.stop()
-        //   this.isPlaying = false
-        // }
         var value = Number(this.bpmSetting)
         var updatedProject = {
           '_id': this.project._id,
@@ -318,20 +290,12 @@
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        // if (this.isPlaying) {
-        //   this.loop.stop()
-        //   this.isPlaying = false
-        // }
         this.$store.dispatch('createBeatTrack', this.project)
       },
       createNoteTrack() {
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        // if (this.isPlaying) {
-        //   this.loop.stop()
-        //   this.isPlaying = false
-        // }
         this.$store.dispatch('createNoteTrack', this.project)
       },
       deleteTrack(track) {
