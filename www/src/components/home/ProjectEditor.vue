@@ -86,8 +86,8 @@
         </div>
   
         <div class="bpm-slider-container mt-3 text-center">
-          <input type="range" min=40 max="214" v-model="bpmSetting" class="bpm-slider" @change="bpmChange">
-          <span class="bpm d-inline-block text-light mt-1"><small>BPM: {{bpmSetting}}</small></span>
+          <input type="range" min=40 max="214" v-model="newBpmSetting" class="bpm-slider" @change="bpmChange">
+          <span class="bpm d-inline-block text-light mt-1"><small>BPM: {{newBpmSetting}}</small></span>
         </div>
         
       </div>
@@ -113,8 +113,29 @@
         updatedTitle: "",
         updatedStepsPerBar: "",
         updatedBarCount: "",
-        bpmSetting: 120,
+        newBpmSetting: "",
         stopPlayer: false
+      }
+    },
+    mounted() {
+      getBpmSetting(this) // Wait briefly to make sure 'activeProject' has a defined value...
+      .then(setting => { // ...then assign 'newBpmSetting
+        this.newBpmSetting = setting
+      })
+      function getBpmSetting(ctx) {
+        return new Promise((resolve, reject) => {
+          waitForData(ctx)
+          function waitForData(ctx) {
+            setTimeout(() => {
+              if (ctx.$store.state.activeProject.bpmSetting) {
+                resolve(ctx.$store.state.activeProject.bpmSetting)
+              }
+              else {
+                waitForData(ctx)
+              }
+            }, 50)
+          }
+        })
       }
     },
     computed: {
@@ -163,14 +184,19 @@
           this.updatedBarCount = value
         }
       },
-      bpmStoredSetting: {
-        get() {
-          return this.$store.state.activeProject.bpmSetting
-        },
-        set(value) {
-          this.bpmSetting = value
-        }
-      },
+      // bpmStoredSetting: {
+      //   get() {
+      //     if (this.bpmSetting) {
+      //       return this.bpmSetting
+      //     }
+      //     return this.$store.state.activeProject.bpmSetting
+      //   },
+      //   set(value) {
+      //     // WORKING ON GETTING THE SETTING TO UPDATE IN THE PROJECT AND ON SCREEN
+      //     console.log(value)
+      //     this.newBpmSetting = value
+      //   }
+      // },
       projectIsPlaying() {
         return this.$store.state.playingProjectId !== ""
       }
@@ -278,10 +304,10 @@
         if (this.projectIsPlaying) {
           this.stopPlayer = true
         }
-        var value = Number(this.bpmSetting)
+        var setting = Number(this.newBpmSetting)
         var updatedProject = {
           '_id': this.project._id,
-          bpmSetting: value
+          bpmSetting: setting
         }
         this.$store.dispatch('updateProject', updatedProject)
       },

@@ -635,7 +635,6 @@ export default new vuex.Store({
         .put(`projects/${updatedProject._id}`, updatedProject)
         .then(res => {
           var updatedProject = res.data.data;
-          console.log(updatedProject);
           commit("setActiveProject", updatedProject);
         })
         .catch(err => {
