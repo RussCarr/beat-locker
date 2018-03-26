@@ -119,7 +119,7 @@
     },
     mounted() {
       getBpmSetting(this) // Wait briefly to make sure 'activeProject' has a defined value...
-      .then(setting => { // ...then assign 'newBpmSetting
+      .then(setting => { // ...then assign 'newBpmSetting'
         this.newBpmSetting = setting
       })
       function getBpmSetting(ctx) {
@@ -184,19 +184,6 @@
           this.updatedBarCount = value
         }
       },
-      // bpmStoredSetting: {
-      //   get() {
-      //     if (this.bpmSetting) {
-      //       return this.bpmSetting
-      //     }
-      //     return this.$store.state.activeProject.bpmSetting
-      //   },
-      //   set(value) {
-      //     // WORKING ON GETTING THE SETTING TO UPDATE IN THE PROJECT AND ON SCREEN
-      //     console.log(value)
-      //     this.newBpmSetting = value
-      //   }
-      // },
       projectIsPlaying() {
         return this.$store.state.playingProjectId !== ""
       }
