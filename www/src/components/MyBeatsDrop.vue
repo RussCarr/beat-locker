@@ -1,10 +1,10 @@
 <template>
   <div class="drop-panel container-fluid text-light">
     <div class="row px-4 py-4">
-      <div class="col-6 col-sm-6">
-        <div class="myBeatsRoll">
+      <div class="col-12 col-sm-6 myBeatsRoll">
+        
           <myBeatsMenu></myBeatsMenu>
-        </div>
+        
       </div>
       <div class="col-12 col-sm-6 messageRoll">
         <messages class="mt-1 text-center"></messages>
