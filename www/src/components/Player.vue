@@ -77,12 +77,18 @@
           var requiredSamples = samplePaths
 
           var samples = {}
-          this.stepTracks.forEach(track => {
+
+          this.stepTracks.forEach((track, i) => {
             var name = track.instrumentName
             var resource = requiredSamples[name]
-            samples[name] = resource
+            // samples[name] = resource // <-- EDGE CASE: IF samples[name] ALREADY EXISTS (i.e. added a drum that's the same as one already in the project) THE LIST OF sampleNames WILL BE TOO SHORT BY ONE AND AN ERROR WILL OCCUR WHEN TRYING TO LOOP OVER AND PLAY THE TRACKS
+            // THIS IS A BIG PROBLEM BECAUSE samples IS AN OBJECT, NOT AN ARRAY, SO NO DUPLICATE KEYS CAN EXIST.
+
+            samples[i] = resource // <-- POSSIBLE SOLUTION
           })
           var sampleNames = Object.keys(samples)
+
+          console.log('sampleNames', sampleNames)
 
           var players = new Tone.Players(samples, () => {
             // These statements will run once the players' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
@@ -109,10 +115,11 @@
 // if (toneStepSequence[index]) {
 //   synth.triggerAttackRelease(note, "16n", time)
 // }
-
             for (var i = 0; i < this.stepTracks.length; i++) {
               var track = this.stepTracks[i]
               var stepSequence = track.stepSequence
+
+              console.log('sampleNames[i]', sampleNames[i]) // <-- UNDEFINED IF AN ADDED TRACK HAS SAME 'instrument' CHOICE AS AN EXISTING TRACK
 
               // Get an instance of Tone.Player for the current track
               var player = players.get(sampleNames[i])
