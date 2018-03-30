@@ -190,9 +190,12 @@ export default new vuex.Store({
 
           dispatch("getLatestProject", sessionUser._id);
 
-          router.push({
-            name: "Home"
-          });
+          // Route returning registered users to the 'Home' page UNLESS they're visiting the 'ProjectShowspace' page
+          if (router.currentRoute.name !== 'ProjectShowspace') {
+            router.push({
+              name: "Home"
+            });
+          }
         })
         .catch(err => {
           console.error(err);
