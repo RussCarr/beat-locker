@@ -4,6 +4,7 @@ import Welcome from '@/components/Welcome'
 import Home from '@/components/home/Home'
 import Help from '@/components/Help'
 import Explorer from '@/components/community/Explorer'
+import SearchResults from '@/components/community/SearchResults'
 import UserProfile from '@/components/profile/UserProfile'
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/explorer',
       name: 'Explorer',
       component: Explorer
+    },
+    {
+      path: '/searchresults',
+      name: 'SearchResults',
+      component: SearchResults
     },
      ]
 })
