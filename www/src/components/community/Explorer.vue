@@ -1,5 +1,9 @@
 <template>
   <div class="container-fluid explorer">
+    <div class="row">
+
+
+
     <navbar></navbar>
     <sidebar></sidebar>
     <div class="row">
@@ -98,7 +102,7 @@
       </div>
     </div>
   </div>
-
+</div>
 </template>
 
 <script>
