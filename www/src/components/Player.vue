@@ -88,8 +88,6 @@
           })
           var sampleNames = Object.keys(samples)
 
-          console.log('sampleNames', sampleNames)
-
           var players = new Tone.Players(samples, () => {
             // These statements will run once the players' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
             Tone.Transport.start() // Start ToneJS's core time-keeper
@@ -118,8 +116,6 @@
             for (var i = 0; i < this.stepTracks.length; i++) {
               var track = this.stepTracks[i]
               var stepSequence = track.stepSequence
-
-              console.log('sampleNames[i]', sampleNames[i]) // <-- UNDEFINED IF AN ADDED TRACK HAS SAME 'instrument' CHOICE AS AN EXISTING TRACK
 
               // Get an instance of Tone.Player for the current track
               var player = players.get(sampleNames[i])

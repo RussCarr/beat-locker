@@ -1,6 +1,6 @@
 <template>
   <div class="beat-track container-fluid px-0">
-
+    
     <div class="row">
 
       <div class="instrument-select col-2 pt-4">
