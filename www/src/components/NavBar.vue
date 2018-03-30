@@ -17,10 +17,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12">
+          <!-- <div class="col-sm-12">
             <button @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
               <i class="fas fa-angle-double-left"></i> My Projects </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -35,26 +35,32 @@
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="allSharedProjects">
           Community
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="help">
-          Help
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @change='getProjects(user)' @click="toggleMyBeatsDrop">
+          My Beats
         </div>
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
           Logout
         </div>
       </nav>
     </div>
+    <div class="row">
+      <myBeatsDrop v-if="showMyBeatsDrop" v-on:closeMyBeatsDrop="showMyBeatsDrop = false"></myBeatsDrop>
+    </div>
   </div>
 </template>
 
 <script>
+  import MyBeatsDrop from './MyBeatsDrop'
   export default {
     name: 'Navbar',
     data() {
       return {
-
+        showMyBeatsDrop: false
       }
     },
-
+    components: {
+      myBeatsDrop: MyBeatsDrop,
+    },
     computed: {
       isHomeRoute() {
         return this.$route.path === "/Home" || this.$route.path === "/home"
@@ -71,6 +77,9 @@
       }
     },
     methods: {
+      toggleMyBeatsDrop() {
+        this.showMyBeatsDrop = this.showMyBeatsDrop ? false : true
+      },
       logout() {
         this.$store.dispatch('logoutUser')
       },
