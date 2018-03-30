@@ -81,7 +81,8 @@
       <div class="bottom-controls col-7 pl-4 pr-4">
         <div class="controls mt-4">
 
-          <player :project="project" :tracksFromParent="stepTracks" :largeButtons="true" :stopPlayer="stopPlayer" v-on:resetStopPlayer="stopPlayer = false"></player>
+          <player :project="project" :tracksFromParent="stepTracks" :largeButtons="true" :stopPlayer="stopPlayer"
+            v-on:resetStopPlayer="stopPlayer = false"></player>
 
         </div>
   

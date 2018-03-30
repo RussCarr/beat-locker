@@ -6,6 +6,7 @@ import Help from '@/components/Help'
 import Explorer from '@/components/community/Explorer'
 import SearchResults from '@/components/community/SearchResults'
 import UserProfile from '@/components/profile/UserProfile'
+import ProjectShowspace from '@/components/ProjectShowspace'
 Vue.use(Router)
 
 export default new Router({
@@ -41,5 +42,10 @@ export default new Router({
       name: 'SearchResults',
       component: SearchResults
     },
-     ]
+    { 
+      path: '/project/:projectId',
+      name: 'ProjectShowspace',
+      component: ProjectShowspace
+    },
+  ]
 })
