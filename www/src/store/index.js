@@ -37,10 +37,14 @@ export default new vuex.Store({
     activeProjectUsers: [],
     searchResults: [],
     projectPreview: [],
-    playingProjectId: ""
+    playingProjectId: "",
+    stepIndex: -1
   },
 
   mutations: {
+    setStepIndex(state, index) {
+      state.stepIndex = index;
+    },
     setUser(state, user) {
       state.user = user;
     },
@@ -751,6 +755,10 @@ export default new vuex.Store({
     },
     setPlayingProjectId({ commit, dispatch }, projectId) {
       commit("setPlayingProjectId", projectId);
+    },
+
+    stepIndexChange({commit, dispatch}, index) {
+      commit('setStepIndex', index);
     }
   }
 });
