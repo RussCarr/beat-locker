@@ -79,28 +79,39 @@
       }
     },
     mounted() {
-      this.$store.dispatch('loadProject', this.$route.params.projectId).then(() => {
-        this.project = this.$store.state.activeProject
+      // Create a new temporary user & clone the showcased project onto that user (along with clones of
+      // its tracks), load the results into Vuex state as activeProject and activeTracks, THEN use those
+      // state values to generate the showcased project view
+      // Cloning the project temporarily allows the user to access controls for adding/deleting tracks,
+      // changing instrument-choice and bpm setting, etc -- all of which require db changes (unless the
+      // underlying methods are heavily modified). Using a cloned project allows these actions without
+      // risking changes to the original project being previewed.
+      // IN PROGRESS: WORKING ON MAKING SURE ALL OF THESE CONTROLS ARE USABLE IN THIS COMPONENT. HAVE
+      // CONFIRMED MUTE/SOLO BUTTONS ONLY SO FAR.
+      this.$store.dispatch('cloneProjectFromId', this.$route.params.projectId)
+        .then(() => {
+          this.project = this.$store.state.activeProject
 
-        this.projectTitle = this.$store.state.activeProject.title
+          this.projectTitle = this.$store.state.activeProject.title
 
-        var tracks = this.$store.state.activeTracks
+          var tracks = this.$store.state.activeTracks
 
-        var noteTracks = tracks.filter(track => track.isNote)
-        // Sort the note tracks from first-created (at top) to last-created (at bottom)
-        var sortedNoteTracks = noteTracks.sort((trackA, trackB) => {
-          return trackA.createdAt - trackB.createdAt
+          var noteTracks = tracks.filter(track => track.isNote)
+          // Sort the note tracks from first-created (at top) to last-created (at bottom)
+          var sortedNoteTracks = noteTracks.sort((trackA, trackB) => {
+            return trackA.createdAt - trackB.createdAt
+          })
+
+          var beatTracks = tracks.filter(track => !track.isNote)
+          // Sort the beat tracks from first-created (at top) to last-created (at bottom)
+          var sortedBeatTracks = beatTracks.sort((trackA, trackB) => {
+            return trackA.createdAt - trackB.createdAt
+          })
+
+          this.stepTracks = noteTracks.concat(beatTracks)
         })
 
-        var beatTracks = tracks.filter(track => !track.isNote)
-        // Sort the beat tracks from first-created (at top) to last-created (at bottom)
-        var sortedBeatTracks = beatTracks.sort((trackA, trackB) => {
-          return trackA.createdAt - trackB.createdAt
-        })
-
-        this.stepTracks = noteTracks.concat(beatTracks)
-      })
-
+      // Use a promise to get an accurate bpmSetting from the Vuex state (accounting for lag time)
       getBpmSetting(this) // Wait briefly to make sure 'activeProject' has a defined value...
         .then(setting => { // ...then assign 'newBpmSetting'
           this.newBpmSetting = setting
@@ -121,6 +132,11 @@
           }
         })
       }
+    },
+    destroyed() {
+      // IN PROGRESS: THIS DOES NOT SEEM TO BE WORKING
+      // Delete the temporary user created above in the 'mounted' function
+      this.$store.dispatch('destroyTempUser', this.$store.state.tempUser._id)
     },
     computed: {
       projectIsPlaying() {
