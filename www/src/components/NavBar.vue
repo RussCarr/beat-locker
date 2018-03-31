@@ -21,19 +21,22 @@
     </div>
     <div class="row">
       <nav class="navbar subNavbar">
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="isHomeRoute" @click="newProject">
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" v-if="isHomeRoute" @click="newProject">
           New Project
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" v-if="!isHomeRoute" @click="home">
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" v-if="!isHomeRoute" @click="home">
           Home
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="allSharedProjects">
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="allSharedProjects">
           Community
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="getMyBeatsDrop(user)">
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="getMyBeatsDrop(user)">
           My Beats
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="search">
+          Search
+        </div>
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="logout">
           Logout
         </div>
       </nav>
@@ -105,6 +108,9 @@
       },
       home() {
         this.$router.push({ path: '/home' })
+      },
+      search() {
+        this.$router.push({ path: '/SearchResults' })
       },
       getProjects(user) {
         this.$store.dispatch('getUserProjects', user._id)

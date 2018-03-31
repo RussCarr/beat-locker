@@ -3,97 +3,35 @@
     <div class="row">
     <navbar></navbar>
     <sidebar></sidebar>
-    <div class="row">
-      <div class="col-2">
-        <div class="col-12 mt-3">
-          Search tracks...
-          <!-- <form> -->
-          <input type="text" v-model="search" placeholder="Search..." name="search">
-          <!-- RESETS THE PAGE SO COMMENTED OUT FOR NOW -->
-          <button type="button" @click="getSearchResults">Submit</button>
-          <!-- </form> -->
-        </div>
-        <div class="col-12 mt-3">
-          Sort by...
-          <div class="col-12 mt-3">
-            <select v-model="category">
-              <option>Top 10 Forked</option>
-              <option>Top 10 Shared</option>
-              <option>Top 10 Newly shared</option>
-              <option>Top 10 of 2018</option>
-            </select>
-
-          </div>
-        </div>
-        <div class="col-12 mt-3" v-for="searchResult in searchResults">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 mt-3 text-center">
           <div class="row">
-            <div class="col-6">
-              <player :project="sharedProject" :largeButtons="false"></player>
-              {{searchResult.title}}
-              <p class="createdBy">created by:</p>
-              <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
-              <a href="#" class="text-light mr-5" @click.prevent="showProfile">
-                {{user.name}}
-              </a>
-            </div>
-            <div class="col-1">
-              <p>{{searchResult.forkCount}}</p>
-              <a href="#" class="text-light mr-5" @click.prevent="forkProject">
-                <i class="fas fa-code-branch"></i>
-              </a>
-            </div>
-            <div class="col-1">
-              <p>{{searchResult.shareCount}}</p>
-              <a href="#" class="text-light" @click.prevent="shareBox= shareBox ? false : true">
-                <i class="fas fa-share"></i>
-              </a>
-            </div>
-            <div v-if="shareBox" class="shareButton">
-              <p>
-                <a class="share-icon" @click='updateShareCount' href="https://www.facebook.com/sharer/sharer.php?u=https://beatlocker.herokuapp.com"
-                  target="https://beatlocker.herokuapp.com/">
-                  <i class="fab fa-facebook"></i>
-                </a>
-              </p>
-              <p>
-                <a class="share-icon" @click='updateShareCount' href="https://twitter.com/intent/tweet?url=https://beatlocker.herokuapp.com/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
-                  target="https://beatlocker.herokuapp.com/">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </p>
-              <p>
-                <a class="share-icon" @click='updateShareCount' href="https://nodemailer.com/about/" target="https://beatlocker.herokuapp.com/">
-                  <i class="fas fa-envelope"></i>
-                </a>
-              </p>
-              <p>
-                <a class="share-icon" @click='updateShareCount' href="https://www.twilio.com/" target="https://beatlocker.herokuapp.com/">
-                  <i class="fas fa-mobile"></i>
-                </a>
-              </p>
-            </div>
-
+            <div class="col-12 mt-3">
+                Sort by...
+                <div class="col-12 mt-3">
+                  <select v-model="category">
+                    <option>Top 10 Forked</option>
+                    <option>Top 10 Shared</option>
+                    <option>Top 10 Newly shared</option>
+                    <option>Top 10 of 2018</option>
+                  </select>    
+                </div>
+              </div>
           </div>
-
+          <p class="text-center mt-4">Sorted by {{category}}</p>
+          <sharedProject class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in sharedProjects"
+            :key='sharedProject._id'>
+          </sharedProject>
         </div>
-
-
-
-
-      </div>
-      <div class="col-4 mt-3 text-center">
-        <p class="text-center">Sorted by {{category}}</p>
-        <sharedProject class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in sharedProjects"
-          :key='sharedProject._id'>
-        </sharedProject>
-      </div>
-
-      <div class=" col-3">
-
-        <div class="mt-4 row">
-
-          <div v-if="showProfile" class="text-center viewProfile">
-            <viewUserProfile></viewUserProfile>
+  
+        <div class="col-4">
+  
+          <div class="mt-4 row">
+  
+            <div v-if="showProfile" class="text-center viewProfile">
+              <viewUserProfile></viewUserProfile>
+            </div>
           </div>
         </div>
       </div>
@@ -189,7 +127,7 @@
       forkProject() {
         this.$store.dispatch('cloneProject', this.sharedProject)
       },
-      showProfile() {
+      displayProfile() {
         this.$emit('showProfile')
         this.$store.dispatch('setPreviewProject', this.sharedProject)
       }
@@ -201,7 +139,11 @@
   .explorer {
     color: white;
   }
-
+  /* div {
+    outline-color: blue;
+    outline-style: solid;
+    outline-width: 1px;
+  } */
   .viewProfile {
     border: 3px solid white;
     width: 400px;

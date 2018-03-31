@@ -3,7 +3,7 @@
     <div class="row">
      <div class="col-1">
         <div class="">
-          <player :project="userSharedProject" :largeButtons="false"></player>
+          <player :project="userSharedProject" :largeButtons="false" :allowPlayCountUpdate ="false"></player>
         </div>
       </div>
       <div class="col-9">
