@@ -32,9 +32,9 @@
       <div class="row">
 
         <div class="col-4 mt-4 pr-5">
-          <button class="btn btn-sm btn-outline-light mr-2" @click="createBeatTrack">
+          <!-- <button class="btn btn-sm btn-outline-light mr-2" @click="createBeatTrack">
             <i class="fas fa-plus-circle"></i> Add beat track
-          </button>
+          </button> -->
         </div>
 
         <div class="bottom-controls col-7 pl-4 pr-4">
@@ -129,7 +129,9 @@
     },
     methods: {
       home() {
-        this.$router.push({ path: '/home' })
+        this.$router.push({
+          path: '/home'
+        })
       },
       toggleMute(track) {
         track.muted = track.muted ? false : true
@@ -160,27 +162,27 @@
           '_id': this.project._id,
           bpmSetting: setting
         }
-        this.$store.dispatch('updateProject', updatedProject)
+        // this.$store.dispatch('updateProject', updatedProject)
       },
-      createBeatTrack() {
-        if (this.projectIsPlaying) {
-          this.stopPlayer = true
-        }
-        this.$store.dispatch('createBeatTrack', this.project)
-      },
+      // createBeatTrack() {
+      //   if (this.projectIsPlaying) {
+      //     this.stopPlayer = true
+      //   }
+      //   this.$store.dispatch('createBeatTrack', this.project)
+      // },
       // createNoteTrack() {
       //   if (this.projectIsPlaying) {
       //     this.stopPlayer = true
       //   }
       //   this.$store.dispatch('createNoteTrack', this.project)
       // },
-      deleteTrack(track) {
-        var data = {
-          project: this.project,
-          deleting: track
-        }
-        this.$store.dispatch('deleteTrack', data)
-      }
+      // deleteTrack(track) {
+      //   var data = {
+      //     project: this.project,
+      //     deleting: track
+      //   }
+      //   this.$store.dispatch('deleteTrack', data)
+      // }
     }
   }
 
@@ -266,4 +268,5 @@
   .top-bar:hover {
     cursor: pointer;
   }
+
 </style>
