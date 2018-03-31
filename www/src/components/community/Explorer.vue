@@ -5,7 +5,7 @@
     <sidebar></sidebar>
     <div class="container">
       <div class="row">
-        <div class="col-sm-8 mt-3 text-center">
+        <div class="col-sm-12 mt-3 text-center">
           <div class="row">
             <div class="col-12 mt-3">
                 Sort by...
@@ -25,11 +25,11 @@
           </sharedProject>
         </div>
   
-        <div class="col-4">
+        <div class="col-sm-12">
   
           <div class="mt-4 row">
             <div v-if="showProfile" class="text-center viewProfile">
-              <viewUserProfile></viewUserProfile>
+              <viewUserProfile  v-on:closeProfile="showProfile = false"></viewUserProfile>
             </div>
   
           </div>
