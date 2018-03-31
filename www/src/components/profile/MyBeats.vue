@@ -98,7 +98,7 @@
         }
         this.$store.dispatch('saveProject', data).then(() => {
           // Then, load the selected project.
-          this.$store.dispatch('loadProject', project)
+          this.$store.dispatch('loadProject', project._id)
         })
       },
       showTrackStats() {
