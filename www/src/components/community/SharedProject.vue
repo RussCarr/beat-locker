@@ -6,13 +6,20 @@
       <div class="col-10">
         <div class="row">
           <div class="col-6">
-              <player :project="sharedProject" :largeButtons="false"></player>
+             
             {{sharedProject.title}}
             <p class="createdBy">created by:</p>
             <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
             <a href="#" class="text-light mr-5" @click.prevent="showProfile">
               {{user.name}}
             </a>
+          </div>
+          <div class="col-1">
+              <p class="ml-1">{{sharedProject.playCount}}</p>
+            <player class="" :project="sharedProject" :largeButtons="false" ></player>
+            <!-- <a href="#" class="text-light mr-5" @click.prevent="forkProject">
+              <i class="fas fa-code-branch"></i> 
+            </a> -->
           </div>
           <div class="col-1">
               <p>{{sharedProject.forkCount}}</p>
@@ -88,6 +95,9 @@
       }
     },
     methods: {
+      updatePlayCount() {
+        this.$store.dispatch('updatePlayCount', this.sharedProject)
+      },
       updateShareCount() {
         this.$store.dispatch('updateShareCount', this.sharedProject)
       },

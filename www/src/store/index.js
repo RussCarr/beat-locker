@@ -495,6 +495,19 @@ export default new vuex.Store({
           console.log(err);
         });
     },
+    updatePlayCount({ commit, dispatch }, payload) {
+      // console.log('Shared Project Shared',payload)
+      payload.playCount = payload.playCount + 1;
+      // console.log('Shared Project Shared2',payload)
+      api
+        .put(`projects/${payload._id}`, payload)
+        .then(() => {
+          dispatch("getAllProjects");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     updateShareCount({ commit, dispatch }, payload) {
       // console.log('Shared Project Shared',payload)
       payload.shareCount = payload.shareCount + 1;

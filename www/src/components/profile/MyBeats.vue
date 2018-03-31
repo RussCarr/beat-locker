@@ -115,7 +115,11 @@
  .project-title:hover{
    cursor: pointer;
  }
+ .project-title{
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
  
+ }
  
   .mybeats {
     display: flex;
