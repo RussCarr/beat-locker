@@ -83,6 +83,7 @@
     props: [
       'sharedProject',
       'playingProjectId',
+      
 
     ],
     computed: {
@@ -95,9 +96,10 @@
       }
     },
     methods: {
-      updatePlayCount() {
-        this.$store.dispatch('updatePlayCount', this.sharedProject)
-      },
+      // updatePlayCount(playCount) {
+      //   this.sharedProject.push(playCount++)
+      //   this.$store.dispatch('updatePlayCount', this.sharedProject)
+      // },
       updateShareCount() {
         this.$store.dispatch('updateShareCount', this.sharedProject)
       },

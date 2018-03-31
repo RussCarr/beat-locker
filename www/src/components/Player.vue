@@ -8,7 +8,7 @@
     <a href="#" class="play-button" @click.prevent="stop" v-show="isPlaying">
       <i class="far fa-stop-circle m-l-5" :class="{ 'fa-3x': largeButtons === true }"></i>
     </a>
-    
+
   </div>
 </template>
 
@@ -21,6 +21,7 @@
       return {
         loop: {},
         isPlaying: false,
+        // allowPlayCountUpdate: false
       }
     },
     props: [
@@ -31,7 +32,8 @@
       // A bool that the parent can use to 'tell' the Player to stop playback
       'stopPlayer',
       // An array of tracks that can be passed in from the parent
-      'tracksFromParent'
+      // 'tracksFromParent',
+      'allowPlayCountUpdate'
     ],
     watch: {
       // Respond to a stop 'command' from the parent component
@@ -60,12 +62,22 @@
     methods: {
       play() {
         // Reset 'stopPlayer' value on parent component
+
         if (this.stopPlayer === true) {
           this.$emit('resetStopPlayer')
         }
 
         if (this.otherProjectIsPlaying) { // If another project is already playing...
           return // ...don't allow user to play this one.
+        }
+
+        if (this.allowPlayCountUpdate == true) {
+          if (this.isPlaying = true) {
+            // console.log('Before trying to count plays', this.project.playCount)
+            // this.project.playCount++
+            // console.log('After trying to count plays', this.project.playCount)
+            this.updatePlayCount()
+          }
         }
 
         // Get an array of the tracks that belong to this project and make it available as 'previewTracks' in the Vuex store...
@@ -94,11 +106,11 @@
             this.loop.start() // Start the loop play-back
           }).toMaster() // Connect the players to the master audio output (i.e. the speakers)
 
-// Experimental note-synth: PROOF OF CONCEPT
-// const synth = new Tone.Synth()
-// synth.toMaster()
-// var note = "C4"
-// var toneStepSequence = [false, true, false, false, false, true, false, false, false, true, false, false, false, false, false, false]
+          // Experimental note-synth: PROOF OF CONCEPT
+          // const synth = new Tone.Synth()
+          // synth.toMaster()
+          // var note = "C4"
+          // var toneStepSequence = [false, true, false, false, false, true, false, false, false, true, false, false, false, false, false, false]
 
           // Define sequence options:
           // 1. Create an array of integers with length equal to the length of the current track stepSequences
@@ -149,6 +161,10 @@
         this.$store.dispatch('setPlayingProjectId', "") // Clear out the notification that a SharedProject is currently playing
         this.isPlaying = false
       },
+      updatePlayCount() {
+        this.$store.dispatch('updatePlayCount', this.project)
+        
+      }
 
     }
   }
@@ -163,5 +179,4 @@
   .play-button:hover {
     color: rgba(206, 33, 53, 1.0);
   }
-
 </style>

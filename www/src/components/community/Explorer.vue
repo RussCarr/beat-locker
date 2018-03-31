@@ -127,7 +127,7 @@
       forkProject() {
         this.$store.dispatch('cloneProject', this.sharedProject)
       },
-      showProfile() {
+      displayProfile() {
         this.$emit('showProfile')
         this.$store.dispatch('setPreviewProject', this.sharedProject)
       }
