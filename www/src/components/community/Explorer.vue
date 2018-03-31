@@ -28,10 +28,10 @@
         <div class="col-4">
   
           <div class="mt-4 row">
-  
             <div v-if="showProfile" class="text-center viewProfile">
               <viewUserProfile></viewUserProfile>
             </div>
+  
           </div>
         </div>
       </div>
