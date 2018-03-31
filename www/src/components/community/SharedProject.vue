@@ -12,19 +12,19 @@
               </a>
             </div>
           </div>
-          <div class="col-sm-4 ">
+          <div class="col-sm-4">
             <div class="row share-icons-wrapper">
-              <div class="col-sm-4 share-icons">
+              <div class="col share-icons">
                 <p class="createdBy">{{sharedProject.playCount}}</p>
-                <player class="centerFlex" :project="sharedProject" :largeButtons="false"></player>
+                <player class="centerFlex" :project="sharedProject" :largeButtons="false" :allowPlayCountUpdate="true"></player>
               </div>
-              <div class="col-sm-4 share-icons">
+              <div class="col share-icons">
                 <p class="createdBy">{{sharedProject.forkCount}}</p>
                 <a href="#" class="text-light" @click.prevent="forkProject">
                   <i class="fas fa-code-branch"></i>
                 </a>
               </div>
-              <div class="col-sm-4 share-icons">
+              <div class="col share-icons">
                 <p class="createdBy">{{sharedProject.shareCount}}</p>
                 <a href="#" class="text-light" @click.prevent="shareBox= shareBox ? false : true">
                   <i class="fas fa-share"></i>
@@ -58,6 +58,11 @@
               </div>
             </div>
           </div>
+          <!-- <div class="col-sm-12">
+            <div v-if="showProfile" class="text-center viewProfile">
+              <viewUserProfile></viewUserProfile>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -68,10 +73,12 @@
 <script>
   import Tone from 'tone'
   import Player from './../Player'
+  import ViewUserProfile from './ViewUserProfile'
   export default {
     name: 'SharedProject',
     components: {
-      player: Player
+      player: Player,
+      viewUserProfile: ViewUserProfile
     },
     data() {
       return {
@@ -83,7 +90,8 @@
     props: [
       'sharedProject',
       'playingProjectId',
-      
+
+
 
     ],
     computed: {
@@ -136,6 +144,12 @@
     border-radius: 4px;
     background-color: rgba(107, 32, 45, .8);
 
+  }
+
+  .viewProfile {
+    border: 2px solid white;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   .shared-track-info {

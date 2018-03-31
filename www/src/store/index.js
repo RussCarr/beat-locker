@@ -20,6 +20,12 @@ var auth = axios.create({
   withCredentials: true
 });
 
+var mail = axios.create({
+  baseURL: baseUrl + "mail/",
+  timeout: 3000,
+  withCredentials: true
+});
+
 vue.use(vuex);
 
 export default new vuex.Store({
@@ -195,7 +201,8 @@ export default new vuex.Store({
           dispatch("getLatestProject", sessionUser._id);
 
           // Route returning registered users to the 'Home' page UNLESS they're visiting the 'ProjectShowspace' page
-          if (router.currentRoute.name !== "ProjectShowspace") {
+          if (router.currentRoute.name !== 'ProjectShowspace' && router.currentRoute.name !== 'Mail' ) {
+            // if ( router.currentRoute.name !== 'Mail' ) {
             router.push({
               name: "Home"
             });
@@ -875,8 +882,24 @@ export default new vuex.Store({
       commit("setPlayingProjectId", projectId);
     },
 
-    stepIndexChange({ commit, dispatch }, index) {
-      commit("setStepIndex", index);
+    stepIndexChange({commit, dispatch}, index) {
+      commit('setStepIndex', index);
+    },
+    sendMail({commit, dispatch,}, formData) {
+      console.log('mail2',formData)
+      var toAddy = formData.to
+      var fromAddy = formData.from
+      var subject =formData.subject
+      var body = formData.body
+      // debugger
+      mail
+      .post(`${toAddy}/${fromAddy}/${subject}/${body}`)
+      
+      
+      
+      .catch(err => {
+        console.log(err);
+      });
     }
-  }
+  },
 });
