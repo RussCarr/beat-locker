@@ -3,7 +3,7 @@
     <div class="user-profile-wrapper overflow-scroll">
       <div class="row">
         <div class="col-sm-12 text-center">
-          <h3 class="text-center">User Profile</h3>
+          <h4 class="text-center">User Profile</h4>
           <p>{{user.name}} - {{user.age}}</p>
           <hr>
         </div>
@@ -21,16 +21,17 @@
         </div>
       </div>
       <div class="col-sm-12">
-        <div class="row">
-          <p class="h4">My Shared Tracks</p>
-          <div class="col-sm-12"></div>
-          <viewUserProjects v-for="userSharedProject in userSharedProjects" :key="userSharedProject._id" :userSharedProject='userSharedProject'></viewUserProjects>
+        <div class="row justify-content-center">
+          <h5 class="text-center">My Shared Tracks</h5>
+          <div class="col-sm-12">
+            <viewUserProjects v-for="userSharedProject in userSharedProjects" :key="userSharedProject._id" :userSharedProject='userSharedProject'></viewUserProjects>
+          </div>
         </div>
-  
+
         <div class="col-sm-2"></div>
         <p>Interests: {{user.interests}}</p>
         <p>Genres: {{user.genres}}</p>
-        <button class="btn btn-secondary px-4" @click="close">
+        <button class="btn btn-secondary close-button" @click="close">
           Close
         </button>
       </div>
@@ -70,6 +71,12 @@
 </script>
 
 <style scoped>
+  /* div {
+    outline-style: solid;
+    outline-color: skyblue;
+    outline-width: 1px;
+  } */
+
   .userProfile {
     color: white;
   }
@@ -157,5 +164,24 @@
     margin-bottom: 2rem;
     max-height: 90%;
     max-width: 90%;
+  }
+
+  .close-button {
+    background-color: rgba(57, 123, 172, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+    transition: all;
+    transition-duration: 400ms;
+  }
+
+  .close-button:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .close-button:active,
+  .close-button:visited,
+  .close-button:focus {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
   }
 </style>
