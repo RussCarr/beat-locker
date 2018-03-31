@@ -165,6 +165,10 @@
           return this.$store.state.activeProject.title
         },
         set(value) {
+          var MaxCharCount = 52          
+          if (value.length > MaxCharCount) {
+            value = value.slice(0, MaxCharCount) + "..."
+          }
           this.updatedTitle = value
         }
       },
