@@ -18,8 +18,7 @@
     },
     data() {
       return {
-      // projects: this.$store.state.userProjects
-      updatedProjects:{}
+     
       }
     },
     computed: {
@@ -28,7 +27,7 @@
       },
       updateProjects(){
         return this.$store.dispatch('getUserProjects',project.userId)
-        // console.log(project.userId)
+        
       },
      
     },

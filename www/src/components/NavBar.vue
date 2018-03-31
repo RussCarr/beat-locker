@@ -16,12 +16,7 @@
             <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
           </div>
         </div>
-        <div class="row">
-          <!-- <div class="col-sm-12">
-            <button @click='getProjects(user)' class="btn btn-sm btn-link toggle-button">
-              <i class="fas fa-angle-double-left"></i> My Projects </button>
-          </div> -->
-        </div>
+    
       </div>
     </div>
     <div class="row">
@@ -35,7 +30,7 @@
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="allSharedProjects">
           Community
         </div>
-        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @change='getProjects(user)' @click="toggleMyBeatsDrop">
+        <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="getMyBeatsDrop(user)">
           My Beats
         </div>
         <div class="homelink SubNavlink col-3 text-center py-3 rounded" @click="logout">
@@ -89,6 +84,10 @@
       help() {
         this.$router.push('Help')
       },
+      getMyBeatsDrop(user) {
+        this.getProjects(user);
+        this.toggleMyBeatsDrop();
+      },
       newProject() {
         // First, save the current project.
         var data = {
@@ -101,14 +100,13 @@
         })
       },
       allSharedProjects() {
-        // this.$store.dispatch('getAllProjects')
+       
         this.$router.push({ path: '/Explorer' })
       },
       home() {
         this.$router.push({ path: '/home' })
       },
       getProjects(user) {
-        console.log('navuser', user)
         this.$store.dispatch('getUserProjects', user._id)
       }
     }

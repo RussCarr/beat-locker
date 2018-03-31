@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar">
-    <slideout menu="#menu" side="right" panel="#panel" :toggleSelectors="['.toggle-button']" @on-open="open">
+    <!-- <slideout menu="#menu" side="right" panel="#panel" :toggleSelectors="['.toggle-button']" @on-open="open">
       <main id="panel">
       </main>
       <header class="header">
-          <!-- <button :activeUser='activeUser' @click='getProjects(activeUser)' class="toggle-button"></button> -->
+           <button :activeUser='activeUser' @click='getProjects(activeUser)' class="toggle-button"></button> 
             
         </header>
       <nav id="menu">
@@ -14,44 +14,44 @@
         <div class="messageRoll">
           <messages class="mt-1 text-center"></messages>
         </div>
-      </nav>
-    </slideout>
+      </nav> 
+    </slideout>-->
 
   </div>
 </template>
 
 <script>
-  import Slideout from 'vue-slideout'
-  import MyBeatsMenu from './profile/MyBeatsMenu'
-  import Messages from './Messages'
-  export default {
-    name: 'Sidebar',
-    components: {
-      slideout: Slideout,
-      myBeatsMenu: MyBeatsMenu,
-      messages: Messages
-    },
-    data() {
-      return {
+  // import Slideout from 'vue-slideout'
+  // import MyBeatsMenu from './profile/MyBeatsMenu'
+  // import Messages from './Messages'
+  // export default {
+  //   name: 'Sidebar',
+  //   components: {
+  //     slideout: Slideout,
+  //     myBeatsMenu: MyBeatsMenu,
+  //     messages: Messages
+  //   },
+  //   data() {
+  //     return {
         
-      }
-    },
-    // props: [
-    //   'activeUser'
-    // ],
-    computed: {
-      activeUser() {
-        return this.$store.state.user._id
-      },
-    },
-    methods: {
-      open: function () {
-        console.log('slideoutOpen')
-      },
+  //     }
+  //   },
+  //   // props: [
+  //   //   'activeUser'
+  //   // ],
+  //   computed: {
+  //     activeUser() {
+  //       return this.$store.state.user._id
+  //     },
+  //   },
+  //   methods: {
+  //     open: function () {
+  //       console.log('slideoutOpen')
+  //     },
       
-    },
+  //   },
 
-  }
+  // }
 </script>
 
 <style scoped>

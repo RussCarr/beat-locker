@@ -493,16 +493,17 @@ export default new vuex.Store({
         });
     },
     updateShareCount({ commit, dispatch }, payload) {
-      console.log('Shared Project Shared',payload)
+      // console.log('Shared Project Shared',payload)
       payload.shareCount = payload.shareCount + 1;
-      console.log('Shared Project Shared2',payload)
-      api.put(`projects/${payload._id}`, payload)
-      .then(() => {
-      dispatch('getAllProjects')
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      // console.log('Shared Project Shared2',payload)
+      api
+        .put(`projects/${payload._id}`, payload)
+        .then(() => {
+          dispatch("getAllProjects");
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     cloneProject({ commit, dispatch }, payload) {
       console.log("Hello Before", payload);
@@ -745,7 +746,7 @@ export default new vuex.Store({
     setPreviewProject({ commit, dispatch }, sharedProject) {
       commit("setPreviewProject", sharedProject);
     },
-    setPlayingProjectId({commit, dispatch}, projectId) {
+    setPlayingProjectId({ commit, dispatch }, projectId) {
       commit("setPlayingProjectId", projectId);
     }
   }
