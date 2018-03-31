@@ -121,10 +121,14 @@
           // Create the beat sequence
           this.loop = new Tone.Sequence((time, index) => {
 
-            // Experimental note play: PROOF OF CONCEPT
-            // if (toneStepSequence[index]) {
-            //   synth.triggerAttackRelease(note, "16n", time)
-            // }
+          // Update store state to keep track of the step index that is currently looping: This allows the loop
+          // playback to be animated
+          this.$store.dispatch('stepIndexChange', index)
+
+// Experimental note play: PROOF OF CONCEPT
+// if (toneStepSequence[index]) {
+//   synth.triggerAttackRelease(note, "16n", time)
+// }
             for (var i = 0; i < this.stepTracks.length; i++) {
               var track = this.stepTracks[i]
               var stepSequence = track.stepSequence

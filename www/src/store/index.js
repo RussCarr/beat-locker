@@ -37,10 +37,14 @@ export default new vuex.Store({
     activeProjectUsers: [],
     searchResults: [],
     projectPreview: [],
-    playingProjectId: ""
+    playingProjectId: "",
+    stepIndex: -1
   },
 
   mutations: {
+    setStepIndex(state, index) {
+      state.stepIndex = index;
+    },
     setUser(state, user) {
       state.user = user;
     },
@@ -186,9 +190,12 @@ export default new vuex.Store({
 
           dispatch("getLatestProject", sessionUser._id);
 
-          router.push({
-            name: "Home"
-          });
+          // Route returning registered users to the 'Home' page UNLESS they're visiting the 'ProjectShowspace' page
+          if (router.currentRoute.name !== 'ProjectShowspace') {
+            router.push({
+              name: "Home"
+            });
+          }
         })
         .catch(err => {
           console.error(err);
@@ -764,6 +771,10 @@ export default new vuex.Store({
     },
     setPlayingProjectId({ commit, dispatch }, projectId) {
       commit("setPlayingProjectId", projectId);
+    },
+
+    stepIndexChange({commit, dispatch}, index) {
+      commit('setStepIndex', index);
     }
   }
 });

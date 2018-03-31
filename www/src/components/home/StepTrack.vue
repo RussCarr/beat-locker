@@ -45,7 +45,7 @@
             :style="{ width: (100 / stepTrack.stepsPerBar) + '%' }">
     
               <div class="step" @click="selectStep($event, (barIndex * stepTrack.stepsPerBar) + stepIndexInBar, barIndex, stepIndexInBar)"
-              :class="{ 'selected': stepSequence[(barIndex * stepTrack.stepsPerBar) + stepIndexInBar] }"></div>
+              :class="{ 'selected': stepSequence[(barIndex * stepTrack.stepsPerBar) + stepIndexInBar], 'playing': stepIsPlaying(barIndex, stepTrack.stepsPerBar, stepIndexInBar) }"></div>
     
             </div>
     
@@ -94,9 +94,18 @@
       },
       projectTracks() {
         return this.$store.state.activeTracks
+      },
+      stepIndex() {
+        return this.$store.state.stepIndex
+      },
+      isPlaying() {
+        return this.$store.state.playingProjectId !== ""
       }
     },
     methods: {
+      stepIsPlaying(barIndex, stepsPerBar, stepIndexInBar) {
+        return (this.stepIndex == (barIndex * stepsPerBar) + stepIndexInBar) && this.isPlaying;
+      },
       selectStep(event, Idx, barIdx, stepIdx) {
         // Note: 'Idx' locates the stepSequence index that needs to be toggled
         this.stepSequence[Idx] = this.stepSequence[Idx] ? false : true
@@ -220,7 +229,15 @@
   }
 
   .selected {
-    background-color: rgba(229, 140, 148, 1.0);
+    background-color: rgba(206, 33, 53, 1.0);
+  }
+
+  .playing {
+    background-color: rgba(229, 140, 147, 0.5);
+  }
+
+  .selected.playing {
+    background-color: rgba(206, 33, 53, 1.0);
   }
 
   .scrolling-wrapper {
