@@ -33,13 +33,16 @@
         <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="getMyBeatsDrop(user)">
           My Beats
         </div>
-        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="search">
+        <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="getSearchField">
           Search
         </div>
         <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" @click="logout">
           Logout
         </div>
       </nav>
+    </div>
+    <div class="row">
+      <searchField v-if="showSearchField" v-on:closeSearchField="showSearchField = false"></searchField>
     </div>
     <div class="row">
       <myBeatsDrop v-if="showMyBeatsDrop" v-on:closeMyBeatsDrop="showMyBeatsDrop = false"></myBeatsDrop>
@@ -49,15 +52,18 @@
 
 <script>
   import MyBeatsDrop from './MyBeatsDrop'
+  import SearchField from './SearchField'
   export default {
     name: 'Navbar',
     data() {
       return {
-        showMyBeatsDrop: false
+        showMyBeatsDrop: false,
+        showSearchField: false,
       }
     },
     components: {
       myBeatsDrop: MyBeatsDrop,
+      searchField: SearchField,
     },
     computed: {
       isHomeRoute() {
@@ -78,6 +84,9 @@
       toggleMyBeatsDrop() {
         this.showMyBeatsDrop = this.showMyBeatsDrop ? false : true
       },
+      toggleSearchField() {
+        this.showSearchField = this.showSearchField ? false : true
+      },
       logout() {
         this.$store.dispatch('logoutUser')
       },
@@ -86,6 +95,9 @@
       },
       help() {
         this.$router.push('Help')
+      },
+      getSearchField () {
+        this.toggleSearchField();
       },
       getMyBeatsDrop(user) {
         this.getProjects(user);
