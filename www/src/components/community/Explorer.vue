@@ -1,9 +1,6 @@
 <template>
   <div class="container-fluid explorer">
     <div class="row">
-
-
-
     <navbar></navbar>
     <sidebar></sidebar>
     <div class="row">

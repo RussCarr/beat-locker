@@ -1,7 +1,7 @@
 <template>
   <div class="container myBeats">
     <div class="row">
-      <div class="col-2 mr-2">
+      <div class="col-2">
         <div class="">
           <label class="switch">
             <input type="checkbox" v-model="shared">
@@ -13,15 +13,16 @@
           </p>
         </div>
       </div>
-      <div class="col-6">
+      <player class="ml-3" :project="project"></player>
+      <div class="col-5">
         <h5 @click="showStats = showStats ? false : true" class="project-title btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
       <div class="col-2">
-        <!-- <player :project="project"></player>> -->
-        <button @click='loadProject(project)' class="btn btn-sm btn-info">load</button>
+          
+        <button @click='loadProject(project)' class="btn btn-sm btn-info ">load</button>
       </div>
       <div class="col-1 px-0">
-        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger"><i class="far fa-trash-alt"></i></button>
+        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger ml-2"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
     <div class="trackStats" v-if="showStats">
@@ -47,11 +48,11 @@
 </template>
 
 <script>
-  // import Player from './Player'
+  import Player from '../Player'
   export default {
     name: 'Mybeats',
     components: {
-      // player: Player
+      player: Player
     },
     props: ['project'],
     data() {
@@ -64,6 +65,9 @@
     computed: {
       disable() {
         return this.$store.state.userProjects.length === 1
+      },
+      beatTracks() {
+        return this.$store.state.previewTracks
       },
     },
     watch: {
