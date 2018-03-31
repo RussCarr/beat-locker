@@ -50,7 +50,7 @@ function getAllusers(req, res, next) {
     .catch(next);
 }
 
-// TEMPORARY FOR TESTING!!! Delete a user
+// Delete a user
 router.delete("/api/users/:userId", deleteuser);
 function deleteuser(req, res, next) {
   user.findByIdAndRemove(req.params.userId)
