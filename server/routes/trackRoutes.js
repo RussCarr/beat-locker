@@ -55,7 +55,7 @@ router.get("/api/tracks", (req, res, next) => {
     .catch(next);
 });
 
-// Get track by projectId
+// Get tracks by projectId
 router.get("/api/projects/:projectId/tracks", (req, res, next) => {
   track
     .find({ projectId: req.params.projectId })

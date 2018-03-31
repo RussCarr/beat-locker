@@ -391,7 +391,7 @@ export default new vuex.Store({
           var defaultProject = res.data;
 
           var defaultTrack = {
-            createdAt: Date.now(),
+            createdAt: Date.now() - 400,
             instrumentName: "clap-808",
             isNote: false,
             instrumentSamplePath: "./../../assets/audio/clap-808.wav",
@@ -408,6 +408,7 @@ export default new vuex.Store({
               commit("pushActiveTrack", track0);
 
               defaultTrack.instrumentName = "hihat-808";
+              defaultTrack.createdAt = Date.now() - 300;
               defaultTrack.instrumentSamplePath =
                 "./../../assets/audio/hihat-808.wav";
               api
@@ -418,6 +419,7 @@ export default new vuex.Store({
                   commit("pushActiveTrack", track1);
 
                   defaultTrack.instrumentName = "snare-big";
+                  defaultTrack.createdAt = Date.now() - 200;
                   defaultTrack.instrumentSamplePath =
                     "./../../assets/audio/snare-big.wav";
                   api
@@ -428,6 +430,7 @@ export default new vuex.Store({
                       commit("pushActiveTrack", track2);
 
                       defaultTrack.instrumentName = "kick-heavy";
+                      defaultTrack.createdAt = Date.now() - 100;
                       defaultTrack.instrumentSamplePath =
                         "./../../assets/audio/kick-heavy.wav";
                       api
