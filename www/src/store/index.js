@@ -487,27 +487,30 @@ export default new vuex.Store({
           console.log(err);
         });
     },
-    loadProject({ commit, dispatch }, project) {
-      commit("setActiveProject", {});
-      commit("setActiveTracks", []);
-      api
-        .get(`/projects/${project._id}`)
-        .then(res => {
-          var project = res.data;
-          commit("setActiveProject", project);
-          api
-            .get(`projects/${project._id}/tracks`)
-            .then(res => {
-              var projectTracks = res.data;
-              commit("setActiveTracks", projectTracks);
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    loadProject({ commit, dispatch }, projectId) {
+      return new Promise((resolve, reject) => {
+        commit("setActiveProject", {});
+        commit("setActiveTracks", []);
+        api
+          .get(`/projects/${projectId}`)
+          .then(res => {
+            var project = res.data;
+            commit("setActiveProject", project);
+            api
+              .get(`projects/${projectId}/tracks`)
+              .then(res => {
+                var projectTracks = res.data;
+                commit("setActiveTracks", projectTracks);
+                resolve();
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })
     },
     updatePlayCount({ commit, dispatch }, payload) {
       // console.log('Shared Project Shared',payload)

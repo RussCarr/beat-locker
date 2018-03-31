@@ -32,7 +32,8 @@
       // A bool that the parent can use to 'tell' the Player to stop playback
       'stopPlayer',
       // An array of tracks that can be passed in from the parent
-      // 'tracksFromParent',
+      'tracksFromParent',
+      // A bool that controls whether playing the project will update the project's play-count
       'allowPlayCountUpdate'
     ],
     watch: {
