@@ -13,16 +13,19 @@
           </p>
         </div>
       </div>
-      <player class="ml-3" :project="project"></player>
+      <player class="ml-3" :project="project" :allowPlayCountUpdate="false"></player>
       <div class="col-5">
-        <h5 @click="showStats = showStats ? false : true" class="project-title btn-sm btn-link text-white text-center"><i class="fas fa-caret-down"> </i> {{project.title}}</h5>
+        <h5 @click="showStats = showStats ? false : true" class="project-title btn-sm btn-link text-white text-center">
+          <i class="fas fa-caret-down"> </i> {{project.title}}</h5>
       </div>
       <div class="col-2">
-          
+
         <button @click='loadProject(project)' class="btn btn-sm btn-info ">load</button>
       </div>
       <div class="col-1 px-0">
-        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger ml-2"><i class="far fa-trash-alt"></i></button>
+        <button @click='deleteProject(project)' :disabled="disable" class="btn btn-sm btn-danger ml-2">
+          <i class="far fa-trash-alt"></i>
+        </button>
       </div>
     </div>
     <div class="trackStats" v-if="showStats">
@@ -54,12 +57,13 @@
     components: {
       player: Player
     },
-    props: ['project'],
+    props: ['project',],
     data() {
       return {
         showStats: false,
         shared: this.project.shared,
         // btnDisable: false
+        allowPlayCountUpdate: true,
       }
     },
     computed: {
@@ -112,15 +116,16 @@
 </script>
 
 <style>
- .project-title:hover{
-   cursor: pointer;
- }
- .project-title{
-  /* overflow: hidden; */
-  text-overflow: ellipsis;
- 
- }
- 
+  .project-title:hover {
+    cursor: pointer;
+  }
+
+  .project-title {
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+
+  }
+
   .mybeats {
     display: flex;
   }
@@ -200,10 +205,12 @@
     font-size: 20px;
     color: #fbfbfb
   }
-  .trackStats{
+
+  .trackStats {
     background-color: rgba(229, 140, 148, 1.0);
     margin-bottom: 10px;
   }
+
   .trackDrop {
     background-color: rgba(229, 140, 148, 1.0);
   }

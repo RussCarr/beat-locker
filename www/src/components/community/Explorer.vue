@@ -32,7 +32,7 @@
               {{searchResult.title}}
               <p class="createdBy">created by:</p>
               <!-- <button @click="showProfile" class="createdUser">{{user.name}}</button> -->
-              <a href="#" class="text-light mr-5" @click.prevent="showProfile">
+              <a href="#" class="text-light mr-5" @click.prevent="displayProfile">
                 {{user.name}}
               </a>
             </div>
@@ -189,7 +189,7 @@
       forkProject() {
         this.$store.dispatch('cloneProject', this.sharedProject)
       },
-      showProfile() {
+      displayProfile() {
         this.$emit('showProfile')
         this.$store.dispatch('setPreviewProject', this.sharedProject)
       }

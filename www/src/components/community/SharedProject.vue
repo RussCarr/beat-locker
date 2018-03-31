@@ -16,10 +16,8 @@
           </div>
           <div class="col-1">
               <p class="ml-1">{{sharedProject.playCount}}</p>
-            <player class="" :project="sharedProject" :largeButtons="false" ></player>
-            <!-- <a href="#" class="text-light mr-5" @click.prevent="forkProject">
-              <i class="fas fa-code-branch"></i> 
-            </a> -->
+            <player class="" :project="sharedProject" :largeButtons="false" :allowPlayCountUpdate ="true" ></player>
+            
           </div>
           <div class="col-1">
               <p>{{sharedProject.forkCount}}</p>
@@ -69,7 +67,7 @@
     import Tone from 'tone'
     import Player from './../Player'
     export default {
-      name: 'SharedProject',
+      // name: 'SharedProject',
       components: {
         player: Player
     },
@@ -83,6 +81,7 @@
     props: [
       'sharedProject',
       'playingProjectId',
+      
 
     ],
     computed: {
@@ -95,9 +94,10 @@
       }
     },
     methods: {
-      updatePlayCount() {
-        this.$store.dispatch('updatePlayCount', this.sharedProject)
-      },
+      // updatePlayCount(playCount) {
+      //   this.sharedProject.push(playCount++)
+      //   this.$store.dispatch('updatePlayCount', this.sharedProject)
+      // },
       updateShareCount() {
         this.$store.dispatch('updateShareCount', this.sharedProject)
       },
