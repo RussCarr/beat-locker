@@ -136,6 +136,7 @@
           // Then, create a new default project and display it.
           this.$store.dispatch('createProject', this.user._id)
         })
+        this.$router.push({ path: '/home' })
       },
       allSharedProjects() {
 
