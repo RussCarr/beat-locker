@@ -45,7 +45,8 @@ export default new vuex.Store({
     projectPreview: [],
     playingProjectId: "",
     stepIndex: -1,
-    tempUser: {}
+    tempUser: {},
+    tempProject: ""
   },
 
   mutations: {
@@ -125,6 +126,9 @@ export default new vuex.Store({
     },
     setPlayingProjectId(state, projectId) {
       state.playingProjectId = projectId;
+    },
+    updateTempProject (state, projectId) {
+      state.tempProject = projectId
     }
   },
 
@@ -915,6 +919,7 @@ export default new vuex.Store({
       var fromAddy = formData.from
       var subject =formData.subject
       var body = formData.body
+      // var html = formData.html
       // debugger
       mail
       .post(`${toAddy}/${fromAddy}/${subject}/${body}`)
