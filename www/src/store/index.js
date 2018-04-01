@@ -49,7 +49,26 @@ export default new vuex.Store({
     playingProjectId: "",
     stepIndex: -1,
     tempUser: {},
-    tempProject: ""
+    messages: [
+      {
+        senderId: "5aaaab7148eefc142c2d0668",
+        senderName: "Wonder Woman",
+        body: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+        createdAt: 1522638964337
+      },
+      {
+        senderId: "5aaaab9548eefc142c2d066e",
+        senderName: "Aquaman",
+        body: "A molestiae nulla exercitationem cupiditate aspernatur sequi alias minus consectetur.",
+        createdAt: 1522638873895
+      },
+      {
+        senderId: "5aaaabb448eefc142c2d0674",
+        senderName: "Batman",
+        body: "Architecto vel animi ea minima expedita soluta possimus magnam nemo.",
+        createdAt: 1522638936716
+      }
+    ]
   },
 
   mutations: {
@@ -129,9 +148,6 @@ export default new vuex.Store({
     },
     setPlayingProjectId(state, projectId) {
       state.playingProjectId = projectId;
-    },
-    updateTempProject (state, projectId) {
-      state.tempProject = projectId
     }
   },
 
