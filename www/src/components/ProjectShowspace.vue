@@ -133,10 +133,19 @@
         })
       }
     },
-    destroyed() {
-      // IN PROGRESS: THIS DOES NOT SEEM TO BE WORKING
-      // Delete the temporary user created above in the 'mounted' function
+    // destroyed() {
+    //   // IN PROGRESS: THIS DOES NOT SEEM TO BE WORKING
+    //   // Delete the temporary user created above in the 'mounted' function
+    //   this.$store.dispatch('destroyTempUser', this.$store.state.tempUser._id)
+    // },
+    beforeRouteLeave(to, from, next) {
       this.$store.dispatch('destroyTempUser', this.$store.state.tempUser._id)
+        .then(() => {
+          next();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     computed: {
       projectIsPlaying() {
@@ -146,7 +155,7 @@
     methods: {
       home() {
         this.$router.push({
-          path: '/home'
+          path: '/'
         })
       },
       toggleMute(track) {

@@ -72,6 +72,29 @@ function deleteuser(req, res, next) {
     .catch(next);
 }
 
+// TEMPORARY FOR TESTING!!! Delete a user by name
+router.delete("/api/users/byname/:name", deleteuserbyname);
+function deleteuserbyname(req, res, next) {
+  user.find({ name: req.params.name})
+    .then(users => {
+      users.forEach(usr => {
+        var userId = usr._id;
+        user.findByIdAndRemove(userId)
+        .then(usr => {
+          project.deleteMany({ userId: userId })
+          .then(() => {
+            track.deleteMany({ userId: userId })
+            .then(() => {})
+            .catch(next);
+          })
+          .catch(next);
+        })
+        .catch(next);
+      });
+    })
+    .catch(next);
+}
+
 //EDIT USER PROFILE
 router.put("/api/users/:userId", editUser);
 function editUser(req, res, next) {

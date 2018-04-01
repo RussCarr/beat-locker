@@ -544,12 +544,32 @@ export default new vuex.Store({
     },
 
     destroyTempUser({ commit, dispatch }, tempUserId) {
-      api
-        .delete(`users/${tempUserId}`)
-        .then(() => {})
+      return new Promise((resolve, reject) => {
+        auth
+        .delete("logout")
+        .then(() => {
+          commit("setUser", {});
+          commit("setAuthError", { error: false, message: "" });
+          commit("setActiveProject", {});
+          commit("setActiveTracks", []);
+        })
+        .then(() => {
+          api
+            .delete(`users/${tempUserId}`)
+            .then(() => {
+              resolve();
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
         .catch(err => {
           console.log(err);
         });
+      })
+      .catch(err => {
+        console.log(err);
+      });
     },
 
     cloneProjectFromId({ commit, dispatch }, projectId) {
