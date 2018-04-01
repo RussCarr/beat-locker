@@ -3,11 +3,11 @@
         <div class="row">
             <navbar></navbar>
             <div class="container search-results">
-                <div class="col-sm-12 mt-3">
+                <!-- <div class="col-sm-12 mt-3">
                     Search tracks...
                     <input type="text" v-model="search" placeholder="Search..." name="search">
                     <button type="button" @click="getSearchResults">Submit</button>
-                </div>
+                </div> -->
                 <div class="col-sm-12 mt-3" v-for="searchResult in searchResults">
                     <div class="row">
                         <div class="col-6">
@@ -74,17 +74,12 @@
       },
       data() {
         return {
-        //   category: "Top 10 Forked",
+
           showProfile: false,
           sharedProjects: [],
           sharedProjectUsers: [],
           search: ''
         }
-      },
-      watch: {
-        // category: function (val) {
-        //   this.applyFilter(val)
-        // }
       },
       computed: {
         searchResults() {

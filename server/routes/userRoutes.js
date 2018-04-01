@@ -50,7 +50,7 @@ function getAllusers(req, res, next) {
     .catch(next);
 }
 
-// TEMPORARY FOR TESTING!!! Delete a user
+// Delete a user
 router.delete("/api/users/:userId", deleteuser);
 function deleteuser(req, res, next) {
   user.findByIdAndRemove(req.params.userId)
@@ -68,6 +68,29 @@ function deleteuser(req, res, next) {
   track.deleteMany({ userId: req.params.userId })
     .then(() => {
       console.log("Deleted user tracks");
+    })
+    .catch(next);
+}
+
+// TEMPORARY FOR TESTING!!! Delete a user by name
+router.delete("/api/users/byname/:name", deleteuserbyname);
+function deleteuserbyname(req, res, next) {
+  user.find({ name: req.params.name})
+    .then(users => {
+      users.forEach(usr => {
+        var userId = usr._id;
+        user.findByIdAndRemove(userId)
+        .then(usr => {
+          project.deleteMany({ userId: userId })
+          .then(() => {
+            track.deleteMany({ userId: userId })
+            .then(() => {})
+            .catch(next);
+          })
+          .catch(next);
+        })
+        .catch(next);
+      });
     })
     .catch(next);
 }

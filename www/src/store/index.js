@@ -44,7 +44,8 @@ export default new vuex.Store({
     searchResults: [],
     projectPreview: [],
     playingProjectId: "",
-    stepIndex: -1
+    stepIndex: -1,
+    tempUser: {}
   },
 
   mutations: {
@@ -53,6 +54,9 @@ export default new vuex.Store({
     },
     setUser(state, user) {
       state.user = user;
+    },
+    setTempUser(state, tempUser) {
+      state.tempUser = tempUser;
     },
     setAuthError(state, error) {
       state.authError = {
@@ -510,7 +514,7 @@ export default new vuex.Store({
           .catch(err => {
             console.log(err);
           });
-      })
+      });
     },
     updatePlayCount({ commit, dispatch }, payload) {
       // console.log('Shared Project Shared',payload)
@@ -538,6 +542,125 @@ export default new vuex.Store({
           console.log(err);
         });
     },
+
+    // For 'ProjectShowspace' component: Create a temporary user and clone onto it a temp copy of the project
+    // whose ID is in the route parameters. Also clone temp copies of the project's tracks.
+    cloneProjectFromId({ commit, dispatch }, projectId) {
+      return new Promise((resolve, reject) => {
+        var originalProject = {};
+        var tempUser = {};
+        var tempProject = {};
+        var tempTracks = [];
+        api
+          .get(`projects/${projectId}`)
+          .then(res => {
+            originalProject = res.data;
+            var user = {
+              name: "temp",
+              email: "temp@temp.com",
+              password: "temppswd"
+            };
+            auth
+              .post("register", user)
+              .then(res => {
+                tempUser = res.data;
+                var proj = {
+                  title: originalProject.title,
+                  description: originalProject.description,
+                  createdAt: Date.now(),
+                  userId: tempUser._id,
+                  barCount: originalProject.barCount,
+                  stepsPerBar: originalProject.stepsPerBar,
+                  bpmSetting: originalProject.bpmSetting,
+                  shared: true,
+                  forkCount: 0,
+                  shareCount: 0,
+                  trackIds: []
+                };
+                api
+                  .post("projects", proj)
+                  .then(res => {
+                    var tempProject = res.data;
+                    var promiseArr = [];
+                    originalProject.trackIds.forEach(id => {
+                      promiseArr.push(
+                        api.get(`tracks/${id}`).then(res => {
+                          var track = res.data;
+                          track.projectId = tempProject._id;
+                          track.userId = tempUser._id;
+                          delete track._id;
+                          return track;
+                        })
+                      );
+                    });
+                    Promise.all(promiseArr)
+                      .then(tracks => {
+                        var promiseArr2 = [];
+                        tracks.forEach(track => {
+                          promiseArr2.push(
+                            api.post("tracks", track).then(res => {
+                              var tempTrack = res.data;
+                              tempProject.trackIds.push(tempTrack._id);
+                              tempTracks.push(tempTrack);
+                            })
+                          );
+                        });
+                        Promise.all(promiseArr2).then(() => {
+                          commit("setTempUser", tempUser);
+                          commit("setActiveProject", tempProject);
+                          commit("setActiveTracks", tempTracks);
+                          resolve();
+                        });
+                      })
+                      .catch(err => {
+                        console.log(err);
+                      });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+    },
+
+    // Log out and delete a temporary user and its temp cloned projects and tracks
+    // (created when 'ProjectShowspace' component mounts)
+    destroyTempUser({ commit, dispatch }, tempUserId) {
+      return new Promise((resolve, reject) => {
+        auth
+        .delete("logout")
+        .then(() => {
+          commit("setUser", {});
+          commit("setAuthError", { error: false, message: "" });
+          commit("setActiveProject", {});
+          commit("setActiveTracks", []);
+        })
+        .then(() => {
+          api
+            .delete(`users/${tempUserId}`)
+            .then(() => {
+              resolve();
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    },
+
     cloneProject({ commit, dispatch }, payload) {
       console.log("Hello Before", payload);
       payload.forkCount = payload.forkCount + 1;
