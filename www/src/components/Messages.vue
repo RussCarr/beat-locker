@@ -25,11 +25,12 @@
 </template>
 
 <script>
-
+  import io from 'socket.io-client'
   export default {
     name: 'Messages',
-    components: {
-
+    mounted() {
+      console.log('Message.vue has mounted')
+      this.$store.dispatch('initSocket', this.$store.state.user)
     }
   }
 </script>

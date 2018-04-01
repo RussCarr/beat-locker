@@ -1,7 +1,6 @@
 var express = require("express");
 var bp = require("body-parser");
 var cors = require("cors");
-var server = express();
 
 
 require("./db/mlab-config");
@@ -23,31 +22,42 @@ var corsOptions = {
   credentials: true
 };
 
-server.use(cors(corsOptions));
-server.use(session);
-server.use(bp.json());
-server.use(bp.urlencoded({ extended: true }));
+let app = express(); // Create an instance of Express to serve REST resources (e.g. CRUD actions using 'api' endpoints)
+let server = require("http").createServer(app); // Create an http server for socket.io
 
-server.use(express.static(__dirname + "/../www/dist"));
+app.use(cors(corsOptions));
+app.use(session);
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
 
-server.use(authRoutes);
-server.use(mailRoutes.router);
+app.use(express.static(__dirname + "/../www/dist"));
 
-server.use("/api/*", (req, res, next) => {
+app.use(authRoutes);
+app.use(mailRoutes.router);
+
+app.use("/api/*", (req, res, next) => {
   if (req.method.toLowerCase() !== "get" && !req.session.uid) {
     return res.status(401).send({ error: "PLEASE LOG IN TO CONTINUE" });
   }
   next();
 });
 
-server.use(userRoutes.router);
-server.use(projectRoutes.router);
-server.use(trackRoutes.router);
+app.use(userRoutes.router);
+app.use(projectRoutes.router);
+app.use(trackRoutes.router);
 
-
-
-server.use("*", (err, req, res, next) => {
+app.use("*", (err, req, res, next) => {
   res.status(400).send(err);
+});
+
+let io = require("socket.io")(server); // Set up socket.io with its http server
+
+io.on("connection", socket => {
+  console.log("user connected");
+  socket.emit("CONNECTED", {
+    socket: socket.id,
+    message: 'Successfully connected to socket'
+  });
 });
 
 server.listen(port, () => {

@@ -88,7 +88,7 @@
     data() {
       return {
         showMyBeatsDrop: false,
-        showSearchField: false,
+        search: '',
       }
     },
     components: {
@@ -266,12 +266,11 @@
     margin: 0;
     color: (251, 251, 251, 1.0);
     color: rgba(251, 251, 251, 1.0);
-    /* background-color: rgba(180, 26, 44, 1.0); */
   }
 
   /* change the brand and text color */
 
-  .navbar-custom .navbar-brand,
+  /* .navbar-custom .navbar-brand, */
   .navbar-custom .navbar-text {
     color: rgba(255, 255, 255, 1.0);
   }
@@ -279,7 +278,11 @@
   /* change the link color */
 
   .navbar-custom .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .7);
+  }
+
+  .navbar-custom .navbar-brand {
+    color: rgba(255, 255, 255, .7);    
   }
 
   /* change the color of active or hovered links */
