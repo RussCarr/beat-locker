@@ -133,15 +133,13 @@
         })
       }
     },
-    // destroyed() {
-    //   // IN PROGRESS: THIS DOES NOT SEEM TO BE WORKING
-    //   // Delete the temporary user created above in the 'mounted' function
-    //   this.$store.dispatch('destroyTempUser', this.$store.state.tempUser._id)
-    // },
+    // Vue-router navigation-guard function called when user navigates away from the current route:
     beforeRouteLeave(to, from, next) {
+      // Log out & delete the temporary user, (cloned) project, and (cloned) tracks created when this component mounted.
+      // Only allow visitor to navigate away from current route after this has been completed.
       this.$store.dispatch('destroyTempUser', this.$store.state.tempUser._id)
         .then(() => {
-          next();
+          next(); // Move on to the next hook in the Vue-router navigation pipeline.
         })
         .catch(err => {
           console.log(err);

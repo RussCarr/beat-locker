@@ -543,35 +543,8 @@ export default new vuex.Store({
         });
     },
 
-    destroyTempUser({ commit, dispatch }, tempUserId) {
-      return new Promise((resolve, reject) => {
-        auth
-        .delete("logout")
-        .then(() => {
-          commit("setUser", {});
-          commit("setAuthError", { error: false, message: "" });
-          commit("setActiveProject", {});
-          commit("setActiveTracks", []);
-        })
-        .then(() => {
-          api
-            .delete(`users/${tempUserId}`)
-            .then(() => {
-              resolve();
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    },
-
+    // For 'ProjectShowspace' component: Create a temporary user and clone onto it a temp copy of the project
+    // whose ID is in the route parameters. Also clone temp copies of the project's tracks.
     cloneProjectFromId({ commit, dispatch }, projectId) {
       return new Promise((resolve, reject) => {
         var originalProject = {};
@@ -654,6 +627,37 @@ export default new vuex.Store({
           .catch(err => {
             console.log(err);
           });
+      });
+    },
+
+    // Log out and delete a temporary user and its temp cloned projects and tracks
+    // (created when 'ProjectShowspace' component mounts)
+    destroyTempUser({ commit, dispatch }, tempUserId) {
+      return new Promise((resolve, reject) => {
+        auth
+        .delete("logout")
+        .then(() => {
+          commit("setUser", {});
+          commit("setAuthError", { error: false, message: "" });
+          commit("setActiveProject", {});
+          commit("setActiveTracks", []);
+        })
+        .then(() => {
+          api
+            .delete(`users/${tempUserId}`)
+            .then(() => {
+              resolve();
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
     },
 
