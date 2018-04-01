@@ -1,27 +1,17 @@
 <template>
   <div class="mail">
     <form>
-      <!-- <p>Email:</p> -->
       <p class="left">To:</p>
       <input class="w-5" v-model="formData.to" placeholder="to@to.com">
-      <!-- <p>Message to: {{ to }}</p> -->
       <p class="left">From:</p>
       <input v-model="formData.from" placeholder="from@from.com">
-      <!-- <p>Message from: {{ from }}</p> -->
       <p class="left">Subject:</p>
       <input v-model="formData.subject" placeholder="subject" disabled>
-      <!-- <p>Message is: {{ subject }}</p> -->
-      <!-- <p class="left">Link is attached.</p> -->
-      <!-- <input v-model="http://beatlocker.herokuapp.com/project/:projectId" placeholder="body"> -->
-      <!-- <input :value='formData.body' > -->
-      <!-- <p>Message is: {{ body }}</p> -->
-
-<hr>
+      <hr>
       <p>
-        <button @click="checkForm">Send</button>
+        <button @click.prevent="sendClose">Send</button>
       </p>
-
-    </form>
+      </form>
 
   </div>
 </template>
@@ -40,31 +30,15 @@
           to: "",
           from: "",
           subject: "Check out this New Beat I created.",
-          // body:"this is random text",
           body: this.sharedProject._id
         }
       }
     },
-    mounted() {
-      project: {
-        var projectId = ""
-          projectId = "" + 
-          console.log('Here',projectId)
-          this.$store.commit('updateTempProject', projectId)
-        
-      }
-    },
-
-    methods: {
-      checkForm() {
-        // var formData = {}
-        // formData.push(this.to)
-        // formData.push(this.from)
-        // formData.push(this.subject)
-        // formData.push(this.body)
+     methods: {
+      sendClose() {
         console.log('mail', this.formData)
-
         this.$store.dispatch('sendMail', this.formData)
+        this.$emit('mailBox')
       },
 
     }

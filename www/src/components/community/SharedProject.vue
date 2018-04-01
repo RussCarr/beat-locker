@@ -56,7 +56,7 @@
                   </p>
                 </div>
                 <div v-if="mailBox" class="mail">
-                  <mail :sharedProject="sharedProject"></mail>
+                  <mail v-on:mailBox="mailBox=false" :sharedProject="sharedProject"></mail>
                 </div>
               </div>
             </div>
