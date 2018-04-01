@@ -16,9 +16,11 @@
             <div class="h5 user-name text-light" @click='userProfile'>{{user.name}}</div>
           </div>
         </div>
-    
+
       </div>
     </div>
+
+    <!-- COMMENTING OUT PREVIOUS NAVBAR FOR NOW
     <div class="row">
       <nav class="navbar subNavbar">
         <div class="homelink SubNavlink col-sm-2 text-center py-3 rounded" v-if="isHomeRoute" @click="newProject">
@@ -40,10 +42,39 @@
           Logout
         </div>
       </nav>
-    </div>
-    <div class="row">
-      <searchField v-if="showSearchField" v-on:closeSearchField="showSearchField = false"></searchField>
-    </div>
+    </div> -->
+
+    <!-- RESPONSIVE NAVBAR -->
+    <nav class="navbar navbar-expand-md navbar-custom">
+      <a class="navbar-brand" @click="home">Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCustom">
+        <i class="fa fa-bars fa-lg py-1 text-white"></i>
+      </button>
+      <div class="navbar-collapse collapse mx-2" id="navbarCustom">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" @click="newProject">New Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" @click="allSharedProjects">Community</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" @click="getMyBeatsDrop(user)">My Beats</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" @click="logout">Logout</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0 ml-auto">
+          <input class="form-control mr-sm-2" v-model="search" name="search" type="search" placeholder="Search tracks">
+          <button class="btn search-button my-2 mr-2 my-sm-0" type="submit" @click.prevent="getSearchResults">Search</button>
+        </form>
+        <!-- <button class="btn btn-secondary my-2 my-sm-0" @click="logout">Logout</button> -->
+      </div>
+    </nav>
+
+
+    <!-- myBeatsDrop HERE     -->
     <div class="row">
       <myBeatsDrop v-if="showMyBeatsDrop" v-on:closeMyBeatsDrop="showMyBeatsDrop = false"></myBeatsDrop>
     </div>
@@ -52,7 +83,6 @@
 
 <script>
   import MyBeatsDrop from './MyBeatsDrop'
-  import SearchField from './SearchField'
   export default {
     name: 'Navbar',
     data() {
@@ -63,7 +93,6 @@
     },
     components: {
       myBeatsDrop: MyBeatsDrop,
-      searchField: SearchField,
     },
     computed: {
       isHomeRoute() {
@@ -84,9 +113,6 @@
       toggleMyBeatsDrop() {
         this.showMyBeatsDrop = this.showMyBeatsDrop ? false : true
       },
-      toggleSearchField() {
-        this.showSearchField = this.showSearchField ? false : true
-      },
       logout() {
         this.$store.dispatch('logoutUser')
       },
@@ -95,9 +121,6 @@
       },
       help() {
         this.$router.push('Help')
-      },
-      getSearchField () {
-        this.toggleSearchField();
       },
       getMyBeatsDrop(user) {
         this.getProjects(user);
@@ -115,13 +138,15 @@
         })
       },
       allSharedProjects() {
-       
+
         this.$router.push({ path: '/Explorer' })
       },
       home() {
         this.$router.push({ path: '/home' })
       },
-      search() {
+      getSearchResults() {
+        var query = this.search
+        this.$store.dispatch('searchProjects', query)
         this.$router.push({ path: '/SearchResults' })
       },
       getProjects(user) {
@@ -133,6 +158,12 @@
 </script>
 
 <style scoped>
+  /* div {
+    outline-color: blueviolet;
+    outline-style: solid;
+    outline-width: 1px;
+  } */
+
   .logout {
     flex-direction: row-reverse;
     align-self: center;
@@ -175,7 +206,10 @@
   }
 
   .navtop {
-    background-color: #5c5f5f;
+    background-color: rgba(150, 16, 33, 1.0);
+    border-bottom-color: rgba(251, 251, 251, 1.0);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
   }
 
   .subNavbar {
@@ -202,6 +236,80 @@
     padding: 2px;
     width: 100px;
     height: 100px;
+    cursor: pointer;
+  }
+
+  .search-button {
+    color: white;
+    background-color: rgba(57, 123, 172, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+    transition: all;
+    transition-duration: 400ms;
+  }
+
+  .search-button:hover {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .search-button:active,
+  .search-button:visited,
+  .search-button:focus {
+    background-color: rgba(33, 92, 136, 1.0);
+    border-color: rgba(33, 92, 136, 1.0);
+  }
+
+  .navbar-custom {
+    width: 100%;
+    /* padding: 0; */
+    margin: 0;
+    color: (251, 251, 251, 1.0);
+    color: rgba(251, 251, 251, 1.0);
+    /* background-color: rgba(180, 26, 44, 1.0); */
+  }
+
+  /* change the brand and text color */
+
+  .navbar-custom .navbar-brand,
+  .navbar-custom .navbar-text {
+    color: rgba(255, 255, 255, 1.0);
+  }
+
+  /* change the link color */
+
+  .navbar-custom .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, .5);
+  }
+
+  /* change the color of active or hovered links */
+
+  .navbar-custom .nav-item.active .nav-link,
+  .navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  /* for dropdown only - change the color of droodown */
+
+  .navbar-custom .dropdown-menu {
+    background-color: rgba(107, 32, 45, 1.0);
+  }
+
+  .navbar-custom .dropdown-item {
+    color: #ffffff;
+  }
+
+  .navbar-custom .dropdown-item:hover,
+  .navbar-custom .dropdown-item:focus {
+    color: #333333;
+    background-color: rgba(255, 255, 255, .5);
+  }
+
+  .navbar-toggler-icon {
+    color: white;
+  }
+
+  .navbar-brand {
     cursor: pointer;
   }
 </style>
