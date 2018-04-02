@@ -270,7 +270,7 @@
 
   /* change the brand and text color */
 
-  .navbar-custom .navbar-brand,
+  /* .navbar-custom .navbar-brand, */
   .navbar-custom .navbar-text {
     color: rgba(255, 255, 255, 1.0);
   }
@@ -279,6 +279,10 @@
 
   .navbar-custom .navbar-nav .nav-link {
     color: rgba(255, 255, 255, .5);
+  }
+
+  .navbar-custom .navbar-brand {
+    color: rgba(255, 255, 255, .5);    
   }
 
   /* change the color of active or hovered links */
