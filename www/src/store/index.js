@@ -5,6 +5,9 @@ import vuex from "vuex";
 import axios from "axios";
 import router from "../router";
 
+import io from "socket.io-client";
+let socket = {};
+
 var production = !window.location.host.includes("localhost");
 var baseUrl = production ? "//beatlocker.herokuapp.com/" : "//localhost:3000/";
 
@@ -129,6 +132,15 @@ export default new vuex.Store({
   },
 
   actions: {
+    // Sockets
+    initSocket({commit, dispatch}, user) {
+      socket = io("//localhost:3000");
+
+      socket.on("CONNECTED", data => {
+        console.log(data);
+      })
+    },
+
     // Auth
     registerUser({ commit, dispatch }, user) {
       auth
