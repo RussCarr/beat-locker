@@ -1,4 +1,7 @@
-require("./config/env")
+var environment = process.env.NODE_ENV || 'local';
+if (environment === 'local') {
+  require("./config/env");
+}
 
 var express = require("express");
 var bp = require("body-parser");
