@@ -1,4 +1,4 @@
-var SENDGRID_API_KEY = "";
+var SENDGRID_API_KEY = process.env.SENDGRIDSTRING;
 var sg = require("sendgrid")(SENDGRID_API_KEY);
 // var sgMail = require('@sendgrid/mail');
 const async = require("async");

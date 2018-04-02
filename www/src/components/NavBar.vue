@@ -61,15 +61,15 @@
           <li class="nav-item">
             <a class="nav-link" @click="getMyBeatsDrop(user)">My Beats</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" @click="logout">Logout</a>
-          </li>
+          </li> -->
         </ul>
         <form class="form-inline my-2 my-lg-0 ml-auto">
           <input class="form-control mr-sm-2" v-model="search" name="search" type="search" placeholder="Search tracks">
           <button class="btn search-button my-2 mr-2 my-sm-0" type="submit" @click.prevent="getSearchResults">Search</button>
         </form>
-        <!-- <button class="btn btn-secondary my-2 my-sm-0" @click="logout">Logout</button> -->
+        <button class="btn btn-secondary my-2 my-sm-0" @click="logout">Logout</button>
       </div>
     </nav>
 
