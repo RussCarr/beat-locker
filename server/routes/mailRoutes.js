@@ -1,5 +1,4 @@
-var SENDGRID_API_KEY =
-  "";
+var SENDGRID_API_KEY = "";
 var sg = require("sendgrid")(SENDGRID_API_KEY);
 // var sgMail = require('@sendgrid/mail');
 const async = require("async");
@@ -13,12 +12,12 @@ router.post("/mail/:to/:from/:subject/:text", (req, res, next) => {
   var fromAddy = req.params.from;
   var subject = req.params.subject;
   var text = req.params.text;
-  console.log(toAddy, fromAddy, subject, text);
+  console.log('Hello',toAddy, fromAddy, subject, text);
   const message = {
     to: toAddy,
     from: fromAddy,
     subject: subject,
-    text: text
+    text: "https://beatlocker.herokuapp.com/project/" + text
     // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
   };
   console.log("message", message);
