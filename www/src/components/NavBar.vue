@@ -278,11 +278,11 @@
   /* change the link color */
 
   .navbar-custom .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .7);
   }
 
   .navbar-custom .navbar-brand {
-    color: rgba(255, 255, 255, .5);    
+    color: rgba(255, 255, 255, .7);    
   }
 
   /* change the color of active or hovered links */
