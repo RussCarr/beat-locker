@@ -88,7 +88,7 @@
     data() {
       return {
         showMyBeatsDrop: false,
-        showSearchField: false,
+        search: '',
       }
     },
     components: {
@@ -266,7 +266,6 @@
     margin: 0;
     color: (251, 251, 251, 1.0);
     color: rgba(251, 251, 251, 1.0);
-    /* background-color: rgba(180, 26, 44, 1.0); */
   }
 
   /* change the brand and text color */
