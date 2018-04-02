@@ -1,9 +1,7 @@
 var expressSession = require('express-session')
 var mongoStore = require('connect-mongodb-session')(expressSession)
 
-var user = 'students'
-var pswd = 'studentpass'
-var connectionStr = `mongodb://${user}:${pswd}@ds012538.mlab.com:12538/beat-locker`
+var connectionStr = process.env.DBCONNECTIONSTRING // url for the hosted mongo database
 
 var store = new mongoStore({
   uri: connectionStr,
