@@ -1,68 +1,37 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid explorer">
     <div class="row">
       <navbar></navbar>
-      <div class="container search-results">
-        <div class="col-sm-12 mt-3" v-for="searchResult in searchResults">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="row track-row">
-                <div class="col-sm-8 shared-view">
-                  <div class="shared-track-info">
-                    {{searchResult.title}}
-                    <p class="createdBy">created by:</p>
-                    <a href="#" class="text-light" @click.prevent="showProfile">
-                      {{user.name}}
-                    </a>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="row share-icons-wrapper">
-                    <div class="col share-icons">
-                      <p class="createdBy">{{searchResult.playCount}}</p>
-                      <player class="centerFlex" :project="sharedProject" :largeButtons="false" :allowPlayCountUpdate="true"></player>
-                    </div>
-                    <div class="col share-icons">
-                      <p class="createdBy">{{searchResult.forkCount}}</p>
-                      <a href="#" class="text-light" @click.prevent="forkProject">
-                        <i class="fas fa-code-branch"></i>
-                      </a>
-                    </div>
-                    <div class="col share-icons">
-                      <p class="createdBy">{{searchResult.shareCount}}</p>
-                      <a href="#" class="text-light" @click.prevent="shareBox= shareBox ? false : true">
-                        <i class="fas fa-share"></i>
-                      </a>
-                    </div>
-                    <div class="col-sm-12">
-                      <div v-if="shareBox" class="shareButton">
-                        <p>
-                          <a class="share-icon" @click='updateShareCount' href="https://www.facebook.com/sharer/sharer.php?u=https://beatlocker.herokuapp.com"
-                            target="https://beatlocker.herokuapp.com/">
-                            <i class="fab fa-facebook"></i>
-                          </a>
-                        </p>
-                        <p>
-                          <a class="share-icon" @click='updateShareCount' href="https://twitter.com/intent/tweet?url=https://beatlocker.herokuapp.com/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
-                            target="https://beatlocker.herokuapp.com/">
-                            <i class="fab fa-twitter"></i>
-                          </a>
-                        </p>
-                        <p>
-                          <a class="share-icon" @click='updateShareCount' href="https://nodemailer.com/about/" target="https://beatlocker.herokuapp.com/">
-                            <i class="fas fa-envelope"></i>
-                          </a>
-                        </p>
-                        <p>
-                          <a class="share-icon" @click='updateShareCount' href="https://www.twilio.com/" target="https://beatlocker.herokuapp.com/">
-                            <i class="fas fa-mobile"></i>
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+      <sidebar></sidebar>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 mt-3 text-center">
+            <!-- <div class="row">
+              <div class="col-12 mt-3">
+                Sort by...
+                <div class="col-12 mt-3">
+                  <select v-model="category">
+                    <option>Top 10 Forked</option>
+                    <option>Top 10 Shared</option>
+                    <option>Top 10 Newly shared</option>
+                    <option>Top 10 of 2018</option>
+                  </select>
                 </div>
               </div>
+            </div>
+            <p class="text-center mt-4">Sorted by {{category}}</p> -->
+            <sharedProject class="mt-4" :sharedProject='searchResult' v-on:showProfile="showProfile = showProfile ? false : true" v-for="searchResult in searchResults"
+        :key='searchResult._id'>
+        </sharedProject>
+          </div>
+
+          <div class="col-sm-12">
+
+            <div class="mt-4 row">
+              <div v-if="showProfile" class="text-center viewProfile">
+                <viewUserProfile v-on:closeProfile="showProfile = false"></viewUserProfile>
+              </div>
+
             </div>
           </div>
         </div>
@@ -70,71 +39,87 @@
     </div>
   </div>
 </template>
+
 <script>
   import Navbar from '../Navbar'
-  import Tone from 'tone'
-  import Player from './../Player'
+  import SideBar from '../SideBar'
+  import SharedProject from './SharedProject'
   import ViewUserProfile from './ViewUserProfile'
   export default {
     name: 'SearchResults',
     components: {
       navbar: Navbar,
-      player: Player,
+      sidebar: SideBar,
+      sharedProject: SharedProject,
       viewUserProfile: ViewUserProfile,
     },
     data() {
       return {
-        loop: {},
-        isPlaying: false,
-        shareBox: false
+        category: "Top 10 Forked",
+        showProfile: false,
+        sharedProjects: [],
+        sharedProjectUsers: [],
+        search: ''
       }
     },
-    props: [
-      // 'searchResults',
-      'sharedProject',
-      'playingProjectId',
-    ],
+    watch: {
+      category: function (val) {
+        this.applyFilter(val)
+      }
+    },
     computed: {
-      beatTracks() {
-        return this.$store.state.previewTracks
-      },
-      // user() {
-      //   var projectUsers = this.$store.state.activeProjectUsers
-      //   return projectUsers.find(user => user._id === this.sharedProject.userId)
-      // },
       searchResults() {
         return this.$store.state.searchResults
       },
       user() {
         return this.$store.state.user
-        var projectUsers = this.$store.state.activeProjectUsers
-        return projectUsers.find(user => user._id === this.sharedProject.userId)
       },
     },
-    // mounted() {
-    //   this.$store.dispatch('getAllProjects').then(() => {
-    //     var allProjects = this.$store.state.allProjects;
-    //     var allSharedProjects = allProjects.filter(project => {
-    //       return project.shared === true
-    //     })
-    //     this.sharedProjects = allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount }).slice(0, 10)
-    //     var userIds = allSharedProjects.map(project => project.userId)
-    //     this.$store.dispatch('getUsersById', userIds).then(() => {
-    //       this.sharedProjectUsers = this.$store.state.activeProjectUsers
-    //     })
-    //   })
-    // },
+    mounted() {
+      this.$store.dispatch('getAllProjects').then(() => {
+        var allProjects = this.$store.state.allProjects;
+        var allSharedProjects = allProjects.filter(project => {
+          return project.shared === true
+        })
+        this.sharedProjects = allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount }).slice(0, 10)
+        var userIds = allSharedProjects.map(project => project.userId)
+        this.$store.dispatch('getUsersById', userIds).then(() => {
+          this.sharedProjectUsers = this.$store.state.activeProjectUsers
+        })
+      })
+    },
     methods: {
       setPlayingProject(projectId) {
         this.playingProjectId = projectId
       },
+      applyFilter(category) {
+        var allProjects = this.$store.state.allProjects;
+        var allSharedProjects = allProjects.filter(project => {
+          return project.shared === true
+        })
+
+        if (category == "Top 10 Newly Shared") {
+          allSharedProjects.sort(function (a, b) { return b.createAt - a.createAt })
+
+        } else if (category == "Top 10 Forked") {
+          allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount })
+
+        } else if (category == "Top 10 of 2018") {
+          allSharedProjects.sort(function (a, b) { return b.forkCount - a.forkCount || b.shareCount - a.shareCount })
+
+          //  console.log('sort method', allSharedProjects.sort(function (a, b) { return b[forkCount] - a[forkCount] || b[shareCount] - a[shareCount] }))
+        } else if (category == "Top 10 Shared") {
+          allSharedProjects.sort(function (a, b) { return b.shareCount - a.shareCount })
+        }
+        this.sharedProjects = allSharedProjects
+        var userIds = allSharedProjects.map(project => project.userId)
+        this.$store.dispatch('getUsersById', userIds).then(() => {
+          this.sharedProjectUsers = this.$store.state.activeProjectUsers
+        })
+      },
       getSearchResults() {
         var query = this.search
         this.$store.dispatch('searchProjects', query)
-      },
-      updatePlayCount(playCount) {
-        this.sharedProject.push(playCount++)
-        this.$store.dispatch('updatePlayCount', this.sharedProject)
       },
       updateShareCount() {
         this.$store.dispatch('updateShareCount', this.sharedProject)
@@ -142,7 +127,7 @@
       forkProject() {
         this.$store.dispatch('cloneProject', this.sharedProject)
       },
-      showProfile() {
+      displayProfile() {
         this.$emit('showProfile')
         this.$store.dispatch('setPreviewProject', this.sharedProject)
       }
@@ -151,68 +136,28 @@
 </script>
 
 <style scoped>
+  .explorer {
+    color: white;
+  }
+
   /* div {
-    outline-style: solid;
-    outline-color: aqua;
-    outline-width: 1px;
-
-  } */
-
-  .track-row {
-    background-position: top;
-    background-image: url('../../assets/images/beat-locker-splash-bg.jpg');
-    background-repeat: no-repeat;
-    background-color: rgba(150, 16, 33, 1.0);
-  }
-
-  .share-icons-wrapper {
-    display: flex;
-    margin: 1rem;
-    border-radius: 4px;
-    background-color: rgba(107, 32, 45, .8);
-
-  }
+      outline-color: blue;
+      outline-style: solid;
+      outline-width: 1px;
+    } */
 
   .viewProfile {
-    border: 2px solid white;
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.2);
+    border: 3px solid white;
+    width: 400px;
+    height: 100%;
   }
 
-  .shared-track-info {
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    color: white;
-    background-color: rgba(150, 16, 33, .8);
-  }
-
-  .share-icons {
-    padding: 1rem;
-  }
-
-  .shared-view {
-    padding: 1rem;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .player-wrapper {
-    display: flex;
-    width: 25%;
-    justify-content: center
-  }
-
-  .centerFlex {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+  hr {
+    border-color: white;
   }
 
   a.share-icon {
-    color: white;
-    margin: .6rem;
+    color: white
   }
 
   a.share-icon:hover {
@@ -224,7 +169,7 @@
   }
 
   .createdBy {
-    font-size: .8rem;
+    font-size: 10px;
     color: white;
   }
 
@@ -242,13 +187,8 @@
   }
 
   .shareButton {
-    border: 1px solid rgba(255, 255, 255, 0.808);
-    margin: .5rem;
-    display: inline-flex;
-  }
-
-  p {
-    margin: -1px;
-
+    border: 2px solid white;
+    width: 100px;
+    /* height: 80px; */
   }
 </style>
