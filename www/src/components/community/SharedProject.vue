@@ -58,15 +58,9 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-sm-12">
-            <div v-if="showProfile" class="text-center viewProfile">
-              <viewUserProfile></viewUserProfile>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -90,9 +84,6 @@
     props: [
       'sharedProject',
       'playingProjectId',
-
-
-
     ],
     computed: {
       beatTracks() {
@@ -104,10 +95,10 @@
       }
     },
     methods: {
-      // updatePlayCount(playCount) {
-      //   this.sharedProject.push(playCount++)
-      //   this.$store.dispatch('updatePlayCount', this.sharedProject)
-      // },
+      updatePlayCount(playCount) {
+        this.sharedProject.push(playCount++)
+        this.$store.dispatch('updatePlayCount', this.sharedProject)
+      },
       updateShareCount() {
         this.$store.dispatch('updateShareCount', this.sharedProject)
       },
