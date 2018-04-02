@@ -33,14 +33,12 @@
               <div class="col-sm-12">
                 <div v-if="shareBox" class="shareButton">
                   <p>
-                    <a class="share-icon" @click='updateShareCount' href="https://www.facebook.com/sharer/sharer.php?u=https://beatlocker.herokuapp.com"
-                      target="https://beatlocker.herokuapp.com/">
-                      <i class="fab fa-facebook"></i>
-                    </a>
+                      <a :href='facebook' class="share-icon" @click='updateShareCount' target="_blank" title="Share on Facebook">
+                          <i class="fab fa-facebook"></i>
+                        </a>
                   </p>
                   <p>
-                    <a class="share-icon" @click='updateShareCount' href="https://twitter.com/intent/tweet?url=https://beatlocker.herokuapp.com/&text=TEXT&via=YOURTWITTERACCOUNTNAME"
-                      target="https://beatlocker.herokuapp.com/">
+                    <a class="share-icon" @click='updateShareCount' :href="twitter" target="_blank" >
                       <i class="fab fa-twitter"></i>
                     </a>
                   </p>
@@ -50,13 +48,14 @@
                     </a>
                   </p>
                   <p>
-                    <a class="share-icon" @click='updateShareCount' href="https://www.twilio.com/" target="https://beatlocker.herokuapp.com/">
+                      
+                    <!-- <a class="share-icon" @click='updateShareCount' href="https://www.twilio.com/" target="https://beatlocker.herokuapp.com/">
                       <i class="fas fa-mobile"></i>
-                    </a>
+                    </a> -->
                   </p>
                 </div>
                 <div v-if="mailBox" class="mail">
-                  <mail v-on:mailBox="mailBox=false" :sharedProject="sharedProject"></mail>
+                  <mail v-on:mailBox="mailBox=false" :loggedInUser="loggedInUser" :sharedProject="sharedProject"></mail>
                 </div>
               </div>
             </div>
@@ -84,12 +83,14 @@
         loop: {},
         isPlaying: false,
         shareBox: false,
-        mailBox: false
+        mailBox: false,
+        target: ""
       }
     },
     props: [
       'sharedProject',
       'playingProjectId',
+      'loggedInUser'
     ],
     computed: {
       beatTracks() {
@@ -98,11 +99,18 @@
       user() {
         var projectUsers = this.$store.state.activeProjectUsers
         return projectUsers.find(user => user._id === this.sharedProject.userId)
+      },
+      facebook() {
+        var string = "https://www.facebook.com/sharer/sharer.php?u=https://beatlocker.herokuapp.com/" + this.sharedProject._id
+        return   string + "&t=BeatLocker"
+      },
+      twitter() {
+        var string = "https://twitter.com/intent/tweet?url=https://beatlocker.herokuapp.com/" + this.sharedProject._id
+        return   string + "&text=BeatLocker&via=BeatLocker"
       }
     },
     methods: {
-      updatePlayCount(playCount) {
-        this.sharedProject.push(playCount++)
+      updatePlayCount() {
         this.$store.dispatch('updatePlayCount', this.sharedProject)
       },
       updateShareCount() {

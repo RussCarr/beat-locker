@@ -942,7 +942,7 @@ export default new vuex.Store({
       commit('setStepIndex', index);
     },
     sendMail({commit, dispatch,}, formData) {
-      console.log('mail2',formData)
+      // console.log('mail2',formData)
       var toAddy = formData.to
       var fromAddy = formData.from
       var subject =formData.subject
@@ -951,9 +951,9 @@ export default new vuex.Store({
       // debugger
       mail
       .post(`${toAddy}/${fromAddy}/${subject}/${body}`)
-      
-      
-      
+      .then(() => {
+        dispatch("updateShareCount",formData.sharedProject);
+      })
       .catch(err => {
         console.log(err);
       });
