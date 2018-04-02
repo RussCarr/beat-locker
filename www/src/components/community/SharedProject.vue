@@ -45,7 +45,7 @@
                     </a>
                   </p>
                   <p>
-                    <a class="share-icon" @click='updateShareCount' href="https://nodemailer.com/about/" target="https://beatlocker.herokuapp.com/">
+                    <a class="share-icon"  href="#" @click.prevent="mailBox= mailBox ? false : true">
                       <i class="fas fa-envelope"></i>
                     </a>
                   </p>
@@ -54,6 +54,9 @@
                       <i class="fas fa-mobile"></i>
                     </a>
                   </p>
+                </div>
+                <div v-if="mailBox" class="mail">
+                  <mail :sharedProject="sharedProject"></mail>
                 </div>
               </div>
             </div>
@@ -74,17 +77,20 @@
   import Tone from 'tone'
   import Player from './../Player'
   import ViewUserProfile from './ViewUserProfile'
+  import Mail from '../Mail'
   export default {
     name: 'SharedProject',
     components: {
       player: Player,
-      viewUserProfile: ViewUserProfile
+      viewUserProfile: ViewUserProfile,
+      mail: Mail
     },
     data() {
       return {
         loop: {},
         isPlaying: false,
-        shareBox: false
+        shareBox: false,
+        mailBox: false
       }
     },
     props: [

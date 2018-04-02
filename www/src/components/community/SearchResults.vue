@@ -45,7 +45,7 @@
                                 </a>
                             </p>
                             <p>
-                                <a class="share-icon" @click='updateShareCount' href="https://nodemailer.com/about/" target="https://beatlocker.herokuapp.com/">
+                                <a class="share-icon" @click='updateShareCount' href="#" target="">
                                     <i class="fas fa-envelope"></i>
                                 </a>
                             </p>
@@ -54,8 +54,8 @@
                                     <i class="fas fa-mobile"></i>
                                 </a>
                             </p>
-                        </div>
-                    </div>
+                          </div>
+                                              </div>
                 </div>
             </div>
         </div>

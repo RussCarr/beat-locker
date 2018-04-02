@@ -947,6 +947,7 @@ export default new vuex.Store({
       var fromAddy = formData.from
       var subject =formData.subject
       var body = formData.body
+      // var html = formData.html
       // debugger
       mail
       .post(`${toAddy}/${fromAddy}/${subject}/${body}`)
