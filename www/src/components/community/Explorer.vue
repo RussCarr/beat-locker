@@ -20,7 +20,7 @@
               </div>
           </div>
           <p class="text-center mt-4">Sorted by {{category}}</p>
-          <sharedProject class="mt-4" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in sharedProjects"
+          <sharedProject class="mt-4" :loggedInUser="user" :sharedProject='sharedProject' v-on:showProfile="showProfile = showProfile ? false : true" v-for="sharedProject in sharedProjects"
             :key='sharedProject._id'>
           </sharedProject>
         </div>

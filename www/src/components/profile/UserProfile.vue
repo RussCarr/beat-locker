@@ -80,6 +80,7 @@
     outline-color: black;
     outline-style: solid;
     outline-width: 2px;
+    overflow: hidden;
 
   }
 

@@ -966,16 +966,20 @@ export default new vuex.Store({
     stepIndexChange({ commit, dispatch }, index) {
       commit("setStepIndex", index);
     },
-
-    sendMail({ commit, dispatch }, formData) {
-      console.log("mail2", formData);
-      var toAddy = formData.to;
-      var fromAddy = formData.from;
-      var subject = formData.subject;
-      var body = formData.body;
+    sendMail({commit, dispatch,}, formData) {
+      // console.log('mail2',formData)
+      var toAddy = formData.to
+      var fromAddy = formData.from
+      var subject =formData.subject
+      var body = formData.body
       // var html = formData.html
       // debugger
-      mail.post(`${toAddy}/${fromAddy}/${subject}/${body}`).catch(err => {
+      mail
+      .post(`${toAddy}/${fromAddy}/${subject}/${body}`)
+      .then(() => {
+        dispatch("updateShareCount",formData.sharedProject);
+      })
+      .catch(err => {
         console.log(err);
       });
     },
