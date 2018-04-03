@@ -1,13 +1,16 @@
 <template>
   <div class="messages">
     
-    <div class="msg-form text-left">
+    <div class="msg-form text-left mb-3">
       <form @submit.prevent="sendMsg">
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="msg-body">Send a message to the community:</label>
           <textarea class="form-control" id="msg-body" rows="3" v-model="msgBody"></textarea>
         </div>
-        <button type="submit" class="btn btn-sm">Send</button>
+        <div class="d-flex">
+          <button type="submit" class="btn btn-sm btn-info px-4 ml-auto mr-1">Send</button>
+          <button type="button" class="btn btn-sm btn-secondary px-4 mr-2" @click="msgBody = 'Your message'">Cancel</button>
+        </div>
       </form>
     </div>
 
