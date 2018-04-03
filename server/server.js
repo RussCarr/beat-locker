@@ -1,5 +1,5 @@
 var environment = process.env.NODE_ENV || 'local';
-if (environment !== 'local') {
+if (environment === 'local') {
   require("./config/env");
 }
 
