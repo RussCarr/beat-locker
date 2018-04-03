@@ -59,13 +59,15 @@ export default new vuex.Store({
       {
         senderId: "5aaaab9548eefc142c2d066e",
         senderName: "Aquaman",
-        body: "A molestiae nulla exercitationem cupiditate aspernatur sequi alias minus consectetur.",
+        body:
+          "A molestiae nulla exercitationem cupiditate aspernatur sequi alias minus consectetur.",
         createdAt: 1522638873895
       },
       {
         senderId: "5aaaabb448eefc142c2d0674",
         senderName: "Batman",
-        body: "Architecto vel animi ea minima expedita soluta possimus magnam nemo.",
+        body:
+          "Architecto vel animi ea minima expedita soluta possimus magnam nemo.",
         createdAt: 1522638936716
       }
     ]
@@ -148,17 +150,38 @@ export default new vuex.Store({
     },
     setPlayingProjectId(state, projectId) {
       state.playingProjectId = projectId;
+    },
+    setMessages(state, messages) {
+      state.messages = messages;
     }
   },
 
   actions: {
-    // Sockets
-    initSocket({commit, dispatch}, user) {
+    // Sockets & Messages
+    initSocket({ commit, dispatch }, user) {
       socket = io("//localhost:3000");
 
       socket.on("CONNECTED", data => {
         console.log(data);
-      })
+      });
+
+      socket.on("messageBroadcast", message => {
+        api.post("messages", message).then(res => {
+          var newMsg = res.data;
+          dispatch("getMessages");
+        });
+      });
+    },
+    getMessages({ commit, dispatch }) {
+      api
+        .get("messages")
+        .then(res => {
+          var messages = res.data
+          commit("setMessages", messages);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // Auth
@@ -233,7 +256,10 @@ export default new vuex.Store({
           dispatch("getLatestProject", sessionUser._id);
 
           // Route returning registered users to the 'Home' page UNLESS they're visiting the 'ProjectShowspace' page
-          if (router.currentRoute.name !== 'ProjectShowspace' && router.currentRoute.name !== 'Mail' ) {
+          if (
+            router.currentRoute.name !== "ProjectShowspace" &&
+            router.currentRoute.name !== "Mail"
+          ) {
             // if ( router.currentRoute.name !== 'Mail' ) {
             router.push({
               name: "Home"
@@ -667,28 +693,27 @@ export default new vuex.Store({
     destroyTempUser({ commit, dispatch }, tempUserId) {
       return new Promise((resolve, reject) => {
         auth
-        .delete("logout")
-        .then(() => {
-          commit("setUser", {});
-          commit("setAuthError", { error: false, message: "" });
-          commit("setActiveProject", {});
-          commit("setActiveTracks", []);
-        })
-        .then(() => {
-          api
-            .delete(`users/${tempUserId}`)
-            .then(() => {
-              resolve();
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      })
-      .catch(err => {
+          .delete("logout")
+          .then(() => {
+            commit("setUser", {});
+            commit("setAuthError", { error: false, message: "" });
+            commit("setActiveProject", {});
+            commit("setActiveTracks", []);
+          })
+          .then(() => {
+            api
+              .delete(`users/${tempUserId}`)
+              .then(() => {
+                resolve();
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }).catch(err => {
         console.log(err);
       });
     },
@@ -938,25 +963,25 @@ export default new vuex.Store({
       commit("setPlayingProjectId", projectId);
     },
 
-    stepIndexChange({commit, dispatch}, index) {
-      commit('setStepIndex', index);
+    stepIndexChange({ commit, dispatch }, index) {
+      commit("setStepIndex", index);
     },
-    sendMail({commit, dispatch,}, formData) {
-      console.log('mail2',formData)
-      var toAddy = formData.to
-      var fromAddy = formData.from
-      var subject =formData.subject
-      var body = formData.body
+
+    sendMail({ commit, dispatch }, formData) {
+      console.log("mail2", formData);
+      var toAddy = formData.to;
+      var fromAddy = formData.from;
+      var subject = formData.subject;
+      var body = formData.body;
       // var html = formData.html
       // debugger
-      mail
-      .post(`${toAddy}/${fromAddy}/${subject}/${body}`)
-      
-      
-      
-      .catch(err => {
+      mail.post(`${toAddy}/${fromAddy}/${subject}/${body}`).catch(err => {
         console.log(err);
       });
+    },
+
+    sendMessage({ commit, dispatch }, message) {
+      socket.emit("message", message);
     }
-  },
+  }
 });
