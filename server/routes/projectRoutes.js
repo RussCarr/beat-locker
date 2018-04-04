@@ -3,7 +3,7 @@ var user = require("../models/user");
 var project = require("../models/project");
 var track = require("../models/track");
 
-// // Create a Project
+// Create a Project
 router.post("/api/projects", (req, res, next) => {
   // req.body.userId = req.session.uid; // Get the userId from the logged-in user's session
   if (req.session.uid) {

@@ -1,12 +1,11 @@
-var environment = process.env.NODE_ENV || 'local';
-if (environment === 'local') {
+var environment = process.env.NODE_ENV || "local";
+if (environment === "local") {
   require("./config/env");
 }
 
 var express = require("express");
 var bp = require("body-parser");
 var cors = require("cors");
-
 
 require("./db/mlab-config");
 
@@ -17,6 +16,7 @@ var userRoutes = require("./routes/userRoutes");
 var projectRoutes = require("./routes/projectRoutes");
 var trackRoutes = require("./routes/trackRoutes");
 var mailRoutes = require("./routes/mailRoutes");
+var messageRoutes = require("./routes/messageRoutes");
 
 var whitelist = ["http://localhost:8080", "https://beatlocker.herokuapp.com/"];
 var corsOptions = {
@@ -50,6 +50,7 @@ app.use("/api/*", (req, res, next) => {
 app.use(userRoutes.router);
 app.use(projectRoutes.router);
 app.use(trackRoutes.router);
+app.use(messageRoutes.router);
 
 app.use("*", (err, req, res, next) => {
   res.status(400).send(err);
@@ -61,7 +62,11 @@ io.on("connection", socket => {
   console.log("user connected");
   socket.emit("CONNECTED", {
     socket: socket.id,
-    message: 'Successfully connected to socket'
+    message: "Successfully connected to socket"
+  });
+
+  socket.on("message", message => {
+    socket.emit("messageBroadcast", message);
   });
 });
 
