@@ -159,10 +159,11 @@
         this.$emit('deleteTrack', this.stepTrack)
       },
       noteChange() {
-        // emit stopPlayback
-        // get current values of note and octave
-        // combine them into a note-name string
-        // send them down to Player.vue as a prop
+        this.$emit('stopPlayback') // Stop play-back if the instrument-choice has changed
+        // get current values of note and octave + combine them into a note-name string
+        var instrumentName = this.note + this.octave
+        // add this to the track as instrumentName
+        this.$store.dispatch('updateTrack', { _id: this.stepTrack._id, instrumentName: instrumentName })
       }
     }
   }

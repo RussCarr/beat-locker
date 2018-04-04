@@ -109,6 +109,9 @@
           // Names for each of the drum samples (needed to create 'beatPlayers' below)
           var sampleNames = Object.keys(samples)
 
+          // DEBUG
+          console.log("notes", notes)
+
           // Subset of stepTracks that are drum-sample tracks
           var beatTracks = this.stepTracks.filter(track => !track.isNote)
 
@@ -142,8 +145,7 @@
           var synth = new Tone.PolySynth(notesToPlay.length, Tone.Synth).toMaster()
           synth.triggerAttackRelease(notesToPlay, subdivision, time)
           // IN PROGRESS: THE ABOVE APPROACH TO PLAYING NOTE TRACKS DOES WORK, BUT...
-          // 1. IT BOGS DOWN AFTER A FEW LOOPS AND YOU HAVE TO REFRESH THE PAGE. PROBABLY ACCUMULATING TOO MANY POLYSYNTHS IN MEMORY? SO SHOULD EITHER DESTROY EACH POLYSYNTH AT END OF LOOP OR TRY NEW APPROACH THAT CREATES ONLY ONE OUTSIDE THE LOOP AND DYNAMICALLY ASSIGNS ITS NOTES-ARRAY WITHIN THE LOOP.
-          // 2. THE PLAYER CANNOT YET PLAY ANY NOTES OTHER THAN DEFAULT "C4" BECAUSE CHANGING PITCH/OCTAVE IN STEPTRACK.VUE DOESN'T YET ALTER THE TRACK.INSTRUMENTNAME: NEED TO FINISH WRITING NOTECHANGE() METHOD THERE.
+          // IT BOGS DOWN AFTER A FEW LOOPS AND YOU HAVE TO REFRESH THE PAGE. PROBABLY ACCUMULATING TOO MANY POLYSYNTHS IN MEMORY? SO SHOULD EITHER DESTROY EACH POLYSYNTH AT END OF LOOP OR TRY NEW APPROACH THAT CREATES ONLY ONE OUTSIDE THE LOOP AND DYNAMICALLY ASSIGNS ITS NOTES-ARRAY WITHIN THE LOOP.
 
             // for (var i = 0; i < this.stepTracks.length; i++) {
             for (var i = 0; i < beatTracks.length; i++) {
