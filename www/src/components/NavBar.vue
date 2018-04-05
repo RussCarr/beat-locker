@@ -59,11 +59,11 @@
             <a class="nav-link" @click="allSharedProjects">Community</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" @click="getMyBeatsDrop(user)">My Beats</a>
+            <a class="nav-link" @click="getMyBeatsDrop(user)">My Locker</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" @click="logout">Logout</a>
-          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" @click="help">Help</a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0 ml-auto">
           <input class="form-control mr-sm-2" v-model="search" name="search" type="search" placeholder="Search tracks">
