@@ -90,28 +90,36 @@
           var requiredSamples = samplePaths
 
           var samples = {}
+          var notes = {}
 
           this.stepTracks.forEach((track, i) => {
-            var name = track.instrumentName
-            var resource = requiredSamples[name]
-            // samples[name] = resource // <-- EDGE CASE: IF samples[name] ALREADY EXISTS (i.e. added a drum that's the same as one already in the project) THE LIST OF sampleNames WILL BE TOO SHORT BY ONE AND AN ERROR WILL OCCUR WHEN TRYING TO LOOP OVER AND PLAY THE TRACKS
-            // THIS IS A BIG PROBLEM BECAUSE samples IS AN OBJECT, NOT AN ARRAY, SO NO DUPLICATE KEYS CAN EXIST.
-
-            samples[i] = resource // <-- POSSIBLE SOLUTION
+            // Build a collection of data for the drum-sample tracks
+            if (!track.isNote) {
+              var name = track.instrumentName
+              var resource = requiredSamples[name]
+              samples[i] = resource
+            }
+            // Build a colection of data for the "note" tracks
+            if (track.isNote) {
+              var note = track.instrumentName
+              var stepSequence = track.stepSequence
+              notes[i] = { note: note, stepSequence: stepSequence }
+            }
           })
+          // Names for each of the drum samples (needed to create 'beatPlayers' below)
           var sampleNames = Object.keys(samples)
 
-          var players = new Tone.Players(samples, () => {
-            // These statements will run once the players' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
+          // DEBUG
+          console.log("notes", notes)
+
+          // Subset of stepTracks that are drum-sample tracks
+          var beatTracks = this.stepTracks.filter(track => !track.isNote)
+
+          var beatPlayers = new Tone.Players(samples, () => {
+            // These statements will run once the beatPlayers' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
             Tone.Transport.start() // Start ToneJS's core time-keeper
             this.loop.start() // Start the loop play-back
-          }).toMaster() // Connect the players to the master audio output (i.e. the speakers)
-
-          // Experimental note-synth: PROOF OF CONCEPT
-          // const synth = new Tone.Synth()
-          // synth.toMaster()
-          // var note = "C4"
-          // var toneStepSequence = [false, true, false, false, false, true, false, false, false, true, false, false, false, false, false, false]
+          }).toMaster() // Connect the beatPlayers to the master audio output (i.e. the speakers)
 
           // Define sequence options:
           // 1. Create an array of integers with length equal to the length of the current track stepSequences
@@ -122,20 +130,31 @@
           // Create the beat sequence
           this.loop = new Tone.Sequence((time, index) => {
 
-          // Update store state to keep track of the step index that is currently looping: This allows the loop
-          // playback to be animated
+          // Update store state to keep track of the step index that is currently looping: This allows the loop playback to be animated
           this.$store.dispatch('stepIndexChange', index)
 
-// Experimental note play: PROOF OF CONCEPT
-// if (toneStepSequence[index]) {
-//   synth.triggerAttackRelease(note, "16n", time)
-// }
-            for (var i = 0; i < this.stepTracks.length; i++) {
-              var track = this.stepTracks[i]
+          
+          // Create a ToneJS polysynth to play each "note" selected at the current loop index
+          var notesToPlay = []
+          for (const note in notes) {
+            const noteData = notes[note]            
+            if (noteData.stepSequence[index]) {
+              notesToPlay.push(noteData.note)
+            }
+          }
+          var synth = new Tone.PolySynth(notesToPlay.length, Tone.Synth).toMaster()
+          synth.triggerAttackRelease(notesToPlay, subdivision, time)
+          // IN PROGRESS: THE ABOVE APPROACH TO PLAYING NOTE TRACKS DOES WORK, BUT...
+          // IT BOGS DOWN AFTER A FEW LOOPS AND YOU HAVE TO REFRESH THE PAGE. PROBABLY ACCUMULATING TOO MANY POLYSYNTHS IN MEMORY? SO SHOULD EITHER DESTROY EACH POLYSYNTH AT END OF LOOP OR TRY NEW APPROACH THAT CREATES ONLY ONE OUTSIDE THE LOOP AND DYNAMICALLY ASSIGNS ITS NOTES-ARRAY WITHIN THE LOOP.
+
+            // for (var i = 0; i < this.stepTracks.length; i++) {
+            for (var i = 0; i < beatTracks.length; i++) {
+              // var track = this.stepTracks[i]
+              var track = beatTracks[i]
               var stepSequence = track.stepSequence
 
               // Get an instance of Tone.Player for the current track
-              var player = players.get(sampleNames[i])
+              var player = beatPlayers.get(sampleNames[i])
 
               if (stepSequence[index] === true) {
                 var volume = Math.pow(2, track.faderSetting) * 0.01 // Linear-to-logarithmic conversion (customized)
