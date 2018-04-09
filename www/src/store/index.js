@@ -139,11 +139,9 @@ export default new vuex.Store({
     // Sockets & Messages
     initSocket({ commit, dispatch }, user) {
       // Determine enviroment (dev vs. prod)
-      console.log('process.env.NODE_ENV', process.env.NODE_ENV)
       var env = process.env.NODE_ENV === "development" ? "//localhost:3000" : "//beatlocker.herokuapp.com/"
-      console.log('env', env)
 
-      // socket = io("//localhost:3000");
+      // Use environment-contingent URL to create the socket connection
       socket = io(env);
 
       socket.on("CONNECTED", data => {
