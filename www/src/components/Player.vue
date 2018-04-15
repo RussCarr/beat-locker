@@ -39,7 +39,7 @@
     watch: {
       // Respond to a stop 'command' from the parent component
       stopPlayer(value) {
-        if (value === true) {
+        if (value === true && this.loop instanceof Tone.Sequence) {
           this.stop()
         }
       }
