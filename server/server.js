@@ -40,12 +40,12 @@ app.use(express.static(__dirname + "/../www/dist"));
 app.use(authRoutes);
 app.use(mailRoutes.router);
 
-app.use("/api/*", (req, res, next) => {
-  if (req.method.toLowerCase() !== "get" && !req.session.uid) {
-    return res.status(401).send({ error: "PLEASE LOG IN TO CONTINUE" });
-  }
-  next();
-});
+// app.use("/api/*", (req, res, next) => {
+//   if (req.method.toLowerCase() !== "get" && !req.session.uid) {
+//     return res.status(401).send({ error: "PLEASE LOG IN TO CONTINUE" });
+//   }
+//   next();
+// });
 
 app.use(userRoutes.router);
 app.use(projectRoutes.router);

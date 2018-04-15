@@ -163,7 +163,11 @@
         // get current values of note and octave + combine them into a note-name string
         var instrumentName = this.note + this.octave
         // add this to the track as instrumentName
-        this.$store.dispatch('updateTrack', { _id: this.stepTrack._id, instrumentName: instrumentName })
+        this.$store.dispatch('updateTrack', {
+          _id: this.stepTrack._id,
+          instrumentName: instrumentName,
+          stepSequence: this.stepSequence
+        })
       }
     }
   }

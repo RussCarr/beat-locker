@@ -84,7 +84,9 @@ function deleteuserbyname(req, res, next) {
           project.deleteMany({ userId: userId })
           .then(() => {
             track.deleteMany({ userId: userId })
-            .then(() => {})
+            .then(() => {
+              res.send("Deleted user by name")
+            })
             .catch(next);
           })
           .catch(next);
