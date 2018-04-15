@@ -150,7 +150,7 @@
         var noteTracks = tracks.filter(track => track.isNote)
         // Sort the note tracks from first-created (at top) to last-created (at bottom)
         var sortedNoteTracks = noteTracks.sort((trackA, trackB) => {
-          return trackA.createdAt - trackB.createdAt
+          return trackB.createdAt - trackA.createdAt
         })
         
         var beatTracks = tracks.filter(track => !track.isNote)

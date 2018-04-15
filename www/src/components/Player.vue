@@ -74,9 +74,6 @@
 
         if (this.allowPlayCountUpdate == true) {
           if (this.isPlaying = true) {
-            // console.log('Before trying to count plays', this.project.playCount)
-            // this.project.playCount++
-            // console.log('After trying to count plays', this.project.playCount)
             this.updatePlayCount()
           }
         }
@@ -109,17 +106,8 @@
           // Names for each of the drum samples (needed to create 'beatPlayers' below)
           var sampleNames = Object.keys(samples)
 
-          // DEBUG
-          console.log("notes", notes)
-
           // Subset of stepTracks that are drum-sample tracks
           var beatTracks = this.stepTracks.filter(track => !track.isNote)
-
-          var beatPlayers = new Tone.Players(samples, () => {
-            // These statements will run once the beatPlayers' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
-            Tone.Transport.start() // Start ToneJS's core time-keeper
-            this.loop.start() // Start the loop play-back
-          }).toMaster() // Connect the beatPlayers to the master audio output (i.e. the speakers)
 
           // Define sequence options:
           // 1. Create an array of integers with length equal to the length of the current track stepSequences
@@ -135,7 +123,6 @@
 
             // Update store state to keep track of the step index that is currently looping: This allows the loop playback to be animated
             this.$store.dispatch('stepIndexChange', index)
-
             
             // Create a ToneJS polysynth to play each "note" selected at the current loop index
             var notesToPlay = []
@@ -150,9 +137,7 @@
             synth.voices = notesToPlay
             synth.triggerAttackRelease(notesToPlay, subdivision, time)
           
-            // for (var i = 0; i < this.stepTracks.length; i++) {
             for (var i = 0; i < beatTracks.length; i++) {
-              // var track = this.stepTracks[i]
               var track = beatTracks[i]
               var stepSequence = track.stepSequence
 
@@ -173,11 +158,22 @@
               }
             }
           }, events, subdivision)
-
+          
           Tone.Transport.bpm.value = this.project.bpmSetting // Set beats-per-minute
+
+          if (beatTracks.length) { // If the project includes "beat" tracks, the loop cannot be started until the drum-sample buffers are ready
+            var beatPlayers = new Tone.Players(samples, () => {
+              // These statements will run once the beatPlayers' buffers have loaded. This ensures all have loaded before the loop will attempt to run.
+              Tone.Transport.start() // Start ToneJS's core time-keeper
+              this.loop.start() // Start the loop play-back
+            }).toMaster() // Connect the beatPlayers to the master audio output (i.e. the speakers)
+          }
+          else { // If the project does NOT include any "beat" tracks, go ahead and start the loop without waiting
+            Tone.Transport.start() // Start ToneJS's core time-keeper
+            this.loop.start() // Start the loop play-back
+          }
+
         })
-
-
       },
       stop() {
         this.loop.stop()
