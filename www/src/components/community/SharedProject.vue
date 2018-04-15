@@ -100,13 +100,17 @@
         var projectUsers = this.$store.state.activeProjectUsers
         return projectUsers.find(user => user._id === this.sharedProject.userId)
       },
+      environment() {
+        return process.env.NODE_ENV === "development" ? "http://localhost:8080/" : "https://beatlocker.herokuapp.com/"
+      },
       facebook() {
-        var string = "https://www.facebook.com/sharer/sharer.php?u=https://beatlocker.herokuapp.com/" + this.sharedProject._id
-        return   string + "&t=BeatLocker"
+        var string = "https://www.facebook.com/sharer/sharer.php?u=" + this.environment + "project/" + this.sharedProject._id
+        console.log('facebook string', string)
+        return  string + "&t=BeatLocker"
       },
       twitter() {
-        var string = "https://twitter.com/intent/tweet?url=https://beatlocker.herokuapp.com/" + this.sharedProject._id
-        return   string + "&text=BeatLocker&via=BeatLocker"
+        var string = "https://twitter.com/intent/tweet?url=" + this.environment + "project/" + this.sharedProject._id
+        return  string + "&text=BeatLocker&via=BeatLocker"
       }
     },
     methods: {

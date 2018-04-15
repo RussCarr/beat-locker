@@ -155,6 +155,9 @@ export default new vuex.Store({
         });
       });
     },
+    sendMessage({ commit, dispatch }, message) {
+      socket.emit("message", message);
+    },
     getMessages({ commit, dispatch }) {
       api
         .get("messages")
@@ -965,10 +968,6 @@ export default new vuex.Store({
       .catch(err => {
         console.log(err);
       });
-    },
-
-    sendMessage({ commit, dispatch }, message) {
-      socket.emit("message", message);
     }
   }
 });
