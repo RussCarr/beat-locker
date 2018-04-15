@@ -127,26 +127,29 @@
           // 2. Define the subdivision timing between which events are placed: 16th-note
           var subdivision = '16n'
 
+          // Create the polysynth for note tracks
+          var synth = new Tone.PolySynth(this.stepTracks.length, Tone.Synth).toMaster()
+
           // Create the beat sequence
           this.loop = new Tone.Sequence((time, index) => {
 
-          // Update store state to keep track of the step index that is currently looping: This allows the loop playback to be animated
-          this.$store.dispatch('stepIndexChange', index)
+            // Update store state to keep track of the step index that is currently looping: This allows the loop playback to be animated
+            this.$store.dispatch('stepIndexChange', index)
 
-          
-          // Create a ToneJS polysynth to play each "note" selected at the current loop index
-          var notesToPlay = []
-          for (const note in notes) {
-            const noteData = notes[note]            
-            if (noteData.stepSequence[index]) {
-              notesToPlay.push(noteData.note)
+            
+            // Create a ToneJS polysynth to play each "note" selected at the current loop index
+            var notesToPlay = []
+            for (const note in notes) {
+              const noteData = notes[note]            
+              if (noteData.stepSequence[index]) {
+                notesToPlay.push(noteData.note)
+              }
             }
-          }
-          var synth = new Tone.PolySynth(notesToPlay.length, Tone.Synth).toMaster()
-          synth.triggerAttackRelease(notesToPlay, subdivision, time)
-          // IN PROGRESS: THE ABOVE APPROACH TO PLAYING NOTE TRACKS DOES WORK, BUT...
-          // IT BOGS DOWN AFTER A FEW LOOPS AND YOU HAVE TO REFRESH THE PAGE. PROBABLY ACCUMULATING TOO MANY POLYSYNTHS IN MEMORY? SO SHOULD EITHER DESTROY EACH POLYSYNTH AT END OF LOOP OR TRY NEW APPROACH THAT CREATES ONLY ONE OUTSIDE THE LOOP AND DYNAMICALLY ASSIGNS ITS NOTES-ARRAY WITHIN THE LOOP.
-
+            
+            // Configure the polysynth for the current loop cycle
+            synth.voices = notesToPlay
+            synth.triggerAttackRelease(notesToPlay, subdivision, time)
+          
             // for (var i = 0; i < this.stepTracks.length; i++) {
             for (var i = 0; i < beatTracks.length; i++) {
               // var track = this.stepTracks[i]
